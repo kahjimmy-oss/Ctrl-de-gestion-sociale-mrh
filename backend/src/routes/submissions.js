@@ -91,8 +91,8 @@ router.post('/:id/upload', protect, studentOnly, upload.single('file'), async (r
       submission.fichiers.push(fileEntry);
     }
 
-    res.json({ success: true, data: { file: fileEntry, submission } });
     await submission.save();
+    res.json({ success: true, data: { file: fileEntry, submission } });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

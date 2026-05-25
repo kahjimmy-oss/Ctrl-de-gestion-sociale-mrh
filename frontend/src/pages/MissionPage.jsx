@@ -191,14 +191,7 @@ export default function MissionPage() {
 
           {/* Données fournies */}
           {mission.donneesFournies && Object.keys(mission.donneesFournies).length > 0 && (
-            <div className="card bg-blue-50 border border-blue-100">
-              <h2 className="font-bold text-blue-900 mb-3">📋 Données fournies par Sophie Martin (RRH)</h2>
-              <div className="overflow-x-auto">
-                <pre className="text-xs text-blue-800 whitespace-pre-wrap font-mono">
-                  {JSON.stringify(mission.donneesFournies, null, 2)}
-                </pre>
-              </div>
-            </div>
+            <DataCard donnees={mission.donneesFournies} />
           )}
 
           {/* Livrables */}
@@ -426,6 +419,52 @@ function DeliverableUpload({ deliverable, uploadedFile, uploading, submissionSta
           </div>
         )
       )}
+    </div>
+  );
+}
+
+function DataCard({ donnees }) {
+  const formatVal = (v) => {
+    if (typeof v === 'number') return v.toLocaleString('fr-FR');
+    if (typeof v === 'object' && v !== null) return null; // nested
+    return String(v);
+  };
+
+  const formatKey = (k) => k
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+
+  const renderEntries = (obj, depth = 0) =>
+    Object.entries(obj).map(([k, v]) => {
+      if (typeof v === 'object' && v !== null && !Array.isArray(v)) {
+        return (
+          <div key={k} className={depth === 0 ? 'mb-4' : 'ml-4 mb-2'}>
+            <p className="text-xs font-bold text-blue-800 uppercase tracking-wide mb-1">{formatKey(k)}</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {renderEntries(v, depth + 1)}
+            </div>
+          </div>
+        );
+      }
+      if (Array.isArray(v)) return null;
+      const fv = formatVal(v);
+      if (!fv) return null;
+      return (
+        <div key={k} className="bg-white rounded-xl p-3 border border-blue-100">
+          <p className="text-xs text-blue-600 font-medium mb-0.5">{formatKey(k)}</p>
+          <p className="text-sm font-bold text-blue-900">{fv}</p>
+        </div>
+      );
+    });
+
+  return (
+    <div className="card bg-blue-50 border border-blue-200">
+      <h2 className="font-bold text-blue-900 mb-1 flex items-center gap-2">
+        📋 Données COSMETICA™ — Document de travail
+      </h2>
+      <p className="text-xs text-blue-600 mb-4">Source : Sophie Martin (RRH) & Nathalie Leblanc (Contrôleure de gestion)</p>
+      <div>{renderEntries(donnees)}</div>
     </div>
   );
 }

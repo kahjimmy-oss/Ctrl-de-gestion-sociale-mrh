@@ -13,6 +13,7 @@ import InstructorSubmissionsPage from './pages/InstructorSubmissionsPage';
 import InstructorEvaluationsPage from './pages/InstructorEvaluationsPage';
 import EmployeesPage from './pages/EmployeesPage';
 import Navbar from './components/common/Navbar';
+import NotesPanel from './components/common/NotesPanel';
 
 function SocketProvider({ children }) {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ function AppRoutes() {
   return (
     <>
       {user && <Navbar />}
+      {user && <NotesPanel />}
       <div className={user ? 'pt-16' : ''}>
         <Routes>
           <Route path="/login" element={user ? <Navigate to={user.role === 'instructor' ? '/instructor' : '/dashboard'} replace /> : <LoginPage />} />
