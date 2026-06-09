@@ -65,8 +65,8 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
 
 /* SPLASH */
 #pg-splash{min-height:100vh;display:flex;background:var(--ink);overflow:hidden;position:relative}
-.sd::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(200,169,110,.18) 0%,transparent 65%);border-radius:50%}
-.sd::after{content:'';position:absolute;bottom:-150px;left:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(196,113,90,.12) 0%,transparent 65%);border-radius:50%}
+.sd::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(200,169,110,.18) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.sd::after{content:'';position:absolute;bottom:-150px;left:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(196,113,90,.12) 0%,transparent 65%);border-radius:50%;pointer-events:none}
 .sl{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;z-index:1}
 .slogo{font-family:'Playfair Display',serif;font-size:13px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:60px;display:flex;align-items:center;gap:12px}
 .stit{font-family:'Playfair Display',serif;font-size:clamp(40px,5vw,64px);color:#fff;line-height:1.1;margin-bottom:20px}
@@ -320,6 +320,7 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
 </head>
 <body>
 <div id="toasts"></div>
+<noscript><div style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#b03030;color:#fff;text-align:center;padding:14px 20px;font-family:sans-serif;font-size:15px">⚠ JavaScript est désactivé. Ouvrez ce fichier directement dans Safari (pas depuis Mail ni Fichiers).</div></noscript>
 
 <!-- SPLASH -->
 <div id="pg-splash">
@@ -338,8 +339,8 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
   <div class="sr">
     <h2 class="lt">Bienvenue</h2>
     <p class="ls">Master RH 1ère année · Contrôle de gestion sociale</p>
-    <div class="fg"><label>Votre prénom et nom</label><input id="inp" type="text" placeholder="Ex : Marie Dupont" onkeydown="if(event.key==='Enter')login()"></div>
-    <button class="btn bp" style="width:100%;justify-content:center" onclick="login()">Entrer dans COSMÉTICA™ →</button>
+    <div class="fg"><label>Votre prénom et nom</label><input id="inp" type="text" placeholder="Ex : Marie Dupont" autocomplete="name" enterkeyhint="go" onkeydown="if(event.key==='Enter')login()" onkeyup="if(event.key==='Enter')login()"></div>
+    <button type="button" id="login-btn" class="btn bp" style="width:100%;justify-content:center" onclick="login()">Entrer dans COSMÉTICA™ →</button>
     <p class="ln">Votre progression est sauvegardée automatiquement dans votre navigateur.</p>
   </div>
 </div>
@@ -580,18 +581,26 @@ function isDone(n){const u=gu();return u&&u.done&&u.done[n];}
 function unreadCount(){if(!gu())return 0;const r=gu().readMails||{};return MAILS.filter(m=>!r[m.id]).length;}
 
 // ══ AUTH ══
+let _loginLock=false;
 function login(){
-  const n=document.getElementById('inp').value.trim();
-  if(n.length<2){toast('Saisissez votre prénom et nom.','wa');return;}
-  const init=n.split(' ').filter(Boolean).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'??';
-  if(!S.students[n])S.students[n]={name:n,initials:init,ms:{},lv:{},refl:{},done:{},readMails:{}};
-  S.user=n;ss();
-  document.getElementById('pg-splash').classList.add('hidden');
-  document.getElementById('pg-app').classList.remove('hidden');
-  document.getElementById('av-t').textContent=gu().initials;
-  document.getElementById('nm-t').textContent=gu().name;
-  updProg();updNav();updMailBadge();
-  go('home');
+  if(_loginLock)return;
+  try{
+    const n=document.getElementById('inp').value.trim();
+    if(n.length<2){toast('Saisissez votre prénom et nom (ex : Marie Dupont).','wa');return;}
+    _loginLock=true;
+    const init=n.split(' ').filter(Boolean).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'??';
+    if(!S.students[n])S.students[n]={name:n,initials:init,ms:{},lv:{},refl:{},done:{},readMails:{}};
+    S.user=n;ss();
+    document.getElementById('pg-splash').classList.add('hidden');
+    document.getElementById('pg-app').classList.remove('hidden');
+    document.getElementById('av-t').textContent=gu().initials;
+    document.getElementById('nm-t').textContent=gu().name;
+    updProg();updNav();updMailBadge();
+    go('home');
+  }catch(e){
+    _loginLock=false;
+    toast('Erreur : '+e.message,'er');
+  }
 }
 function logout(){
   S.user=null;ss();
@@ -1201,6 +1210,19 @@ function closeSB(){
 }
 
 // ══ BOOT ══
+// Listeners robustes pour iPad/iOS (en plus des attributs inline)
+(function(){
+  var btn=document.getElementById('login-btn');
+  var inp=document.getElementById('inp');
+  if(btn){
+    btn.addEventListener('touchend',function(e){e.preventDefault();login();},{passive:false});
+    btn.addEventListener('click',function(){login();});
+  }
+  if(inp){
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter'||e.keyCode===13)login();});
+    inp.addEventListener('keyup',function(e){if(e.key==='Enter'||e.keyCode===13)login();});
+  }
+})();
 ls();
 if(S.user&&S.students[S.user]){
   document.getElementById('pg-splash').classList.add('hidden');
