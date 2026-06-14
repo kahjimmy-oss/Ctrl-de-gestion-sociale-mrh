@@ -27,20 +27,13 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 h1,h2,h3{font-family:'Playfair Display',serif}
 .hidden{display:none!important}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
-button,.btn,.ni,.dc,.qo,.mail-row{touch-action:manipulation}
-/* Hover : uniquement vrais pointeurs (pas iPad/touch) */
-@media(hover:hover) and (pointer:fine){
-  .card-seance:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
-  .res-card:hover{border-color:var(--gold)!important}
-}
-.card-seance{transition:transform .17s,box-shadow .17s}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:var(--rs);border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
 .bp{background:var(--gold);color:#fff}.bp:hover{background:var(--gd);transform:translateY(-1px)}
 .bo{background:transparent;border:1.5px solid var(--bdr2);color:var(--ink)}.bo:hover{border-color:var(--gold);color:var(--gd)}
 .bt{background:var(--teal);color:#fff}.bt:hover{background:#1f4e4b;transform:translateY(-1px)}
 .bsm{padding:6px 13px;font-size:12px}.blg{padding:13px 28px;font-size:15px}
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-input,textarea{background:#fff;border:1.5px solid var(--bdr2);border-radius:var(--rs);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:9px 13px;width:100%;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+input,textarea{background:#fff;border:1.5px solid var(--bdr2);border-radius:var(--rs);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:9px 13px;width:100%;outline:none;transition:border-color .2s,box-shadow .2s}
 input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,169,110,.15)}
 textarea{resize:vertical;min-height:130px;line-height:1.7}
 label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bottom:5px}
@@ -150,7 +143,8 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
 .mb-body strong{color:var(--rose)}
 .mb-body em{color:var(--teal);font-style:normal;font-weight:500}
 .mb-foot{padding:12px 22px;border-top:1px solid var(--bdr);display:flex;gap:9px}
-.btn-reply{background:var(--warm);border:1px solid var(--bdr2);border-radius:var(--rs);padding:8px 16px;font-size:12px;color:var(--slate);cursor:default;opacity:.5;display:flex;align-items:center;gap:5px}
+.btn-noreply{background:var(--warm);border:1px solid var(--bdr2);border-radius:var(--rs);padding:8px 14px;font-size:12px;color:var(--slate);cursor:default;opacity:.6;display:inline-flex;align-items:center;gap:5px}
+.btn-back-mail{display:none;background:var(--warm);border:1px solid var(--bdr2);border-radius:8px;padding:7px 13px;font-size:12px;cursor:pointer;align-items:center;gap:6px;margin-bottom:10px}
 
 /* QCM MULTI */
 .qcm-block{background:var(--warm);border:1.5px solid rgba(200,169,110,.3);border-radius:var(--r);padding:22px;margin-bottom:18px}
@@ -260,67 +254,46 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
 
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .fi{animation:fi .2s ease}
+@media(max-width:700px){.sl{display:none}.sr{width:100%}.mail-layout{grid-template-columns:1fr;height:auto!important;min-height:500px}.mail-list-col{max-height:240px}.dtbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}}
 
-/* ── SIDEBAR DRAWER (tablette / iPad) ── */
-.sb-tog{display:none;background:none;border:none;color:rgba(255,255,255,.8);font-size:22px;cursor:pointer;padding:7px 11px;line-height:1;flex-shrink:0;touch-action:manipulation}
-#sb-ov{display:none;position:fixed;inset:0;background:rgba(14,12,10,.5);z-index:98;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-#sb-ov.vis{display:block}
-
-/* ── TABLETTE (≤ 1023px) : sidebar en tiroir ── */
-@media(max-width:1023px){
-  .sb-tog{display:flex;align-items:center}
-  .sb{position:fixed;top:56px;left:-270px;height:calc(var(--app-height) - 56px);z-index:99;transition:left .25s ease;box-shadow:none;width:248px}
-  .sb.sb-open{left:0;box-shadow:var(--shl)}
-  .app-body{overflow:visible}
-  .tb-brand span{display:none}
-  .progpill{display:none}
-}
-
-/* ── IPAD PORTRAIT / tablette moyenne (701–900px) ── */
-@media(max-width:900px) and (min-width:701px){
-  .sl{display:none}
-  #pg-splash{justify-content:center}
-  .sr{width:100%;max-width:480px}
-  .mail-layout{grid-template-columns:1fr!important;height:auto!important;min-height:500px}
-  .mail-list-col{max-height:230px;border-right:none;border-bottom:1px solid var(--bdr);overflow-y:auto}
-  .mail-body-col{min-height:320px}
-  .dtw{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .dtbl{min-width:520px}
-  .main{padding:20px 18px}
-}
-
-/* ── TOUCH / APPAREILS SANS SOURIS ── */
+/* TOUCH DEVICE FIXES */
+button,.btn,.ni,.dc,.qo,.mail-row,.hamburger{touch-action:manipulation}
 @media(hover:none) and (pointer:coarse){
-  /* Empêche le zoom iOS sur les champs de saisie (font-size < 16px) */
   input,textarea,select{font-size:16px!important}
-  /* Annule les transforms au hover (qui "collent" sur iOS) */
   .bp:hover,.bt:hover,.bo:hover{transform:none!important}
   .dc:hover{transform:none!important;box-shadow:var(--sh)!important;border-color:var(--bdr)!important}
-  /* États actifs pour le retour tactile */
   .bp:active{background:var(--gd)!important}
   .bt:active{background:#1f4e4b!important}
   .bo:active{border-color:var(--gold)!important;color:var(--gd)!important}
-  .ni:active:not(.lk){background:var(--warm)!important}
-  .dc:active{border-color:var(--gold)!important}
   .qo:active:not(:disabled){border-color:var(--gold)!important;background:var(--gl)!important}
   .mail-row:active{background:var(--warm)!important}
-  /* Cibles tactiles minimum 44px (Apple HIG) */
+  .dc:active{border-color:var(--gold)!important}
+  .ni:active:not(.lk){background:var(--warm)!important}
   .btn{min-height:44px}
   .ni{min-height:44px}
-  .qo{padding:13px 14px}
-  /* Scrolling fluide iOS */
   .sb,.main,.mail-list-col,.mail-body-col,.modal{-webkit-overflow-scrolling:touch}
-  /* Textareas non redimensionnables sur touch (évite les accidents) */
   textarea{resize:none}
 }
-
-/* ── MOBILE (≤ 700px) ── */
-@media(max-width:700px){.sb{display:none!important}.sl{display:none}.sr{width:100%}.mail-layout{grid-template-columns:1fr;height:auto;min-height:500px}.mail-list-col{max-height:220px;border-right:none;border-bottom:1px solid var(--bdr)}.sb-tog{display:none!important}.dtw{overflow-x:auto}.dtbl{min-width:480px}.main{padding:18px 14px}}
+/* HAMBURGER & SIDEBAR MOBILE */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px 10px;flex-direction:column;gap:5px;line-height:0;flex-shrink:0}
+.hamburger span{display:block;width:20px;height:2px;background:rgba(255,255,255,.75);border-radius:1px;transition:all .2s}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(14,12,10,.5);z-index:98;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.sb-overlay.open{display:block}
+/* DTBL WRAP */
+.dtbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* NOSCRIPT */
+.noscript-warn{position:fixed;top:0;left:0;right:0;z-index:99999;background:var(--er);color:#fff;text-align:center;padding:14px 20px;font-family:sans-serif;font-size:15px;line-height:1.5}
+@media(max-width:1023px){
+  .hamburger{display:flex}
+  .sb{position:fixed;top:56px;left:-270px;height:calc(var(--app-height) - 56px);z-index:99;transition:left .25s ease;width:248px;display:flex!important}
+  .sb.open{left:0;box-shadow:var(--shl)}
+  .app-body{overflow:visible}
+}
 </style>
 </head>
 <body>
 <div id="toasts"></div>
-<noscript><div style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#b03030;color:#fff;text-align:center;padding:14px 20px;font-family:sans-serif;font-size:15px">⚠ JavaScript est désactivé. Ouvrez ce fichier directement dans Safari (pas depuis Mail ni Fichiers).</div></noscript>
+<noscript><div class="noscript-warn">⚠ JavaScript est désactivé. Ouvrez ce fichier directement dans <strong>Safari</strong> (pas depuis Mail ni Fichiers).</div></noscript>
 
 <!-- SPLASH -->
 <div id="pg-splash">
@@ -339,7 +312,7 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
   <div class="sr">
     <h2 class="lt">Bienvenue</h2>
     <p class="ls">Master RH 1ère année · Contrôle de gestion sociale</p>
-    <div class="fg"><label>Votre prénom et nom</label><input id="inp" type="text" placeholder="Ex : Marie Dupont" autocomplete="name" enterkeyhint="go" onkeydown="if(event.key==='Enter')login()" onkeyup="if(event.key==='Enter')login()"></div>
+    <div class="fg"><label>Votre prénom et nom</label><input id="inp" type="text" placeholder="Ex : Marie Dupont" autocomplete="name" enterkeyhint="go" onkeydown="if(event.key==='Enter'||event.keyCode===13)login()" onkeyup="if(event.key==='Enter'||event.keyCode===13)login()"></div>
     <button type="button" id="login-btn" class="btn bp" style="width:100%;justify-content:center" onclick="login()">Entrer dans COSMÉTICA™ →</button>
     <p class="ln">Votre progression est sauvegardée automatiquement dans votre navigateur.</p>
   </div>
@@ -348,8 +321,10 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
 <!-- APP -->
 <div id="pg-app" class="hidden">
   <div class="topbar">
-    <button class="sb-tog" id="sb-tog" onclick="toggleSB()" aria-label="Menu">☰</button>
-    <div class="tb-brand">✦ COSMÉTICA™ <span>Atelier CGS · Master RH</span></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="hamburger" id="hamburger" onclick="toggleSb()" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="tb-brand">✦ COSMÉTICA™ <span>Atelier CGS</span></div>
+    </div>
     <div class="tb-right">
       <div class="progpill" id="prog-pill">0 / 3 séances</div>
       <div style="display:flex;align-items:center;gap:8px">
@@ -359,9 +334,9 @@ label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bot
       <button class="btn bo bsm" style="color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.18)" onclick="logout()">Déconnexion</button>
     </div>
   </div>
-  <div id="sb-ov" onclick="toggleSB()"></div>
+  <div class="sb-overlay" id="sb-overlay" onclick="closeSb()"></div>
   <div class="app-body">
-    <div class="sb">
+    <div class="sb" id="sidebar">
       <div class="sb-head"><div class="sb-hl">Atelier pédagogique</div><div class="sb-ht">COSMÉTICA™</div></div>
       <div class="sb-sec">
         <div class="sb-ttl">Navigation</div>
@@ -456,12 +431,12 @@ const EMP=[
   {id:"e9",nom:"Nathalie LEBLANC",poste:"Contrôleure de Gestion",dept:"Finance",sal:"4 100€/mois",anc:"9 ans",init:"NL",color:"#4a6e5a",
    tags:["CGS","Tableau écarts MS","Demande KPIs sociaux"],note:"A produit le tableau d'écarts MS. Solde de 80 700€ non encore ventilé.",risque:"faible",rl:"Risque faible",
    detail:"A produit le rapport révélant le dépassement MS de +147 400€. Causes partiellement identifiées : contre-proposition Karim Fontaine, intérim Patrick Chevalier, indemnités Alice Benoît, recrutements en urgence, redressement URSSAF. Solde non ventilé : 80 700€. Demande mensuelle à la RH : absentéisme, coût intérim, délai et coût de recrutement, taux de rétention 6 mois."},
-  {id:"e10",nom:"Henri DUPONT",poste:"Resp. Paie",dept:"Finance",sal:"3 600€/mois",anc:"10 ans",init:"HD",color:"#5a6e7a",
-   tags:["Erreur DSN","Redressement URSSAF","Stress SIRH"],note:"Erreur DSN nov. 2023 → redressement URSSAF 3 400€.",risque:"modéré",rl:"⚡ Risque modéré",
-   detail:"Gère la paie de 65 salariés seul. Migration SIRH sept. 2023 avec seulement 1/2 journée de formation (recommandé : 2 jours). Erreur DSN nov. 2023 → redressement URSSAF 3 400€. Coût d'une formation complète : 1 200€."},
   {id:"e11",nom:"Alice BENOÎT",poste:"Chargée Grands Comptes",dept:"Commercial",sal:"3 800€/mois",anc:"4 ans",init:"AB",color:"#c4715a",
    tags:["Départ confirmé","Rupture conv.","Comptes Sephora/Marionnaud"],note:"Rupture conventionnelle confirmée — 4ème départ commercial en 18 mois.",risque:"critique",rl:"🔴 Départ confirmé",
-   detail:"Chargée Grands Comptes, spécialiste cosmétique conventionnelle. Gérait les comptes Sephora (CA estimé 32 000€/an) et Marionnaud (CA estimé 21 500€/an), soit 53 500€ de CA annuel total. Salaire brut : 3 800€/mois. Ancienneté : 4 ans. Rupture conventionnelle confirmée en janvier 2024. Ses comptes ne sont pas encore transférés à ce jour. Motif déclaré lors de l'entretien de sortie : 'pression managériale constante, objectifs irréalistes, aucune reconnaissance malgré les résultats'."}
+   detail:"Chargée Grands Comptes, spécialiste cosmétique conventionnelle. Gérait les comptes Sephora (CA estimé 32 000€/an) et Marionnaud (CA estimé 21 500€/an), soit 53 500€ de CA annuel total. Salaire brut : 3 800€/mois. Ancienneté : 4 ans. Rupture conventionnelle confirmée en janvier 2024. Ses comptes ne sont pas encore transférés à ce jour. Motif déclaré lors de l'entretien de sortie : 'pression managériale constante, objectifs irréalistes, aucune reconnaissance malgré les résultats'."}, 
+  {id:"e10",nom:"Henri DUPONT",poste:"Resp. Paie",dept:"Finance",sal:"3 600€/mois",anc:"10 ans",init:"HD",color:"#5a6e7a",
+   tags:["Erreur DSN","Redressement URSSAF","Stress SIRH"],note:"Erreur DSN nov. 2023 → redressement URSSAF 3 400€.",risque:"modéré",rl:"⚡ Risque modéré",
+   detail:"Gère la paie de 65 salariés seul. Migration SIRH sept. 2023 avec seulement 1/2 journée de formation (recommandé : 2 jours). Erreur DSN nov. 2023 → redressement URSSAF 3 400€. Coût d'une formation complète : 1 200€."}
 ];
 
 // ══ QCM SÉANCES (multi-questions) ══
@@ -576,18 +551,28 @@ const SEANCES=[
 
 // ══ STATE ══
 let ph={},rst={};
-let curMail=null;
+let curMail=null,mailMobile=false;
 function isDone(n){const u=gu();return u&&u.done&&u.done[n];}
 function unreadCount(){if(!gu())return 0;const r=gu().readMails||{};return MAILS.filter(m=>!r[m.id]).length;}
 
+// ══ SIDEBAR MOBILE ══
+function toggleSb(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sb-overlay').classList.toggle('open');
+}
+function closeSb(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').classList.remove('open');
+}
+
 // ══ AUTH ══
-let _loginLock=false;
+let _ll=false;
 function login(){
-  if(_loginLock)return;
+  if(_ll)return;
   try{
     const n=document.getElementById('inp').value.trim();
     if(n.length<2){toast('Saisissez votre prénom et nom (ex : Marie Dupont).','wa');return;}
-    _loginLock=true;
+    _ll=true;
     const init=n.split(' ').filter(Boolean).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'??';
     if(!S.students[n])S.students[n]={name:n,initials:init,ms:{},lv:{},refl:{},done:{},readMails:{}};
     S.user=n;ss();
@@ -597,10 +582,7 @@ function login(){
     document.getElementById('nm-t').textContent=gu().name;
     updProg();updNav();updMailBadge();
     go('home');
-  }catch(e){
-    _loginLock=false;
-    toast('Erreur : '+e.message,'er');
-  }
+  }catch(e){_ll=false;toast('Erreur : '+e.message,'er');}
 }
 function logout(){
   S.user=null;ss();
@@ -611,7 +593,7 @@ function logout(){
 
 // ══ NAV ══
 function go(p){
-  closeSB();
+  closeSb();
   ['home','mail','doss','data'].forEach(x=>{const e=document.getElementById('ni-'+x);if(e)e.classList.toggle('on',x===p);});
   [1,2,3].forEach(i=>{const e=document.getElementById('ni-s'+i);if(e)e.classList.remove('on');});
   setMain(()=>{
@@ -622,9 +604,9 @@ function go(p){
   });
 }
 function goS(n){
+  closeSb();
   if(n===2&&!isDone(1)){toast("Terminez la Séance 1 d'abord.",'wa');return;}
   if(n===3&&!isDone(2)){toast("Terminez la Séance 2 d'abord.",'wa');return;}
-  closeSB();
   ['home','mail','doss','data'].forEach(x=>{const e=document.getElementById('ni-'+x);if(e)e.classList.remove('on');});
   [1,2,3].forEach(i=>{const e=document.getElementById('ni-s'+i);if(e)e.classList.remove('on');});
   const e=document.getElementById('ni-s'+n);if(e)e.classList.add('on');
@@ -648,7 +630,7 @@ function renderHome(){
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px;margin-bottom:26px">
   ${SEANCES.map((s,i)=>{
     const d=isDone(i+1),lk=i>0&&!isDone(i);
-    return `<div class="card card-seance" style="cursor:pointer;border-top:3px solid ${s.color}" onclick="goS(${i+1})">
+    return `<div class="card" style="cursor:pointer;border-top:3px solid ${s.color};transition:all .17s" onclick="goS(${i+1})" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(0,0,0,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
         <span style="font-family:'Playfair Display',serif;font-size:13px;color:${s.color}">Séance ${i+1}</span>
         ${d?`<span class="bdg bok">✓ Complétée</span>`:lk?`<span class="bdg bs">🔒 Verrouillée</span>`:`<span class="bdg bg">À réaliser</span>`}
@@ -660,9 +642,9 @@ function renderHome(){
   </div>
   <span class="slbl">Ressources</span>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:24px">
-    <div class="card" style="cursor:pointer" onclick="go('mail')" class="res-card"><div style="font-size:22px;margin-bottom:8px">✉️</div><div style="font-weight:600;margin-bottom:4px">Boîte mail</div><div style="font-size:12px;color:var(--slate)">6 messages des parties prenantes COSMÉTICA™</div></div>
-    <div class="card" style="cursor:pointer" onclick="go('doss')" class="res-card"><div style="font-size:22px;margin-bottom:8px">👥</div><div style="font-weight:600;margin-bottom:4px">Dossiers salariés</div><div style="font-size:12px;color:var(--slate)">11 profils RH confidentiels</div></div>
-    <div class="card" style="cursor:pointer" onclick="go('data')" class="res-card"><div style="font-size:22px;margin-bottom:8px">📊</div><div style="font-weight:600;margin-bottom:4px">Données financières</div><div style="font-size:12px;color:var(--slate)">MS 2023, écarts budgétaires, indicateurs</div></div>
+    <div class="card" style="cursor:pointer" onclick="go('mail')" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''"><div style="font-size:22px;margin-bottom:8px">✉️</div><div style="font-weight:600;margin-bottom:4px">Boîte mail</div><div style="font-size:12px;color:var(--slate)">6 messages des parties prenantes COSMÉTICA™</div></div>
+    <div class="card" style="cursor:pointer" onclick="go('doss')" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''"><div style="font-size:22px;margin-bottom:8px">👥</div><div style="font-weight:600;margin-bottom:4px">Dossiers salariés</div><div style="font-size:12px;color:var(--slate)">10 profils RH confidentiels</div></div>
+    <div class="card" style="cursor:pointer" onclick="go('data')" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''"><div style="font-size:22px;margin-bottom:8px">📊</div><div style="font-weight:600;margin-bottom:4px">Données financières</div><div style="font-size:12px;color:var(--slate)">MS 2023, écarts budgétaires, indicateurs</div></div>
   </div>
   <span class="slbl">Alertes actives COSMÉTICA™</span>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:9px">
@@ -680,6 +662,9 @@ function updMailBadge(){
   if(!badge)return;
   if(cnt>0){badge.textContent=cnt;badge.classList.remove('hidden');}
   else badge.classList.add('hidden');
+}
+function showMailList(){
+  mailMobile=false;curMail=null;renderMail();
 }
 function renderMail(){
   const u=gu();const reads=u.readMails||{};
@@ -715,29 +700,29 @@ function renderMail(){
       </div>
       <div class="mb-body">${m.body}</div>
       <div class="mb-foot">
-        <div class="btn-reply" title="En séance, la réponse se fait à l'oral">↩ Répondre — désactivé en séance</div>
+        <span class="btn-noreply">↩ Répondre — à l'oral en séance</span>
       </div>`;
   }
 
   document.getElementById('main').innerHTML=`
   <div class="pt" style="margin-bottom:6px">Boîte mail</div>
   <div class="ps">COSMÉTICA™ · Messages des parties prenantes · ${unreadCount()} non lu(s)</div>
-  <div class="mail-layout">
-    <div class="mail-list-col">
+  <div class="mail-layout" id="mail-layout">
+    <div class="mail-list-col" id="mail-list-col">
       <div class="ml-head">
         <span class="ml-head-ttl">Réception</span>
         ${unreadCount()>0?`<span class="ml-head-badge">${unreadCount()} non lu(s)</span>`:''}
       </div>
       ${listHtml}
     </div>
-    <div class="mail-body-col">${bodyHtml}</div>
+    <div class="mail-body-col" id="ml-body"><button class="btn-back-mail" id="back-mail-btn" onclick="showMailList()">← Tous les mails</button>${bodyHtml}</div>
   </div>`;
 }
 function openMail(id){
   const u=gu();
   if(!u.readMails)u.readMails={};
   u.readMails[id]=true;ss();
-  curMail=id;
+  curMail=id;mailMobile=true;
   updMailBadge();
   renderMail();
 }
@@ -746,7 +731,7 @@ function openMail(id){
 function renderDossiers(){
   document.getElementById('main').innerHTML=`
   <div class="pt">Dossiers Salariés</div>
-  <div class="ps">COSMÉTICA™ · 11 profils clés · Cliquez pour le dossier complet</div>
+  <div class="ps">COSMÉTICA™ · 10 profils clés · Cliquez pour le dossier complet</div>
   <div class="bnr btl" style="margin-bottom:20px">💡 Consultez ces dossiers avant chaque mission. Ils contiennent les données nécessaires à vos calculs.</div>
   <div class="dgrid">${EMP.map(e=>{
     const rc=e.risque==='critique'?'var(--er)':e.risque==='elevé'?'var(--wa)':e.risque==='modéré'?'var(--gd)':'var(--ok)';
@@ -791,25 +776,25 @@ function renderData(){
   <div class="bnr btl" style="margin-bottom:20px">📌 Ces données sont vos matières premières. Croisez-les avec les dossiers salariés pour construire vos analyses. Les calculs sont à réaliser par vos soins.</div>
 
   <div class="dtw"><div class="dth"><span class="dthttl">Masse Salariale 2023</span><span class="bdg ber">Dépassement budget</span></div>
-  <table class="dtbl"><thead><tr><th>Composante</th><th>Montant</th></tr></thead><tbody>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Composante</th><th>Montant</th></tr></thead><tbody>
   <tr><td>MS brute (salaires bruts totaux — 65 salariés)</td><td>1 820 000€</td></tr>
   <tr><td>Charges patronales</td><td>762 400€</td></tr>
   <tr><td><strong>MS chargée totale</strong></td><td><strong>2 582 400€</strong></td></tr>
   <tr><td>Budget MS prévu 2023</td><td>2 435 000€</td></tr>
   <tr><td>CA 2023</td><td>4 050 000€</td></tr>
   <tr><td>Benchmark sectoriel ratio MS/CA</td><td class="vw">55 à 60%</td></tr>
-  </tbody></table></div>
+  </tbody></table></div></div>
 
   <div class="dtw"><div class="dth"><span class="dthttl">Écarts Budgétaires RH 2023</span></div>
-  <table class="dtbl"><thead><tr><th>Poste</th><th>Budget prévu</th><th>Réalisé</th></tr></thead><tbody>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Poste</th><th>Budget prévu</th><th>Réalisé</th></tr></thead><tbody>
   <tr><td>Masse salariale chargée</td><td>2 435 000€</td><td class="vr">2 582 400€</td></tr>
   <tr><td>Formation</td><td>85 000€</td><td class="vw">62 000€</td></tr>
   <tr><td>Recrutement</td><td>42 000€</td><td class="vr">68 000€</td></tr>
   <tr><td>Intérim</td><td>30 000€</td><td class="vr">78 000€</td></tr>
-  </tbody></table></div>
+  </tbody></table></div></div>
 
   <div class="dtw"><div class="dth"><span class="dthttl">Données RH de référence 2023</span></div>
-  <table class="dtbl"><thead><tr><th>Donnée</th><th>Valeur</th></tr></thead><tbody>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Donnée</th><th>Valeur</th></tr></thead><tbody>
   <tr><td>Effectif (ETP)</td><td>58,5</td></tr>
   <tr><td>Effectif commercial début 2023</td><td>5 commerciaux</td></tr>
   <tr><td>Entrées 2023</td><td>8 recrutements</td></tr>
@@ -825,31 +810,31 @@ function renderData(){
   <tr><td>Benchmark absentéisme France</td><td class="vg">5,04%</td></tr>
   <tr><td>Benchmark délai recrutement sectoriel</td><td class="vg">45 à 55 jours</td></tr>
   <tr><td>Benchmark taux rétention 6 mois</td><td class="vg">&gt; 80%</td></tr>
-  </tbody></table></div>
+  </tbody></table></div></div>
 
   <div class="dtw"><div class="dth"><span class="dthttl">Délais de recrutement par profil (marché 2023)</span></div>
-  <table class="dtbl"><thead><tr><th>Profil</th><th>Délai estimé</th></tr></thead><tbody>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Profil</th><th>Délai estimé</th></tr></thead><tbody>
   <tr><td>Commercial senior cosmétique bio</td><td class="vr">90 à 120 jours</td></tr>
   <tr><td>Responsable logistique (expérimenté)</td><td class="vw">45 à 60 jours</td></tr>
   <tr><td>Opérateur de production</td><td class="vg">30 à 45 jours</td></tr>
   <tr><td>Chef de projet R&D (docteur en chimie)</td><td class="vr">4 à 6 mois</td></tr>
-  </tbody></table></div>
+  </tbody></table></div></div>
 
   <div class="dtw"><div class="dth"><span class="dthttl">Durée de formation d'un nouvel entrant</span></div>
-  <table class="dtbl"><thead><tr><th>Profil</th><th>Autonomie partielle</th><th>Pleine productivité</th></tr></thead><tbody>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Profil</th><th>Autonomie partielle</th><th>Pleine productivité</th></tr></thead><tbody>
   <tr><td>Opérateur de production (tutorat interne)</td><td class="vg">6 semaines</td><td class="vg">6 semaines</td></tr>
   <tr><td>Commercial junior (secteur cosméto bio)</td><td class="vw">6 mois</td><td class="vr">12 mois</td></tr>
   <tr><td>Responsable logistique (expérimenté)</td><td class="vw">3 mois</td><td class="vw">3 mois</td></tr>
   <tr><td>Chef de projet R&D (reprise projets en cours)</td><td class="vr">6 mois</td><td class="vr">12 mois minimum</td></tr>
-  </tbody></table></div>
+  </tbody></table></div></div>
 
   <div class="dtw"><div class="dth"><span class="dthttl">MS par catégorie socioprofessionnelle 2023</span></div>
-  <table class="dtbl"><thead><tr><th>Catégorie</th><th>Effectif</th><th>MS brute</th></tr></thead><tbody>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Catégorie</th><th>Effectif</th><th>MS brute</th></tr></thead><tbody>
   <tr><td>Cadres</td><td>12</td><td>620 000€</td></tr>
   <tr><td>ETAM</td><td>28</td><td>780 000€</td></tr>
   <tr><td>Ouvriers / Opérateurs</td><td>25</td><td>420 000€</td></tr>
   <tr><td><strong>Total</strong></td><td><strong>65</strong></td><td><strong>1 820 000€</strong></td></tr>
-  </tbody></table></div>`;
+  </tbody></table></div></div>`;
 }
 
 // ══ SÉANCE ══
@@ -1179,38 +1164,13 @@ function tabTA(e){
   if(e.key==='Tab'){e.preventDefault();const t=e.target,s=t.selectionStart;t.value=t.value.substring(0,s)+'    '+t.value.substring(t.selectionEnd);t.selectionStart=t.selectionEnd=s+4;}
 }
 
-// ══ VIEWPORT HEIGHT iOS ══
-function setVH(){
-  document.documentElement.style.setProperty('--app-height',window.innerHeight+'px');
-}
+// ══ VIEWPORT HEIGHT (iOS Safari) ══
+function setVH(){document.documentElement.style.setProperty('--app-height',window.innerHeight+'px');}
 setVH();
 window.addEventListener('resize',setVH);
 window.addEventListener('orientationchange',function(){setTimeout(setVH,200);});
 
-// ══ SIDEBAR TOGGLE (tablette/iPad) ══
-let sbOpen=false;
-function toggleSB(){
-  sbOpen=!sbOpen;
-  const sb=document.querySelector('.sb');
-  const ov=document.getElementById('sb-ov');
-  const tog=document.getElementById('sb-tog');
-  if(sb)sb.classList.toggle('sb-open',sbOpen);
-  if(ov)ov.classList.toggle('vis',sbOpen);
-  if(tog)tog.textContent=sbOpen?'✕':'☰';
-}
-function closeSB(){
-  if(!sbOpen)return;
-  sbOpen=false;
-  const sb=document.querySelector('.sb');
-  const ov=document.getElementById('sb-ov');
-  const tog=document.getElementById('sb-tog');
-  if(sb)sb.classList.remove('sb-open');
-  if(ov)ov.classList.remove('vis');
-  if(tog)tog.textContent='☰';
-}
-
 // ══ BOOT ══
-// Listeners robustes pour iPad/iOS (en plus des attributs inline)
 (function(){
   var btn=document.getElementById('login-btn');
   var inp=document.getElementById('inp');
@@ -1233,7 +1193,7 @@ if(S.user&&S.students[S.user]){
   go('home');
 }
 // Escape key closes modal
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSb();}});
 </script>
 </body>
 </html>
