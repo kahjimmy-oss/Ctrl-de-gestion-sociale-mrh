@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>COSMÉTICA™ — La Salle de Crise · Jeu CGS Équipe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e0c0a;--cream:#faf7f2;--warm:#f5efe4;
+  --gold:#c8a96e;--gd:#a8893e;--gl:#fdf5e4;
+  --rose:#c4715a;--teal:#2d6e6a;--slate:#3d4a5c;
+  --ok:#1a6e42;--ol:#e4f5ea;--ob:#9dd4b4;
+  --wa:#8a5208;--wl:#fdf4e0;--wb:#e8c870;
+  --er:#b03030;--el:#fce8e8;--eb:#e8a8a8;
+  --bdr:rgba(14,12,10,.1);--bdr2:rgba(14,12,10,.17);
+  --sh:0 2px 18px rgba(14,12,10,.07);--shl:0 8px 36px rgba(14,12,10,.14);
+  --r:12px;--rs:7px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.65;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:'Playfair Display',serif}
+.hidden{display:none!important}
+input{background:#fff;border:1.5px solid var(--bdr2);border-radius:var(--rs);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;padding:11px 14px;width:100%;outline:none;transition:border-color .2s}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,169,110,.15)}
+label{font-size:12px;font-weight:600;color:var(--slate);display:block;margin-bottom:5px;letter-spacing:.03em;text-transform:uppercase}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:var(--rs);border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;touch-action:manipulation}
+.bp{background:var(--gold);color:#fff}.bp:hover{background:var(--gd);transform:translateY(-1px)}
+.bt{background:var(--teal);color:#fff}.bt:hover{background:#1f4e4b}
+.bo{background:transparent;border:1.5px solid var(--bdr2);color:var(--ink)}.bo:hover{border-color:var(--gold);color:var(--gd)}
+.blg{padding:14px 32px;font-size:15px;border-radius:var(--r)}
+.bsm{padding:7px 14px;font-size:12px}
+
+.card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+.cw{background:var(--warm);border-color:rgba(200,169,110,.25)}
+.bdg{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.02em}
+.bg{background:var(--gl);color:var(--gd);border:1px solid rgba(200,169,110,.35)}
+.bs{background:rgba(61,74,92,.07);color:var(--slate);border:1px solid rgba(61,74,92,.18)}
+.bok{background:var(--ol);color:var(--ok);border:1px solid var(--ob)}
+.ber{background:var(--el);color:var(--er);border:1px solid var(--eb)}
+.bwa{background:var(--wl);color:var(--wa);border:1px solid var(--wb)}
+
+#toasts{position:fixed;bottom:22px;right:22px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{background:var(--ink);color:#fff;border-radius:var(--rs);padding:11px 16px;font-size:13px;max-width:300px;box-shadow:var(--shl);animation:tin .25s ease}
+.tok{background:var(--ok)}.twa{background:var(--wa)}.ter{background:var(--er)}
+@keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fi{animation:fi .22s ease}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.pulse{animation:pulse .35s ease}
+
+/* ═══ SPLASH ═══ */
+#pg-splash{min-height:100vh;background:var(--ink);display:flex;overflow:hidden;position:relative}
+#pg-splash::before{content:'';position:absolute;top:-200px;right:-150px;width:600px;height:600px;background:radial-gradient(circle,rgba(200,169,110,.15) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+#pg-splash::after{content:'';position:absolute;bottom:-150px;left:-100px;width:450px;height:450px;background:radial-gradient(circle,rgba(196,113,90,.1) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.sp-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;z-index:1}
+.sp-logo{font-family:'Playfair Display',serif;font-size:12px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:48px;display:flex;align-items:center;gap:10px}
+.sp-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block}
+.sp-title{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,62px);color:#fff;line-height:1.1;margin-bottom:18px}
+.sp-title em{color:var(--gold);font-style:italic}
+.sp-sub{font-size:15px;color:rgba(255,255,255,.45);max-width:420px;line-height:1.75;margin-bottom:44px}
+.sp-stats{display:flex;gap:36px;flex-wrap:wrap}
+.sp-sv{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold)}
+.sp-sl{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.sp-right{width:420px;flex-shrink:0;background:var(--cream);display:flex;flex-direction:column;justify-content:center;padding:50px 42px;position:relative;z-index:1}
+.sp-form-title{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px}
+.sp-form-sub{font-size:13px;color:var(--slate);margin-bottom:28px}
+.sp-note{font-size:11px;color:var(--slate);opacity:.6;margin-top:14px;line-height:1.6}
+.crisis-badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px}
+.cbadge{font-size:11px;border-radius:var(--rs);padding:5px 10px;font-weight:600}
+.cbadge-r{background:var(--el);color:var(--er);border:1px solid var(--eb)}
+.cbadge-o{background:var(--wl);color:var(--wa);border:1px solid var(--wb)}
+
+/* ═══ TOPBAR (game) ═══ */
+.topbar{background:var(--ink);height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:200;box-shadow:0 1px 6px rgba(0,0,0,.3)}
+.tb-brand{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);letter-spacing:.04em;display:flex;align-items:center;gap:9px}
+.tb-brand span{font-size:10px;color:rgba(255,255,255,.3);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:.07em;text-transform:uppercase}
+.tb-metrics{display:flex;align-items:center;gap:10px}
+.metric-pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:4px 11px;font-size:12px;font-weight:600;transition:all .4s}
+.m-label{font-size:10px;font-weight:400;color:rgba(255,255,255,.4);letter-spacing:.04em;text-transform:uppercase}
+.m-score{color:var(--gold)}
+.m-social-ok{color:#6ecf94}
+.m-social-wa{color:var(--wb)}
+.m-social-er{color:var(--eb)}
+.m-legal-ok{color:#6ecf94}
+.m-legal-wa{color:var(--wb)}
+.m-legal-er{color:var(--eb)}
+.m-cost{color:rgba(255,255,255,.65)}
+.team-pill{font-size:12px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:6px}
+
+/* ═══ MAIN CONTENT ═══ */
+.main-scroll{overflow-y:auto;min-height:calc(100vh - 54px)}
+.page-inner{max-width:760px;margin:0 auto;padding:28px 22px 60px}
+
+/* ═══ RULES ═══ */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:22px 0}
+.rule-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:18px;text-align:center}
+.rule-ico{font-size:28px;margin-bottom:10px}
+.rule-ttl{font-family:'Playfair Display',serif;font-size:15px;margin-bottom:5px}
+.rule-txt{font-size:12px;color:var(--slate);line-height:1.65}
+.metric-explain{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0}
+.me{background:var(--warm);border:1px solid var(--bdr);border-radius:var(--rs);padding:13px}
+.me-t{font-size:12px;font-weight:600;margin-bottom:4px}
+.me-d{font-size:11px;color:var(--slate)}
+
+/* ═══ ACT INTRO ═══ */
+.act-hero{border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.act-hero-top{padding:32px;color:#fff}
+.act-hero-num{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;margin-bottom:10px;opacity:.7}
+.act-hero-title{font-family:'Playfair Display',serif;font-size:30px;margin-bottom:12px}
+.act-hero-intro{font-size:14px;line-height:1.75;opacity:.85;max-width:560px}
+.act-decisions-preview{background:rgba(255,255,255,.06);padding:18px 24px;border-top:1px solid rgba(255,255,255,.1)}
+.adp-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px;font-weight:600}
+.adp-list{display:flex;flex-direction:column;gap:5px}
+.adp-item{font-size:12px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:8px}
+.adp-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);flex-shrink:0}
+
+/* ═══ DECISION CARD ═══ */
+.dec-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--shl);margin-bottom:16px}
+.dec-hd{background:var(--ink);padding:18px 22px;display:flex;align-items:flex-start;gap:13px}
+.dec-av{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff}
+.dec-from{font-size:14px;font-weight:600;color:#fff}
+.dec-role{font-size:11px;color:rgba(255,255,255,.4);margin-top:1px}
+.dec-subj{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);margin-top:3px}
+.dec-num{font-size:11px;color:rgba(255,255,255,.28);white-space:nowrap;margin-left:auto;flex-shrink:0;text-align:right;line-height:1.5}
+.dec-urg{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:20px;margin-top:5px}
+.urg-r{background:rgba(176,48,48,.35);color:#f7a0a0;border:1px solid rgba(176,48,48,.4)}
+.urg-o{background:rgba(138,82,8,.3);color:#f0c870;border:1px solid rgba(138,82,8,.35)}
+.urg-g{background:rgba(45,110,106,.3);color:#80ccca;border:1px solid rgba(45,110,106,.4)}
+.dec-ctx{padding:18px 22px 0}
+.dec-ctx-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);opacity:.5;margin-bottom:7px}
+.dec-ctx-txt{font-size:14px;line-height:1.8;color:var(--ink);margin-bottom:14px}
+.dec-data{background:linear-gradient(135deg,rgba(200,169,110,.07),rgba(200,169,110,.03));border:1.5px solid rgba(200,169,110,.22);border-radius:var(--rs);padding:12px 15px;margin-bottom:18px;font-size:12px;color:var(--slate);line-height:1.6}
+.dec-data strong{color:var(--gd)}
+.dec-options{padding:0 22px 22px}
+.dec-options-lbl{font-size:12px;font-weight:600;color:var(--slate);margin-bottom:12px;letter-spacing:.03em}
+.opt-btn{background:#fff;border:2px solid var(--bdr2);border-radius:var(--rs);padding:13px 15px;cursor:pointer;transition:all .15s;font-size:13.5px;color:var(--ink);display:flex;align-items:flex-start;gap:10px;text-align:left;width:100%;margin-bottom:8px;font-family:'Inter',sans-serif;line-height:1.5}
+.opt-btn:hover:not(:disabled):not(.opt-sel):not(.opt-cor):not(.opt-wro){border-color:var(--gold);background:var(--gl)}
+.opt-ltr{font-weight:700;color:var(--gd);flex-shrink:0;font-size:12px;margin-top:1px;width:16px}
+.opt-btn.opt-sel{border-color:var(--gold);background:var(--gl)}
+.opt-btn.opt-cor{border-color:var(--ob);background:var(--ol);color:var(--ok);cursor:default}
+.opt-btn.opt-cor .opt-ltr{color:var(--ok)}
+.opt-btn.opt-wro{border-color:var(--eb);background:var(--el);color:var(--er);cursor:default}
+.opt-btn.opt-wro .opt-ltr{color:var(--er)}
+.opt-btn.opt-neutral{border-color:var(--wb);background:var(--wl);color:var(--wa);cursor:default}
+.opt-btn.opt-neutral .opt-ltr{color:var(--wa)}
+.opt-btn:disabled{cursor:default}
+.opt-tag{font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;margin-left:auto;flex-shrink:0;align-self:flex-start;margin-top:2px;white-space:nowrap}
+.tag-ok{background:var(--ol);color:var(--ok);border:1px solid var(--ob)}
+.tag-wa{background:var(--wl);color:var(--wa);border:1px solid var(--wb)}
+.tag-er{background:var(--el);color:var(--er);border:1px solid var(--eb)}
+.tag-sl{background:rgba(61,74,92,.08);color:var(--slate);border:1px solid rgba(61,74,92,.18)}
+
+.confirm-zone{padding:0 22px 22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dec-progress{display:flex;gap:5px;margin-bottom:16px;padding:0 22px}
+.dp-dot{flex:1;height:4px;border-radius:2px;background:rgba(14,12,10,.1);transition:background .3s}
+.dp-dot.dp-done{background:var(--ok)}
+.dp-dot.dp-cur{background:var(--gold)}
+.dp-dot.dp-bad{background:var(--er)}
+
+/* ═══ CONSEQUENCE ═══ */
+.csq-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--shl);margin-bottom:16px}
+.csq-result-bar{padding:16px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.csq-pts{font-family:'Playfair Display',serif;font-size:32px;font-weight:700}
+.csq-pts-ok{color:var(--ok)}
+.csq-pts-wa{color:var(--wa)}
+.csq-pts-er{color:var(--er)}
+.csq-changes{display:flex;gap:8px;flex-wrap:wrap}
+.csq-ch{font-size:12px;font-weight:600;padding:3px 9px;border-radius:20px}
+.csq-ch-ok{background:var(--ol);color:var(--ok);border:1px solid var(--ob)}
+.csq-ch-er{background:var(--el);color:var(--er);border:1px solid var(--eb)}
+.csq-ch-wa{background:var(--wl);color:var(--wa);border:1px solid var(--wb)}
+.csq-ch-n{background:rgba(61,74,92,.08);color:var(--slate);border:1px solid rgba(61,74,92,.15)}
+.csq-quote{background:var(--ink);padding:16px 22px;display:flex;gap:12px;align-items:flex-start}
+.csq-q-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:#fff}
+.csq-q-txt{font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;font-style:italic}
+.csq-q-who{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px;font-style:normal}
+.csq-explain{padding:16px 22px}
+.csq-exp-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.csq-exp-txt{font-size:13px;color:var(--ink);line-height:1.75;margin-bottom:12px}
+.csq-data-pt{background:linear-gradient(135deg,rgba(45,110,106,.06),transparent);border:1px solid rgba(45,110,106,.2);border-radius:var(--rs);padding:11px 14px;font-size:12px;color:var(--teal);line-height:1.6;font-weight:500}
+.csq-nav{padding:0 22px 22px;display:flex;justify-content:flex-end}
+
+/* ═══ ACT RECAP ═══ */
+.recap-score-hero{background:var(--ink);border-radius:var(--r);padding:28px;text-align:center;margin-bottom:20px}
+.rsh-pts{font-family:'Playfair Display',serif;font-size:52px;color:var(--gold)}
+.rsh-max{font-size:14px;color:rgba(255,255,255,.35);margin-top:2px}
+.rsh-title{font-family:'Playfair Display',serif;font-size:18px;color:#fff;margin-top:12px}
+.recap-decs{margin-bottom:22px}
+.rdec-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--bdr);font-size:13px}
+.rdec-row:last-child{border-bottom:none}
+.rdec-ico{font-size:16px;flex-shrink:0}
+.rdec-title{flex:1;color:var(--ink)}
+.rdec-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0}
+.oral-box{background:linear-gradient(135deg,var(--ink),#2a2520);border-radius:var(--r);padding:24px;margin-bottom:20px}
+.oral-title{font-family:'Playfair Display',serif;font-size:18px;color:#fff;margin-bottom:5px}
+.oral-sub{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:16px}
+.oral-point{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:13px;color:rgba(255,255,255,.8);line-height:1.6}
+.oral-point:last-child{border-bottom:none}
+.oral-num{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);flex-shrink:0;line-height:1.2}
+
+/* ═══ FINAL REPORT ═══ */
+.final-hero{background:var(--ink);border-radius:var(--r);padding:36px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.final-hero::before{content:'✦';position:absolute;top:-20px;right:30px;font-size:120px;color:rgba(200,169,110,.05);font-family:'Playfair Display',serif}
+.fh-score{font-family:'Playfair Display',serif;font-size:72px;color:var(--gold);line-height:1}
+.fh-max{font-size:15px;color:rgba(255,255,255,.3);margin-top:4px}
+.fh-class{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-top:14px}
+.fh-class-sub{font-size:13px;color:rgba(255,255,255,.45);margin-top:5px}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:22px}
+.mg-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:16px;text-align:center}
+.mg-val{font-family:'Playfair Display',serif;font-size:28px;margin-bottom:3px}
+.mg-lbl{font-size:11px;color:var(--slate);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.decs-table{margin-bottom:22px}
+.decs-table-ttl{font-family:'Playfair Display',serif;font-size:18px;margin-bottom:14px}
+.dt-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bdr);font-size:12px}
+.dt-row:last-child{border-bottom:none}
+.dt-num{color:var(--slate);font-weight:600;width:24px;flex-shrink:0}
+.dt-title{flex:1;color:var(--ink);font-weight:500}
+.dt-act{color:var(--slate);opacity:.6;font-size:11px}
+.dt-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;white-space:nowrap}
+.dt-pts{font-weight:700;flex-shrink:0;font-size:13px;width:36px;text-align:right}
+
+.oral-guide{background:var(--ink);border-radius:var(--r);padding:26px;margin-bottom:22px}
+.og-title{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:4px}
+.og-sub{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:20px}
+.og-section{margin-bottom:18px}
+.og-sec-ttl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.og-item{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13px;color:rgba(255,255,255,.75);line-height:1.6}
+.og-item:last-child{border-bottom:none}
+.og-ico{flex-shrink:0;margin-top:1px}
+.concept-row{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:12px;color:rgba(255,255,255,.7);line-height:1.6}
+.concept-row:last-child{border-bottom:none}
+.concept-key{font-weight:700;color:var(--gold);flex-shrink:0;min-width:80px}
+
+@media(max-width:700px){
+  .sp-left{display:none}
+  .sp-right{width:100%;padding:36px 26px}
+  .tb-metrics{gap:6px}
+  .metric-pill .m-label{display:none}
+  .page-inner{padding:18px 14px 50px}
+  .team-pill{display:none}
+}
+@media(hover:none) and (pointer:coarse){
+  .opt-btn,.btn{min-height:44px}
+  input{font-size:16px!important}
+  .bp:hover,.bt:hover,.bo:hover{transform:none!important}
+}
+</style>
+</head>
+<body>
+<div id="toasts"></div>
+
+<!-- ═══════════════ SPLASH ═══════════════ -->
+<div id="pg-splash">
+  <div class="sp-left">
+    <div class="sp-logo"><span class="sp-dot"></span>COSMÉTICA™</div>
+    <h1 class="sp-title">La Salle<br>de <em>Crise</em></h1>
+    <p class="sp-sub">Un jeu de décision RH pour votre équipe. 15 situations critiques. Des conséquences réelles. Votre score détermine si COSMÉTICA™ survit.</p>
+    <div class="sp-stats">
+      <div><div class="sp-sv">15</div><div class="sp-sl">Décisions</div></div>
+      <div><div class="sp-sv">3</div><div class="sp-sl">Actes</div></div>
+      <div><div class="sp-sv">65</div><div class="sp-sl">Salariés en jeu</div></div>
+      <div><div class="sp-sv">4,05M€</div><div class="sp-sl">CA à protéger</div></div>
+    </div>
+  </div>
+  <div class="sp-right">
+    <h2 class="sp-form-title">Votre équipe</h2>
+    <p class="sp-form-sub">Master RH · Contrôle de Gestion Sociale</p>
+    <div class="crisis-badges">
+      <span class="cbadge cbadge-r">🔴 Turnover 40%</span>
+      <span class="cbadge cbadge-r">🔴 MS +147 400€</span>
+      <span class="cbadge cbadge-o">⚠ 3 TMS actifs</span>
+      <span class="cbadge cbadge-o">⚠ Burn-out RH</span>
+    </div>
+    <div style="margin-bottom:18px"><label>Nom de votre équipe</label><input id="team-input" type="text" placeholder="Ex : Équipe A" autocomplete="off" maxlength="30" onkeydown="if(event.key==='Enter')startGame()"></div>
+    <button class="btn bp blg" style="width:100%" onclick="startGame()">Entrer dans la salle de crise →</button>
+    <p class="sp-note">🎙 Ce jeu se joue en groupe sur un seul écran. Délibérez avant chaque décision — votre présentation orale s'appuiera sur vos choix.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ GAME SHELL ═══════════════ -->
+<div id="pg-game" class="hidden">
+  <div class="topbar">
+    <div class="tb-brand">✦ COSMÉTICA™ <span>Salle de Crise</span></div>
+    <div class="tb-metrics">
+      <div class="metric-pill"><span class="m-label">Score</span><span id="m-score" class="m-score">0/45</span></div>
+      <div class="metric-pill"><span class="m-label">Social</span><span id="m-social">45</span></div>
+      <div class="metric-pill"><span class="m-label">Risque</span><span id="m-legal">Moyen</span></div>
+      <div class="metric-pill"><span class="m-label">Coût</span><span id="m-cost" class="m-cost">0€</span></div>
+    </div>
+    <div class="team-pill">👥 <span id="tb-team">—</span></div>
+  </div>
+  <div class="main-scroll">
+    <div class="page-inner fi" id="game-content"></div>
+  </div>
+</div>
+
+<script>
+/* ═══ DATA ═══ */
+
+const ACTS = [
+  {id:1,titre:"Acte I — Urgences RH & Turnover",emoji:"💼",
+   color:"#c4715a",colorDark:"#8a3a28",
+   intro:"Sophie Martin vient d'envoyer un SOS. Le département commercial explose : 4 départs en 18 mois, Julie Petit est sur le point de partir, et la DG exige un diagnostic chiffré avant vendredi. À vous de jouer.",
+   decs:["Julie Petit — L'Ultimatum","Alice Benoît — Gérer la Rupture","Marc Durand — Coupable ou Sauveur?","Amandine Moreau — Urgence Juridique","KPIs — Quel Tableau de Bord?"],
+   oral:["Comparez le coût de fidélisation (400€/mois) au coût de remplacement de Julie Petit (80-150k€) : pourquoi la fidélisation gagne-t-elle toujours sur le plan CGS ?",
+         "Expliquez le bilan net de Marc Durand : CA généré vs coûts cachés des 4 démissions. Est-il un atout ou un passif pour COSMÉTICA™ ?",
+         "Quels KPIs auraient permis de détecter la crise du département commercial 6 mois avant qu'elle n'explose ?"]},
+  {id:2,titre:"Acte II — Crise Budgétaire & Masse Salariale",emoji:"💸",
+   color:"#3d4a5c",colorDark:"#1e2530",
+   intro:"Nathalie Leblanc vient de finaliser les comptes 2023 : +147 400€ de dépassement sur la masse salariale. Marc Durand propose un PSE. Sophie Martin s'y oppose. Isabelle Bernard attend votre analyse chiffrée.",
+   decs:["Dépassement MS — Première Réaction","Patrick Chevalier — Quel Scénario?","Corinne Vidal — La Mise en Demeure","PSE vs APLD — Le Grand Choix","Karim Fontaine — Le Talent Irremplaçable"],
+   oral:["Décomposez l'écart MS de +147 400€ cause par cause. Quelle partie est conjoncturelle ? Structurelle ? En quoi cette distinction change-t-elle votre stratégie 2024 ?",
+         "Comparez PSE et APLD sur les plans financier, social et juridique. Dans le cas de COSMÉTICA™, que recommandez-vous et pourquoi ?",
+         "Calculez le ROI de l'aménagement de poste pour Patrick Chevalier : coût de l'aménagement vs coût de l'inaction sur 12 mois."]},
+  {id:3,titre:"Acte III — Baromètre Social & Plan d'Action",emoji:"📊",
+   color:"#2d6e6a",colorDark:"#1a3f3d",
+   intro:"Sophie Martin est débordée, le médecin du travail exige une réponse sous 30 jours, et la DG veut un plan d'action complet pour le CODIR dans 2 heures. Il faut prioriser, chiffrer, et convaincre.",
+   decs:["Priorisation — 5 Urgences, 15 000€","Henri Dupont — L'Erreur URSSAF","Sophie Martin — Le Burn-out Latent","Absentéisme — Agir à Quel Niveau?","Recommandation Finale — CODIR"],
+   oral:["Expliquez votre logique de priorisation des 5 urgences via la matrice Urgence × Impact × Faisabilité.",
+         "Pour au moins 2 situations, calculez le ROI de la prévention vs le coût de la non-action.",
+         "Défendez votre recommandation finale : pourquoi un plan systémique est-il plus efficace qu'une réponse ponctuelle à chaque crise ?"]}
+];
+
+const DECISIONS = [
+  // ═══ ACTE 1 ═══
+  {id:1,act:1,dec:1,titre:"Julie Petit — L'Ultimatum",emoji:"⚡",
+   urg:"CRITIQUE",urgClass:"urg-r",
+   pName:"Sophie MARTIN",pRole:"Responsable RH",pInit:"SM",pColor:"#c4715a",
+   ctx:"Julie Petit réalise <strong>28% du CA de COSMÉTICA™</strong> (1 134 000€/an). Ce matin, elle dépose une demande d'augmentation de <strong>+400€/mois</strong>. Sophie Martin vous confie en privé : Julie a un entretien dans une entreprise concurrente <strong>demain matin</strong>.",
+   data:"<strong>Délai recrutement</strong> commercial bio : 90-120 jours · <strong>Offre concurrente</strong> : 3 800€/mois (vs 3 100€ actuel) · <strong>Coût total remplacement estimé</strong> : 80 000 à 150 000€",
+   opts:[
+     {t:"Refuser — «&nbsp;le budget ne le permet pas en ce moment&nbsp;»",pts:0,social:-15,legal:0,cost:0,tag:"RISQUÉ",tagC:"tag-er"},
+     {t:"Accorder +400€/mois immédiatement",pts:2,social:8,legal:0,cost:4800,tag:"CORRECT",tagC:"tag-wa"},
+     {t:"Contre-proposition : +250€ maintenant + révision dans 6 mois sur objectifs",pts:3,social:10,legal:0,cost:3000,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Reporter la décision au prochain CODIR dans 3 semaines",pts:0,social:-8,legal:0,cost:0,tag:"RISQUÉ",tagC:"tag-er"}
+   ],
+   cor:2,
+   expOk:"La contre-proposition est optimale : elle sécurise Julie sans épuiser le budget. 3 000€/an vs 80 000-150 000€ de coût de remplacement. Le ROI est évident — la fidélisation coûte 15 à 20 fois moins cher que le recrutement.",
+   expKo:"Refuser ou reporter, c'est prendre le risque de perdre 1 134 000€ de CA pour économiser 4 800€/an. Un signal d'alerte existait depuis des mois (absentéisme en hausse : 4j/7j/18j sur 3 ans).",
+   datapt:"Règle CGS : l'augmentation de 400€/mois se rentabilise en 3 jours si Julie reste. Son départ coûte 150k€ minimum.",
+   qGood:"C'est exactement la démarche. Julie est un profil rare — on ne peut pas se permettre de la perdre.",
+   qBad:"Je craignais cette réponse. Julie n'est pas du genre à attendre longtemps. On risque de perdre 28% du CA."},
+
+  {id:2,act:1,dec:2,titre:"Alice Benoît — Gérer la Rupture",emoji:"📝",
+   urg:"URGENT",urgClass:"urg-r",
+   pName:"Isabelle BERNARD",pRole:"Directrice Générale",pInit:"IB",pColor:"#2d6e6a",
+   ctx:"Alice Benoît confirme sa <strong>rupture conventionnelle</strong>. C'est le 4ème départ commercial en 18 mois. Elle gérait les comptes <em>Sephora</em> (32 000€/an) et <em>Marionnaud</em> (21 500€/an), soit <strong>53 500€ de CA</strong> non transférés à ce jour.",
+   data:"<strong>Indemnité RC légale</strong> : 1/4 de mois × 4 ans = 3 800€ · <strong>Coût passation comptes</strong> : ~2 000€ · <strong>Risque perte CA Sephora + Marionnaud</strong> : 53 500€",
+   opts:[
+     {t:"Signer rapidement la RC pour mettre fin à la situation",pts:1,social:0,legal:0,cost:3800,tag:"PARTIEL",tagC:"tag-wa"},
+     {t:"Refuser de signer — Alice doit rester jusqu'au recrutement",pts:-2,social:-10,legal:2,cost:0,tag:"ILLÉGAL",tagC:"tag-er"},
+     {t:"Signer ET négocier une passation de 6 semaines sur les comptes clés",pts:3,social:5,legal:0,cost:5800,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Proposer une contre-offre salariale en urgence",pts:1,social:2,legal:0,cost:0,tag:"TARDIF",tagC:"tag-wa"}
+   ],
+   cor:2,
+   expOk:"Signer ET négocier la passation protège 53 500€ de CA. L'indemnité (3 800€) + passation (2 000€) = 5 800€ vs 53 500€ de CA à risque. C'est un investissement, pas un coût.",
+   expKo:"On ne peut légalement pas refuser une rupture conventionnelle. Et signer sans passation, c'est risquer de perdre les comptes Sephora et Marionnaud définitivement.",
+   datapt:"Règle CGS : une RC bien négociée peut préserver plus de valeur qu'une tentative de rétention forcée.",
+   qGood:"Bien géré. La passation protège nos comptes — c'est ce qui compte vraiment dans cette situation.",
+   qBad:"Ces comptes ne sont toujours pas transférés. C'est un risque commercial majeur que vous semblez ignorer."},
+
+  {id:3,act:1,dec:3,titre:"Marc Durand — Coupable ou Sauveur?",emoji:"⚖️",
+   urg:"STRATÉGIQUE",urgClass:"urg-o",
+   pName:"Isabelle BERNARD",pRole:"Directrice Générale",pInit:"IB",pColor:"#2d6e6a",
+   ctx:"Marc Durand a généré <strong>CA +35% en 3 ans</strong> (+536 000€ de chiffre d'affaires supplémentaire). Mais sous sa direction, <strong>4 commerciaux ont démissionné</strong> en citant «&nbsp;pression constante&nbsp;» et «&nbsp;objectifs irréalistes&nbsp;». La DG vous demande : <em>«&nbsp;Que faites-vous de Marc&nbsp;?&nbsp;»</em>",
+   data:"<strong>Coût cumulé des 4 départs</strong> : ~61 000€ (recrutement + intérim + transition) · <strong>Formation management</strong> déjà réalisée (1 800€) : aucun impact constaté · <strong>Bilan net estimé</strong> : +536 000€ CA - 61 000€ coûts = +475 000€",
+   opts:[
+     {t:"Le défendre : «&nbsp;ses résultats commerciaux justifient tout&nbsp;»",pts:0,social:-10,legal:0,cost:0,tag:"RISQUÉ",tagC:"tag-er"},
+     {t:"Calculer son bilan net RH+CA et définir un plan d'objectifs rétention contractualisé",pts:3,social:5,legal:0,cost:2000,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Demander sa mise à l'écart immédiate à la DG",pts:-1,social:5,legal:2,cost:0,tag:"JURIDIQUE",tagC:"tag-er"},
+     {t:"Nouvelle formation management (1 800€) + objectif rétention dans la fiche de poste",pts:2,social:3,legal:0,cost:1800,tag:"CORRECT",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"Calculer le bilan net est la démarche CGS par excellence. Marc est rentable mais son management détruit du capital humain. Un plan d'objectifs rétention contractualisé (sans preuve = pas de mise à l'écart) est la voie équilibrée et défendable.",
+   expKo:"Pas de motif légal pour une mise à l'écart sans preuve documentée. Et le défendre sans analyse chiffrée, c'est ignorer 61 000€ de coûts cachés et le risque d'un 5ème départ.",
+   datapt:"CGS : Le bilan net = CA généré - coûts cachés. Marc est encore positif, mais la trajectoire est préoccupante.",
+   qGood:"Voilà une analyse digne d'un contrôleur de gestion sociale. Chiffrée et équilibrée.",
+   qBad:"Je ne suis pas satisfaite de cette réponse. J'ai besoin d'une direction claire, argumentée, chiffrée."},
+
+  {id:4,act:1,dec:4,titre:"Amandine Moreau — Urgence Juridique",emoji:"⚠️",
+   urg:"JURIDIQUE",urgClass:"urg-r",
+   pName:"Robert TESSIER",pRole:"Délégué CSE",pInit:"RT",pColor:"#7a5c8a",
+   ctx:"Amandine Moreau (1 820€/mois, 6 ans d'ancienneté) a demandé un passage à <strong>80%</strong> pour prendre soin de son enfant handicapé. Refus verbal en octobre 2023, sans aucun écrit. Son avocat vient d'envoyer un recommandé : <strong>discrimination indirecte invoquée</strong>.",
+   data:"<strong>Risque prud'homal</strong> : 6 mois à 2 ans de salaire brut = 10 920€ à 43 680€ · <strong>Coût réponse écrite RH</strong> : 2h de travail (~100€) · <strong>TMS naissants</strong> detectés en décembre 2023",
+   opts:[
+     {t:"Ignorer le courrier de l'avocat — «&nbsp;on verra si ça va aux prud'hommes&nbsp;»",pts:-3,social:-10,legal:3,cost:0,tag:"CATASTROPHIQUE",tagC:"tag-er"},
+     {t:"Répondre par écrit avec un motif légitime documenté",pts:2,social:2,legal:-1,cost:100,tag:"CORRECT",tagC:"tag-wa"},
+     {t:"Accepter le passage à 80% avec un plan de réorganisation du poste",pts:3,social:15,legal:-2,cost:200,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Confier le dossier à Marc Durand pour qu'il gère directement",pts:-2,social:-5,legal:2,cost:0,tag:"RISQUÉ",tagC:"tag-er"}
+   ],
+   cor:2,
+   expOk:"Accepter le 80% est optimal : ça coûte ~200€ de réorganisation et évite entre 10 920€ et 43 680€ de condamnation. Ignorer l'avocat est la pire option : l'inaction aggrave le risque juridique de façon certaine.",
+   expKo:"Ignorer un recommandé AR d'un avocat en droit du travail, c'est confirmer la mauvaise foi de l'employeur. Chaque semaine d'inaction aggrave la sanction potentielle.",
+   datapt:"CGS : Le refus sans motif écrit d'un temps partiel pour contrainte familiale = discrimination indirecte. La bonne réponse coûte 200€ et évite 43k€.",
+   qGood:"Merci. Amandine méritait cette réponse. Le CSE suivra de près la mise en œuvre.",
+   qBad:"Je vous préviens formellement : si ce dossier va aux prud'hommes, c'est COSMÉTICA™ qui paiera le prix fort."},
+
+  {id:5,act:1,dec:5,titre:"KPIs — Quel Tableau de Bord?",emoji:"📊",
+   urg:"STRATÉGIQUE",urgClass:"urg-o",
+   pName:"Nathalie LEBLANC",pRole:"Contrôleure de Gestion",pInit:"NL",pColor:"#4a6e5a",
+   ctx:"La DG veut un <strong>système d'alerte précoce</strong> pour détecter les crises RH avant qu'elles n'explosent. Nathalie Leblanc vous demande quels KPIs intégrer dans le tableau de bord mensuel.",
+   data:"<strong>Coût d'un tableau de bord</strong> : 2-3h RH/mois · <strong>Signal détectable en avance</strong> : absentéisme Julie Petit (4j→7j→18j sur 3 ans) · <strong>Valeur d'une alerte précoce</strong> : jusqu'à 150 000€ de coûts évités",
+   opts:[
+     {t:"Nombre d'embauches + budget recrutement consommé vs prévu",pts:0,social:0,legal:0,cost:0,tag:"INSUFFISANT",tagC:"tag-er"},
+     {t:"Taux de rétention 6 mois + turnover par département + coût moyen par embauche",pts:3,social:0,legal:0,cost:0,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Entretiens de sortie systématiques analysés mensuellement",pts:2,social:0,legal:0,cost:0,tag:"CORRECT",tagC:"tag-wa"},
+     {t:"Satisfaction managers + absentéisme par équipe + taux de promotion interne",pts:2,social:0,legal:0,cost:0,tag:"CORRECT",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"Le triptyque rétention 6 mois + turnover département + coût par embauche est le système d'alerte complet : il capte la qualité du recrutement, identifie les poches de risque par manager, et mesure l'efficience financière.",
+   expKo:"Le nombre d'embauches mesure le volume, pas la qualité. Un bon tableau de bord capte les signaux 6 à 9 mois avant la crise — pas après qu'elle a explosé.",
+   datapt:"Principe CGS : un indicateur de qualité (rétention 6 mois) vaut plus que 10 indicateurs de volume.",
+   qGood:"Voilà des KPIs actionnables. Je peux les intégrer dans notre reporting mensuel dès février.",
+   qBad:"Ce ne sont pas des indicateurs de qualité. On mesurait déjà le volume — ça ne nous a pas empêchés d'en arriver là."},
+
+  // ═══ ACTE 2 ═══
+  {id:6,act:2,dec:1,titre:"Dépassement MS — Première Réaction",emoji:"💸",
+   urg:"CRITIQUE",urgClass:"urg-r",
+   pName:"Nathalie LEBLANC",pRole:"Contrôleure de Gestion",pInit:"NL",pColor:"#4a6e5a",
+   ctx:"La MS chargée 2023 dépasse le budget de <strong>+147 400€ (+6,1%)</strong>. Nathalie a identifié plusieurs causes mais un <strong>solde de 80 700€ reste non ventilé</strong>. Isabelle Bernard attend votre première action.",
+   data:"<strong>MS réalisée</strong> : 2 582 400€ · <strong>Budget prévu</strong> : 2 435 000€ · <strong>Ratio MS/CA réalisé</strong> : 63,8% · <strong>Objectif DG 2024</strong> : &lt; 60% · <strong>Causes identifiées</strong> : Karim Fontaine +7 800€, intérim Patrick 21 000€, intérim Corinne 14 700€, RC Alice 3 800€, recrutements urgence +26 000€, URSSAF 3 400€",
+   opts:[
+     {t:"Attendre d'avoir la décomposition complète avant de se prononcer",pts:-1,social:0,legal:0,cost:0,tag:"INACTION",tagC:"tag-er"},
+     {t:"Décomposer l'écart cause par cause et classifier conjoncturel/structurel",pts:3,social:0,legal:0,cost:0,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Valider immédiatement le PSE proposé par Marc Durand",pts:-1,social:-15,legal:2,cost:0,tag:"PRÉMATURÉ",tagC:"tag-er"},
+     {t:"Réduire les budgets formation et recrutement 2024 de 30%",pts:0,social:-5,legal:0,cost:0,tag:"PARTIEL",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"Avant toute décision, décomposer l'écart est indispensable. Quelle part est conjoncturelle (ne se répètera pas) ? Structurelle (se reproduira en 2024 sans action) ? Cette classification détermine toute la stratégie.",
+   expKo:"Décider sans analyse, c'est agir à l'aveugle. Réduire la formation, c'est créer les crises de demain (cf. erreur DSN d'Henri Dupont : 1 200€ économisés → 3 400€ de redressement).",
+   datapt:"CGS : Les causes structurelles de dépassement (turnover, TMS non traités) se répéteront en 2024. Les causes conjoncturelles (RC Alice, intérim exceptionnel) ne se répèteront pas.",
+   qGood:"C'est exactement la méthode. On ne peut pas agir sans comprendre les causes. Bien.",
+   qBad:"J'ai besoin d'analyse, pas d'attente ni d'action précipitée. Comprenez d'abord ce qui s'est passé."},
+
+  {id:7,act:2,dec:2,titre:"Patrick Chevalier — Quel Scénario?",emoji:"🏥",
+   urg:"MÉDICAL",urgClass:"urg-r",
+   pName:"Dr. Françoise DUPUIS",pRole:"Médecin du Travail",pInit:"FD",pColor:"#5d7fa8",
+   ctx:"Patrick Chevalier : <strong>42 jours d'absence en 2023</strong> (tendance : 8j/22j/42j sur 3 ans). Remplacement intérim : 500€/jour. TMS reconnus en 2022. La médecin du travail a préconisé des aménagements en juillet 2023 — <strong>toujours non appliqués</strong>. Nouvel arrêt de 3 mois vient d'arriver.",
+   data:"<strong>Coût intérim 2023</strong> : 42j × 500€ = 21 000€ · <strong>Aménagement préconisé</strong> : 4 500€ (suppression charges &gt;5kg, poste assis/debout) · <strong>Indemnité licenciement inaptitude</strong> : 1/4 × 11 ans × 3 200€ = 8 800€ · <strong>Recrutement Resp. Logistique</strong> : 15-20 000€",
+   opts:[
+     {t:"Inaction — «&nbsp;il revient à chaque fois, ça finit par s'arranger&nbsp;»",pts:-3,social:-5,legal:3,cost:50000,tag:"FAUTE INEXCUSABLE",tagC:"tag-er"},
+     {t:"Déclencher l'aménagement de poste immédiatement (4 500€)",pts:3,social:10,legal:-2,cost:4500,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Initier la procédure d'inaptitude maintenant",pts:-1,social:-5,legal:1,cost:23800,tag:"PRÉMATURÉ",tagC:"tag-er"},
+     {t:"Attendre la fin de l'arrêt actuel pour réévaluer",pts:0,social:0,legal:1,cost:45000,tag:"RISQUÉ",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"4 500€ d'aménagement vs 21 000€/an d'intérim ET le risque de faute inexcusable (>50 000€ potentiels). Le ROI est évident : l'aménagement se rentabilise en moins de 3 mois d'intérim évité.",
+   expKo:"L'inaction après une préconisation médicale documentée peut constituer une faute inexcusable. Conséquences : remboursement CPAM + majoration rente + dommages-intérêts. On parle de 50 000 à 100 000€.",
+   datapt:"CGS : Aménagement 4 500€ → économie intérim ~21 000€/an → ROI positif en 2,5 mois.",
+   qGood:"Enfin ! Je commençais à préparer mon rapport à l'Inspection du Travail.",
+   qBad:"Je vous rappelle ma mise en demeure. Chaque jour d'inaction engage davantage la responsabilité de l'entreprise."},
+
+  {id:8,act:2,dec:3,titre:"Corinne Vidal — La Mise en Demeure",emoji:"⚖️",
+   urg:"JURIDIQUE",urgClass:"urg-r",
+   pName:"Dr. Françoise DUPUIS",pRole:"Médecin du Travail",pInit:"FD",pColor:"#5d7fa8",
+   ctx:"Corinne Vidal : <strong>maladie professionnelle tendinite épaule droite reconnue</strong> en mai 2023. Arrêts cumulés : 35 jours en 2023 + 14 jours en janvier 2024. La médecin du travail exige un plan formalisé sous <strong>30 jours</strong>.",
+   data:"<strong>Coût intérim Corinne 2023</strong> : 35j × 420€ = 14 700€ · <strong>Aménagement préconisé</strong> : rotation de poste, max 2h sur gestes répétitifs (quasi-gratuit) · <strong>Risque faute inexcusable</strong> : 50 000 à 100 000€",
+   opts:[
+     {t:"Contester la mise en demeure — «&nbsp;notre organisation ne le permet pas&nbsp;»",pts:-3,social:-10,legal:4,cost:0,tag:"CATASTROPHIQUE",tagC:"tag-er"},
+     {t:"Organiser la rotation de poste sous 30 jours (quasi-gratuit)",pts:3,social:10,legal:-2,cost:0,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Proposer un mi-temps thérapeutique progressif",pts:2,social:5,legal:-1,cost:0,tag:"CORRECT",tagC:"tag-wa"},
+     {t:"Attendre le prochain retour de Corinne pour réorganiser",pts:-2,social:-5,legal:3,cost:14700,tag:"RISQUÉ",tagC:"tag-er"}
+   ],
+   cor:1,
+   expOk:"La rotation de poste (max 2h sur gestes répétitifs) est gratuite et évite le risque de faute inexcusable. Coût de l'action : 0€. Bénéfice : évite 50 000 à 100 000€ de responsabilité. La solution existe et n'a pas été appliquée depuis 9 mois.",
+   expKo:"Contester une mise en demeure de la médecine du travail sur une MP reconnue = engagement de la responsabilité pénale et financière de l'employeur. L'aménagement préconisé est gratuit. Il n'y a aucune raison de ne pas agir.",
+   datapt:"Faute inexcusable : remboursement intégral CPAM + majoration rente AT/MP + indemnisation préjudice = potentiellement 100 000€.",
+   qGood:"Je prends acte de votre engagement. Je vous envoie une confirmation écrite dans la journée.",
+   qBad:"Votre réponse n'est pas acceptable. Je transmets ce dossier à l'Inspection du Travail dès demain."},
+
+  {id:9,act:2,dec:4,titre:"PSE vs APLD — Le Grand Choix",emoji:"🎯",
+   urg:"STRATÉGIQUE",urgClass:"urg-o",
+   pName:"Isabelle BERNARD",pRole:"Directrice Générale",pInit:"IB",pColor:"#2d6e6a",
+   ctx:"Marc Durand propose un <strong>PSE sur 8 postes dont 5 commerciaux</strong>. Sophie Martin s'y oppose et suggère l'APLD. Isabelle Bernard attend votre analyse comparative avant le CODIR. Les deux options ont des avantages — mais aussi des pièges.",
+   data:"<strong>PSE</strong> : 8 postes × (indemnités + outplacement 3-5k€) + cellule reclassement = 80-120k€ + perte CA commerciale 60-70% pendant 12 mois · <strong>APLD</strong> : réduction 20% du temps de travail sur MS brute 1 820 000€, compensation État 60% des heures non travaillées",
+   opts:[
+     {t:"Valider le PSE — «&nbsp;c'est la décision la plus rapide pour réduire la MS&nbsp;»",pts:0,social:-20,legal:0,cost:100000,tag:"RISQUÉ",tagC:"tag-er"},
+     {t:"Produire l'analyse comparative chiffrée PSE vs APLD et identifier des leviers alternatifs",pts:3,social:0,legal:0,cost:0,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Recommander l'APLD sans avoir analysé le PSE",pts:1,social:5,legal:0,cost:0,tag:"PARTIEL",tagC:"tag-wa"},
+     {t:"Laisser la DG décider sans votre recommandation chiffrée",pts:-1,social:0,legal:0,cost:0,tag:"ABDICATION",tagC:"tag-er"}
+   ],
+   cor:1,
+   expOk:"La mission du CGS est de produire l'analyse comparative que la DG ne peut pas faire seule. PSE : coût immédiat élevé + destruction de la capacité commerciale sur 12 mois. APLD : préserve les compétences, soutien État, mais nécessite accord collectif.",
+   expKo:"Valider un PSE commercial sans mesurer l'impact sur le CA, c'est risquer de détruire plus de valeur qu'on n'en économise. Abdiquer la décision, c'est manquer au rôle du CGS.",
+   datapt:"PSE sur 5 commerciaux : perte estimée 60-70% du CA commercial = 1 200 000 à 1 400 000€ pendant 12 mois. À comparer avec l'économie MS réelle.",
+   qGood:"C'est exactement ce que j'attendais. Une analyse, pas une opinion.",
+   qBad:"Je ne peux pas prendre une décision aussi lourde sans analyse chiffrée. Revenez me voir avec des chiffres."},
+
+  {id:10,act:2,dec:5,titre:"Karim Fontaine — Le Talent Irremplaçable",emoji:"🧪",
+   urg:"STRATÉGIQUE",urgClass:"urg-o",
+   pName:"Karim FONTAINE",pRole:"Chef de Projet R&D",pInit:"KF",pColor:"#2d7a45",
+   ctx:"Karim Fontaine a créé la gamme EcoPure : <strong>14 formules brevetées, 57% du CA total</strong> (2 310 000€). Il a accepté une contre-proposition à 4 800€/mois + 3 000€/an, mais déclare : <em>«&nbsp;pour 18 mois maximum.&nbsp;»</em> Aucun plan de succession n'existe.",
+   data:"<strong>CA EcoPure</strong> : 2 310 000€ · <strong>Délai recrutement</strong> docteur en chimie cosmétique : 4-6 mois · <strong>Formation successeur</strong> : 12 mois minimum · <strong>Investissements R&D en cours</strong> : 32 000€ sur 3 nouvelles formules",
+   opts:[
+     {t:"Se satisfaire de la contre-proposition — «&nbsp;il est encore là pour 18 mois&nbsp;»",pts:0,social:0,legal:0,cost:0,tag:"COURT-TERMISTE",tagC:"tag-er"},
+     {t:"Lancer immédiatement un plan de succession + documentation des formules",pts:3,social:0,legal:0,cost:5000,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Augmenter à nouveau pour le garder à plus long terme",pts:1,social:0,legal:0,cost:12000,tag:"COÛTEUX",tagC:"tag-wa"},
+     {t:"Recruter un binôme R&D junior à former aux côtés de Karim",pts:2,social:0,legal:0,cost:28800,tag:"CORRECT",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"Plan de succession + documentation des formules = 5 000€ pour protéger 2 310 000€ de CA. C'est le principe fondamental de la gestion des talents critiques : planifier la continuité avant le départ, pas après.",
+   expKo:"«&nbsp;Il est encore là pour 18 mois&nbsp;» est l'une des phrases les plus dangereuses en gestion des talents. Sans succession, le départ de Karim = perte immédiate de 57% du CA et 32 000€ d'investissements en cours perdus.",
+   datapt:"Gestion des talents critiques : tout talent dont le départ mettrait plus de 20% du CA en danger doit avoir un plan de succession actif.",
+   qGood:"Je suis touché par cette démarche. Et ça me rassure sur l'avenir de COSMÉTICA™.",
+   qBad:"J'ai dit 18 mois. J'espère que vous avez un plan B. Sans succession documentée, mon départ sera une catastrophe."},
+
+  // ═══ ACTE 3 ═══
+  {id:11,act:3,dec:1,titre:"Priorisation — 5 Urgences, 15 000€",emoji:"⏱️",
+   urg:"CRITIQUE",urgClass:"urg-r",
+   pName:"Sophie MARTIN",pRole:"Responsable RH",pInit:"SM",pColor:"#c4715a",
+   ctx:"Sophie Martin est débordée. <strong>5 urgences simultanées</strong> ce matin : Patrick Chevalier (arrêt 3 mois + intérim 500€/j), Corinne Vidal (mise en demeure 30j), Amandine Moreau (avocat), Julie Petit (entretien externe demain), baromètre social à construire. Budget immédiat disponible : <strong>15 000€</strong>.",
+   data:"<strong>Répondre Amandine par écrit</strong> : 2h RH (~100€) · <strong>Entretien fidélisation Julie</strong> : 0€ · <strong>Aménagement Patrick</strong> : 4 500€ · <strong>Aménagement Corinne</strong> : rotation de poste ~0€ · <strong>Baromètre social</strong> (cabinet externe) : 1 500€",
+   opts:[
+     {t:"Commencer par le baromètre social : «&nbsp;diagnostiquer avant d'agir&nbsp;»",pts:0,social:0,legal:0,cost:1500,tag:"INADAPTÉ",tagC:"tag-er"},
+     {t:"Répondre Amandine (0€) + Entretien Julie (0€) + Aménagement Patrick (4 500€) + Rotation Corinne (0€)",pts:3,social:15,legal:-3,cost:4500,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Aménagement Patrick (4 500€) en priorité absolue + formation Henri (1 200€)",pts:1,social:5,legal:-1,cost:5700,tag:"PARTIEL",tagC:"tag-wa"},
+     {t:"Réunir un groupe de travail cette semaine pour prioriser ensemble",pts:-1,social:0,legal:0,cost:0,tag:"LENTEUR",tagC:"tag-er"}
+   ],
+   cor:1,
+   expOk:"Matrice U×I×F : répondre à Amandine = 2h, stoppe 43 000€ de risque. Entretien Julie = 0€, protège 1 134 000€ de CA. Aménagement Patrick = 4 500€, stoppe 21 000€/an d'intérim + faute inexcusable. Rotation Corinne = 0€. Coût total : 4 500€ pour un risque cumulé évité de +200 000€.",
+   expKo:"Le baromètre est utile mais pas urgent. La réunion de travail est de la procrastination institutionnalisée. Quand 4 urgences actives saignent l'entreprise, on agit.",
+   datapt:"Règle CGS : ROI = coût évité / coût d'action. Répondre à Amandine : ROI = 43 000 / 100 = 430x.",
+   qGood:"Voilà une hiérarchisation intelligente. ROI maximal au coût minimal. C'est exactement ça, la CGS.",
+   qBad:"Je ne vois pas comment cette priorisation règle les urgences immédiates. Je suis seule face à 4 situations critiques."},
+
+  {id:12,act:3,dec:2,titre:"Henri Dupont — L'Erreur URSSAF",emoji:"💻",
+   urg:"OPÉRATIONNEL",urgClass:"urg-o",
+   pName:"Henri DUPONT",pRole:"Responsable Paie",pInit:"HD",pColor:"#5a6e7a",
+   ctx:"Henri Dupont gère seul la paie de 65 salariés. Migration SIRH en septembre 2023 avec seulement <strong>1/2 journée de formation</strong> (recommandé : 2 jours). Conséquence : une erreur DSN en novembre 2023 → <strong>redressement URSSAF de 3 400€</strong>.",
+   data:"<strong>Coût formation SIRH complète</strong> : 1 200€ · <strong>Redressement URSSAF</strong> payé : 3 400€ · <strong>Économie réalisée</strong> sur la formation : 1 200€ · <strong>Perte nette</strong> : 3 400 - 1 200 = 2 200€",
+   opts:[
+     {t:"Sanctionner Henri — «&nbsp;c'est son travail de faire les DSN correctement&nbsp;»",pts:-2,social:-10,legal:1,cost:0,tag:"INJUSTE",tagC:"tag-er"},
+     {t:"Former Henri complètement (1 200€) + réviser le processus de contrôle DSN",pts:3,social:5,legal:0,cost:1200,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Externaliser la paie à un cabinet comptable (500-800€/mois)",pts:1,social:0,legal:0,cost:7200,tag:"COÛTEUX",tagC:"tag-wa"},
+     {t:"Payer le redressement et ne rien changer au dispositif",pts:0,social:-5,legal:0,cost:0,tag:"INACTION",tagC:"tag-er"}
+   ],
+   cor:1,
+   expOk:"L'erreur d'Henri vient d'un sous-investissement en formation (1 200€ économisés → 3 400€ perdus). Former maintenant (1 200€) + ajouter un contrôle mensuel = on ne reproduit plus l'erreur. Sanctionner la victime du sous-investissement est injuste et contre-productif.",
+   expKo:"Sanctionner Henri pour une erreur due à une formation insuffisante, c'est punir l'effet plutôt que la cause. C'est le manager qui a créé les conditions de l'erreur en économisant sur la formation.",
+   datapt:"CGS : Formation non réalisée (1 200€) → erreur → redressement (3 400€) → perte nette 2 200€. La prévention est toujours moins chère que la correction.",
+   qGood:"Je remercie l'entreprise de reconnaître que cette erreur vient d'un manque de formation, pas de mon incompétence.",
+   qBad:"J'ai fait de mon mieux avec les outils qu'on m'a donnés. Une 1/2 journée pour un SIRH complet, c'est insuffisant."},
+
+  {id:13,act:3,dec:3,titre:"Sophie Martin — Le Burn-out Latent",emoji:"🔥",
+   urg:"RPS",urgClass:"urg-r",
+   pName:"Sophie MARTIN",pRole:"Responsable RH",pInit:"SM",pColor:"#c4715a",
+   ctx:"Sophie Martin gère <strong>65 salariés à 2 personnes</strong> (elle + une alternante disponible 3j/semaine). 8 jours d'absence maladie en 2023. Elle a alerté la DG en janvier 2024. Ratio actuel : 32,5 salariés par ETP RH. <strong>Benchmark PME : 1 RH pour 100 à 150 salariés.</strong>",
+   data:"<strong>Coût burn-out RRH</strong> : remplacement = 3-6 mois de salaire (12 600 à 25 200€) + perte totale de la mémoire RH de l'entreprise · <strong>Assistante RH mi-temps</strong> : ~1 200€/mois · <strong>Alerte formelle DG</strong> : janvier 2024",
+   opts:[
+     {t:"Ne rien faire — «&nbsp;elle est cadre, c'est dans ses attributions&nbsp;»",pts:-3,social:-15,legal:2,cost:0,tag:"INACCEPTABLE",tagC:"tag-er"},
+     {t:"Recruter une assistante RH à mi-temps (1 200€/mois)",pts:3,social:15,legal:-1,cost:14400,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Externaliser les recrutements à un cabinet de chasse",pts:2,social:5,legal:0,cost:8000,tag:"CORRECT",tagC:"tag-wa"},
+     {t:"Redéfinir les priorités de Sophie avec un plan de charge ajusté",pts:1,social:5,legal:0,cost:0,tag:"INSUFFISANT",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"Sophie à 2 personnes pour 65 salariés n'est pas tenable. 1 200€/mois d'assistante vs 12 600-25 200€ de remplacement d'une RRH expérimentée — sans compter la perte de toute la mémoire RH de l'entreprise. L'investissement est évident.",
+   expKo:"La personne censée gérer les crises humaines n'a plus les ressources pour le faire. C'est un risque systémique. Un burn-out de Sophie, c'est la crise dans la crise — et COSMÉTICA™ sans RRH active.",
+   datapt:"Risque burn-out : si Sophie part, l'entreprise perd 10 ans de mémoire RH (65 salariés, tous les dossiers, toutes les procédures).",
+   qGood:"Merci. Je commençais à penser sérieusement à remettre ma démission.",
+   qBad:"Mon alerte date de janvier. Toujours aucune réponse concrète. Je ne tiendrai pas encore 6 mois."},
+
+  {id:14,act:3,dec:4,titre:"Absentéisme — Agir à Quel Niveau?",emoji:"📈",
+   urg:"PRÉVENTIF",urgClass:"urg-o",
+   pName:"Nathalie LEBLANC",pRole:"Contrôleure de Gestion",pInit:"NL",pColor:"#4a6e5a",
+   ctx:"178 jours d'absence sur 65 ETP en 2023. <strong>Concentration sur la production et la logistique</strong> (TMS). 7 accidents du travail dont 2 liés aux TMS. Le baromètre révèle une forte disparité : certains départements à 0%, la production et la logistique à plus de 15%.",
+   data:"<strong>Benchmark absentéisme France</strong> : 5,04% · <strong>Productivité par ETP</strong> : 4 050 000 / 58,5 = 69 230€ (benchmark secteur : 65 000€) · <strong>Coût ergonome externe</strong> : 2 000€ · <strong>7 AT en 2023</strong>",
+   opts:[
+     {t:"Campagne «&nbsp;bien-être pour tous&nbsp;» : communication interne et affichage",pts:0,social:3,legal:0,cost:500,tag:"SUPERFICIEL",tagC:"tag-er"},
+     {t:"Analyser les causes par département + cibler spécifiquement les TMS production/logistique",pts:3,social:5,legal:0,cost:0,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Durcir la politique de contrôle médical des arrêts",pts:-1,social:-15,legal:1,cost:2000,tag:"CONTRE-PRODUCTIF",tagC:"tag-er"},
+     {t:"Faire intervenir un ergonome sur les postes à risque (2 000€)",pts:2,social:5,legal:-1,cost:2000,tag:"CORRECT",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"80% des absences viennent de 20% des postes. Identifier les causes par département révèle que les TMS production/logistique concentrent le problème. Une action ciblée (ergonomie, rotation, aménagements) est 10x plus efficace qu'une campagne générale.",
+   expKo:"Durcir le contrôle médical quand les absences sont dues à des MP reconnues (Corinne, Patrick), c'est s'attaquer aux victimes plutôt qu'aux causes. Et ça détruira le climat social restant.",
+   datapt:"Principe CGS : un taux global masque toujours les disparités. Décomposer par département, par service, par poste est indispensable avant d'agir.",
+   qGood:"Voilà une approche fondée sur les données. Exactement ce que je voulais voir dans le baromètre.",
+   qBad:"Une campagne générale n'adresse pas le fond du problème. Les TMS ne disparaissent pas avec des affiches."},
+
+  {id:15,act:3,dec:5,titre:"Recommandation Finale — CODIR",emoji:"🎯",
+   urg:"STRATÉGIQUE",urgClass:"urg-g",
+   pName:"Isabelle BERNARD",pRole:"Directrice Générale",pInit:"IB",pColor:"#2d6e6a",
+   ctx:"Le CODIR se réunit dans 2 heures. Isabelle Bernard vous demande votre <strong>recommandation principale pour 2024</strong> : une vision claire, systémique et chiffrée pour redresser COSMÉTICA™ durablement.",
+   data:"<strong>Situation</strong> : ratio MS/CA 63,8% (objectif 60%) · turnover commercial 40% · 3 TMS actifs · Karim Fontaine horizon 18 mois · Sophie Martin en surcharge · aucun plan de succession · risque juridique multiples",
+   opts:[
+     {t:"PSE + réduction des coûts — «&nbsp;revenir aux fondamentaux budgétaires&nbsp;»",pts:1,social:-15,legal:0,cost:100000,tag:"COURT-TERMISTE",tagC:"tag-er"},
+     {t:"Plan triennal systémique : prévention TMS + fidélisation talents + KPIs sociaux mensuels + plan succession Karim",pts:3,social:10,legal:-2,cost:15000,tag:"OPTIMAL",tagC:"tag-ok"},
+     {t:"Recruter massivement pour remplacer tous les partants",pts:0,social:5,legal:0,cost:68000,tag:"SYMPTOMATIQUE",tagC:"tag-er"},
+     {t:"Restructurer l'équipe commerciale autour des talents restants",pts:2,social:5,legal:0,cost:20000,tag:"CORRECT",tagC:"tag-wa"}
+   ],
+   cor:1,
+   expOk:"Le plan triennal adresse les causes profondes : TMS (prévention évite 50k€+ de faute inexcusable), fidélisation (ROI > recrutement), KPIs (alerte précoce), succession Karim (protège 57% du CA). Vision systémique à 15 000€ qui évite 200 000€+ de crises récurrentes.",
+   expKo:"Un PSE sans corriger les causes (management, TMS, RPS) reproduira la crise dans 18 mois. Recruter massivement sans corriger l'environnement, c'est remplir un seau percé.",
+   datapt:"Formule CGS : Traiter les symptômes coûte 10x plus cher sur 3 ans que traiter les causes. La prévention est toujours plus rentable que la réparation.",
+   qGood:"C'est la première fois qu'on me présente une vision systémique et chiffrée. C'est exactement ce dont COSMÉTICA™ a besoin.",
+   qBad:"Vous regardez les symptômes, pas les causes. Dans 18 mois, on sera de nouveau en crise."}
+];
+
+/* ═══ STATE ═══ */
+const GS = {
+  teamName:'',
+  score:0, social:45, legal:2, costTotal:0,
+  currentAct:1, currentDecIdx:0,
+  selectedOpt:null,
+  decsDone:[],   // {id,chosenIdx,pts,social,legal,cost,isOpt,tag,tagC}
+  actsCompleted:[],
+  phase:'splash'
+};
+
+/* ═══ UTILS ═══ */
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(msg,type){
+  const tc=document.getElementById('toasts');
+  const t=document.createElement('div');
+  t.className='toast t'+(type||'');t.textContent=msg;tc.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .22s';setTimeout(()=>t.remove(),230);},3000);
+}
+function setMain(html){
+  const el=document.getElementById('game-content');
+  el.classList.remove('fi');void el.offsetWidth;el.classList.add('fi');
+  el.innerHTML=html;
+}
+function socialClass(v){return v>=60?'m-social-ok':v>=35?'m-social-wa':'m-social-er';}
+function legalText(v){const t=['Faible','Faible','Moyen','Élevé','Critique','DANGER'];return t[Math.min(v,5)];}
+function legalClass(v){return v<=1?'m-legal-ok':v<=3?'m-legal-wa':'m-legal-er';}
+function fmtCost(c){return c>=1000?(c/1000).toFixed(0)+'k€':(c+'€');}
+
+function updateTopbar(){
+  document.getElementById('m-score').textContent=GS.score+'/45';
+  const ms=document.getElementById('m-social');
+  ms.textContent=GS.social;
+  ms.className=socialClass(GS.social);
+  const ml=document.getElementById('m-legal');
+  ml.textContent=legalText(GS.legal);
+  ml.className=legalClass(GS.legal);
+  document.getElementById('m-cost').textContent=fmtCost(GS.costTotal);
+  document.getElementById('tb-team').textContent=GS.teamName||'Équipe';
+}
+
+/* ═══ GAME LOGIC ═══ */
+function startGame(){
+  const inp=document.getElementById('team-input');
+  const name=(inp.value.trim()||'Équipe').substring(0,30);
+  GS.teamName=name;
+  document.getElementById('pg-splash').classList.add('hidden');
+  document.getElementById('pg-game').classList.remove('hidden');
+  updateTopbar();
+  showRules();
+}
+
+function showRules(){
+  GS.phase='rules';
+  setMain(`
+  <div style="margin-bottom:18px">
+    <div style="font-family:'Playfair Display',serif;font-size:26px;margin-bottom:5px">Comment jouer</div>
+    <div style="font-size:13px;color:var(--slate)">Briefing de la Salle de Crise · 2 minutes</div>
+  </div>
+  <div class="rules-grid">
+    <div class="rule-card"><div class="rule-ico">📋</div><div class="rule-ttl">3 Actes</div><div class="rule-txt">15 décisions réparties en 3 actes thématiques. Chaque acte dure 20-25 minutes de délibération collective.</div></div>
+    <div class="rule-card"><div class="rule-ico">🤝</div><div class="rule-ttl">En équipe</div><div class="rule-txt">Délibérez ensemble. Sélectionnez une réponse, puis confirmez. Les décisions sont définitives.</div></div>
+    <div class="rule-card"><div class="rule-ico">📣</div><div class="rule-ttl">L'oral</div><div class="rule-txt">À chaque acte, vous recevrez des points-clés pour votre présentation orale. Vos décisions structurent votre argumentaire.</div></div>
+    <div class="rule-card"><div class="rule-ico">🏆</div><div class="rule-ttl">Le score</div><div class="rule-txt">Chaque décision rapporte 0 à 3 points. Score max : 45 pts. La DG juge aussi votre impact social et votre gestion du risque juridique.</div></div>
+  </div>
+  <div class="metric-explain">
+    <div class="me"><div class="me-t" style="color:var(--gold)">Score CGS (/45)</div><div class="me-d">Qualité de vos décisions. 3 pts = optimal, 2 = correct, 1 = partiel, 0 = insuffisant, négatif = contre-productif.</div></div>
+    <div class="me"><div class="me-t" style="color:#6ecf94">Indice Social (0-100)</div><div class="me-d">Santé sociale de COSMÉTICA™. Débute à 45 (situation de crise). Dépend de votre gestion humaine.</div></div>
+    <div class="me"><div class="me-t" style="color:var(--wb)">Risque Juridique (0-5)</div><div class="me-d">Exposition aux contentieux. Débute à 2 (risques existants). À réduire par vos bonnes décisions.</div></div>
+    <div class="me"><div class="me-t">Coût Engagé</div><div class="me-d">Total des investissements que vous avez décidé d'engager. Chaque euro doit être justifié.</div></div>
+  </div>
+  <div class="card cw" style="margin-bottom:22px;border-left:4px solid var(--gold)">
+    <div style="font-size:13px;font-weight:600;color:var(--gd);margin-bottom:5px">🎙 Règle d'or</div>
+    <div style="font-size:13px;color:var(--slate)">Après chaque décision, un expert vous explique pourquoi c'était optimal ou non. Ces retours sont votre matière première pour l'oral.</div>
+  </div>
+  <div style="text-align:center"><button class="btn bp blg" onclick="showActIntro(1)">Commencer l'Acte I →</button></div>`);
+}
+
+function showActIntro(actId){
+  GS.phase='act-intro';
+  GS.currentAct=actId;
+  const act=ACTS[actId-1];
+  setMain(`
+  <div class="act-hero" style="margin-bottom:22px">
+    <div class="act-hero-top" style="background:${act.color}">
+      <div class="act-hero-num">${act.emoji} Acte ${actId} sur 3</div>
+      <h2 class="act-hero-title">${act.titre}</h2>
+      <p class="act-hero-intro">${act.intro}</p>
+    </div>
+    <div class="act-decisions-preview" style="background:${act.colorDark}">
+      <div class="adp-label">Les 5 décisions de cet acte</div>
+      <div class="adp-list">
+        ${act.decs.map((d,i)=>`<div class="adp-item"><span class="adp-dot"></span>${i+1}. ${d}</div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="card cw" style="margin-bottom:22px">
+    <div style="font-size:13px;color:var(--teal);font-weight:600;margin-bottom:5px">⏱ Conseil avant de commencer</div>
+    <div style="font-size:13px;color:var(--slate)">Désignez un «&nbsp;porte-parole&nbsp;» qui clique, mais assurez-vous que toute l'équipe délibère avant chaque choix. Vos justifications sont aussi importantes que vos réponses.</div>
+  </div>
+  <div style="text-align:center">
+    <button class="btn bp blg" onclick="startAct(${actId})">Débuter l'Acte ${actId} →</button>
+  </div>`);
+}
+
+function startAct(actId){
+  GS.currentAct=actId;
+  GS.currentDecIdx=0;
+  GS.selectedOpt=null;
+  showDecision();
+}
+
+function getActDecs(actId){return DECISIONS.filter(d=>d.act===actId);}
+
+function showDecision(){
+  GS.phase='decision';
+  GS.selectedOpt=null;
+  const actDecs=getActDecs(GS.currentAct);
+  const dec=actDecs[GS.currentDecIdx];
+  const act=ACTS[GS.currentAct-1];
+  const dots=actDecs.map((_,i)=>{
+    const done=GS.decsDone.find(d=>d.id===actDecs[i].id);
+    let cls=done?(done.isOpt?'dp-done':(done.pts<0?'dp-bad':'dp-done')):i===GS.currentDecIdx?'dp-cur':'';
+    return `<div class="dp-dot ${cls}"></div>`;
+  }).join('');
+
+  const optsHtml=dec.opts.map((o,i)=>`
+    <button class="opt-btn" id="opt-${i}" onclick="selectOpt(${i})">
+      <span class="opt-ltr">${String.fromCharCode(65+i)}.</span>
+      <span style="flex:1">${o.t}</span>
+      <span class="opt-tag ${o.tagC}">${o.tag}</span>
+    </button>`).join('');
+
+  setMain(`
+  <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div><span class="bdg" style="background:${act.color}22;color:${act.color};border:1px solid ${act.color}44;font-size:11px">${act.emoji} ${act.titre}</span></div>
+    <div style="font-size:12px;color:var(--slate)">Décision ${GS.currentDecIdx+1} / 5</div>
+  </div>
+  <div class="dec-card">
+    <div class="dec-hd">
+      <div class="dec-av" style="background:${dec.pColor}">${dec.pInit}</div>
+      <div style="flex:1">
+        <div class="dec-from">${dec.pName}</div>
+        <div class="dec-role">${dec.pRole}</div>
+        <div class="dec-subj">${dec.titre}</div>
+        <div class="dec-urg ${dec.urgClass}">${dec.urg}</div>
+      </div>
+      <div class="dec-num">${dec.emoji}<br>Acte ${GS.currentAct} · D${dec.dec}</div>
+    </div>
+    <div class="dec-progress">${dots}</div>
+    <div class="dec-ctx">
+      <div class="dec-ctx-lbl">Situation</div>
+      <div class="dec-ctx-txt">${dec.ctx}</div>
+      <div class="dec-data"><strong>💡 Données clés</strong> — ${dec.data}</div>
+    </div>
+    <div class="dec-options">
+      <div class="dec-options-lbl">Que décidez-vous ? Délibérez, puis sélectionnez.</div>
+      ${optsHtml}
+    </div>
+    <div class="confirm-zone" id="confirm-zone">
+      <button class="btn bp" id="confirm-btn" onclick="confirmDecision()" disabled style="opacity:.35;cursor:not-allowed">Confirmer notre décision →</button>
+      <span style="font-size:12px;color:var(--slate);font-style:italic">Sélectionnez une réponse ci-dessus</span>
+    </div>
+  </div>`);
+}
+
+function selectOpt(idx){
+  if(GS.selectedOpt===idx)return;
+  GS.selectedOpt=idx;
+  // Clear all, highlight selected
+  document.querySelectorAll('.opt-btn').forEach((b,i)=>{
+    b.classList.toggle('opt-sel',i===idx);
+  });
+  const btn=document.getElementById('confirm-btn');
+  const zone=document.getElementById('confirm-zone');
+  btn.disabled=false;btn.style.opacity='1';btn.style.cursor='pointer';
+  const sel=document.querySelectorAll('.opt-btn')[idx];
+  const tagEl=sel?sel.querySelector('.opt-tag'):null;
+  const tagTxt=tagEl?tagEl.textContent:'';
+  zone.innerHTML=`<button class="btn bp" onclick="confirmDecision()">Confirmer : option ${String.fromCharCode(65+idx)} — ${tagTxt} →</button>`;
+}
+
+function confirmDecision(){
+  if(GS.selectedOpt===null)return;
+  const actDecs=getActDecs(GS.currentAct);
+  const dec=actDecs[GS.currentDecIdx];
+  const opt=dec.opts[GS.selectedOpt];
+  const isOpt=GS.selectedOpt===dec.cor;
+
+  // Apply metrics
+  const prevScore=GS.score;
+  const prevSocial=GS.social;
+  const prevLegal=GS.legal;
+
+  GS.score=Math.max(0,Math.min(45,GS.score+Math.max(-3,opt.pts)));
+  GS.social=Math.max(0,Math.min(100,GS.social+opt.social));
+  GS.legal=Math.max(0,Math.min(5,GS.legal+opt.legal));
+  GS.costTotal+=opt.cost;
+
+  GS.decsDone.push({id:dec.id,chosenIdx:GS.selectedOpt,pts:opt.pts,social:opt.social,legal:opt.legal,cost:opt.cost,isOpt,tag:opt.tag,tagC:opt.tagC});
+
+  updateTopbar();
+
+  // Pulse animation on score
+  const scoreEl=document.getElementById('m-score');
+  scoreEl.classList.add('pulse');
+  setTimeout(()=>scoreEl.classList.remove('pulse'),400);
+
+  showConsequence(dec,opt,isOpt,prevScore,prevSocial,prevLegal);
+}
+
+function showConsequence(dec,opt,isOpt,prevScore,prevSocial,prevLegal){
+  GS.phase='consequence';
+  const act=ACTS[GS.currentAct-1];
+  const actDecs=getActDecs(GS.currentAct);
+  const isLast=GS.currentDecIdx>=actDecs.length-1;
+  const ptsDelta=Math.max(-3,opt.pts);
+  const ptsDeltaTxt=ptsDelta>=0?'+'+ptsDelta:String(ptsDelta);
+  const ptsClass=ptsDelta>=2?'csq-pts-ok':ptsDelta>=0?'csq-pts-wa':'csq-pts-er';
+
+  // Changes display
+  const changes=[];
+  if(opt.social!==0) changes.push(`<span class="csq-ch ${opt.social>0?'csq-ch-ok':'csq-ch-er'}">${opt.social>0?'↑':'↓'} Social ${opt.social>0?'+':''}${opt.social}</span>`);
+  if(opt.legal!==0) changes.push(`<span class="csq-ch ${opt.legal<0?'csq-ch-ok':'csq-ch-er'}">${opt.legal<0?'↓ Risque juridique '+opt.legal:'↑ Risque juridique +'+opt.legal}</span>`);
+  if(opt.cost>0) changes.push(`<span class="csq-ch csq-ch-wa">💸 ${fmtCost(opt.cost)} engagés</span>`);
+  if(changes.length===0) changes.push(`<span class="csq-ch csq-ch-n">Aucun impact direct sur les métriques</span>`);
+
+  // Chosen option styling
+  const optsHtml=dec.opts.map((o,i)=>{
+    let cls='';
+    if(i===GS.selectedOpt) cls=isOpt?'opt-cor':i===dec.cor?'opt-cor':'opt-wro';
+    else if(i===dec.cor&&!isOpt) cls='opt-cor';
+    else cls='opt-neutral';
+    // Only show chosen and correct
+    if(i!==GS.selectedOpt&&i!==dec.cor) return '';
+    const icon=cls==='opt-cor'?(i===GS.selectedOpt&&isOpt?'✓ ':i===dec.cor?'★ ':''):(i===GS.selectedOpt?'✗ ':'');
+    return `<div class="opt-btn ${cls}" style="pointer-events:none;margin-bottom:7px">
+      <span class="opt-ltr">${String.fromCharCode(65+i)}.</span>
+      <span style="flex:1">${icon}${o.t}</span>
+      <span class="opt-tag ${o.tagC}">${o.tag}</span>
+    </div>`;
+  }).join('');
+
+  const quoteText=isOpt?dec.qGood:dec.qBad;
+  const nextBtn=isLast
+    ?`<button class="btn bt blg" onclick="showActRecap()">Bilan Acte ${GS.currentAct} →</button>`
+    :`<button class="btn bp blg" onclick="nextDecision()">Décision suivante →</button>`;
+
+  setMain(`
+  <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div><span class="bdg" style="background:${act.color}22;color:${act.color};border:1px solid ${act.color}44;font-size:11px">${act.emoji} ${act.titre}</span></div>
+    <div style="font-size:12px;color:var(--slate)">Résultat — Décision ${GS.currentDecIdx+1} / 5</div>
+  </div>
+  <div class="csq-card">
+    <div class="dec-hd" style="background:var(--ink)">
+      <div class="dec-av" style="background:${dec.pColor}">${dec.pInit}</div>
+      <div style="flex:1">
+        <div class="dec-from">${dec.pName}</div>
+        <div class="dec-role">${dec.pRole}</div>
+        <div class="dec-subj">${dec.titre}</div>
+      </div>
+      <div class="dec-num">${dec.emoji}<br>D${dec.dec}</div>
+    </div>
+    <div class="csq-result-bar" style="background:${isOpt?'var(--ol)':ptsDelta>=0?'var(--wl)':'var(--el)'}; border-bottom:1px solid var(--bdr)">
+      <div class="${ptsClass} csq-pts">${ptsDeltaTxt}</div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:6px">${isOpt?'Décision optimale !':ptsDelta>=2?'Bonne décision':ptsDelta>=0?'Décision correcte':'Décision à risque'}</div>
+        <div class="csq-changes">${changes.join('')}</div>
+      </div>
+    </div>
+    <div style="padding:14px 22px;background:rgba(0,0,0,.015);border-bottom:1px solid var(--bdr)">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:9px">Votre choix ${isOpt?'✓':''} / Réponse optimale ${!isOpt?'→':''}</div>
+      ${optsHtml}
+    </div>
+    <div class="csq-quote">
+      <div class="csq-q-av" style="background:${dec.pColor}">${dec.pInit}</div>
+      <div>
+        <div class="csq-q-txt">«&nbsp;${quoteText}&nbsp;»</div>
+        <div class="csq-q-who">— ${dec.pName}, ${dec.pRole}</div>
+      </div>
+    </div>
+    <div class="csq-explain">
+      <div class="csq-exp-lbl">📚 Analyse CGS</div>
+      <div class="csq-exp-txt">${isOpt?dec.expOk:dec.expKo}</div>
+      <div class="csq-data-pt">💡 ${dec.datapt}</div>
+    </div>
+    <div class="csq-nav">${nextBtn}</div>
+  </div>`);
+}
+
+function nextDecision(){
+  GS.currentDecIdx++;
+  GS.selectedOpt=null;
+  showDecision();
+}
+
+function showActRecap(){
+  GS.phase='act-recap';
+  const act=ACTS[GS.currentAct-1];
+  const actDecs=getActDecs(GS.currentAct);
+  GS.actsCompleted.push(GS.currentAct);
+
+  // Score for this act
+  const actDecIds=actDecs.map(d=>d.id);
+  const actDone=GS.decsDone.filter(d=>actDecIds.includes(d.id));
+  const actPts=actDone.reduce((s,d)=>s+Math.max(0,d.pts),0);
+  const actMax=actDecs.length*3;
+
+  const decRows=actDecs.map((dec,i)=>{
+    const done=GS.decsDone.find(d=>d.id===dec.id);
+    if(!done)return '';
+    const ico=done.pts>=3?'✅':done.pts>=2?'🟡':done.pts>=0?'🟠':'🔴';
+    const tagColor=done.isOpt?'#1a6e42':done.pts>=2?'#8a5208':done.pts>=0?'#555':'#b03030';
+    const tagBg=done.isOpt?'var(--ol)':done.pts>=2?'var(--wl)':done.pts>=0?'rgba(61,74,92,.08)':'var(--el)';
+    return `<div class="rdec-row">
+      <span class="rdec-ico">${ico}</span>
+      <span class="rdec-title">${i+1}. ${dec.titre}</span>
+      <span class="rdec-tag" style="background:${tagBg};color:${tagColor};border:1px solid ${tagColor}44">${done.tag}</span>
+      <span style="font-size:13px;font-weight:700;color:${done.pts>=3?'var(--ok)':done.pts>=2?'var(--wa)':done.pts>=0?'var(--slate)':'var(--er)'}">${Math.max(0,done.pts)}/3</span>
+    </div>`;
+  }).join('');
+
+  const oralPoints=act.oral.map((p,i)=>`
+    <div class="oral-point">
+      <span class="oral-num">${i+1}</span>
+      <span>${p}</span>
+    </div>`).join('');
+
+  const nextBtn=GS.currentAct<3
+    ?`<button class="btn bp blg" onclick="showActIntro(${GS.currentAct+1})">Passer à l'Acte ${GS.currentAct+1} →</button>`
+    :`<button class="btn bt blg" onclick="showFinal()">Voir le Rapport Final →</button>`;
+
+  setMain(`
+  <div class="recap-score-hero" style="background:linear-gradient(135deg,${act.colorDark},var(--ink))">
+    <div class="rsh-pts">${actPts}</div>
+    <div class="rsh-max">/ ${actMax} points sur cet acte</div>
+    <div class="rsh-title">Bilan ${act.titre}</div>
+    <div style="margin-top:12px;font-size:13px;color:rgba(255,255,255,.45)">Score cumulé : ${GS.score}/45 · Social : ${GS.social}/100 · Risque : ${legalText(GS.legal)} · Coûts : ${fmtCost(GS.costTotal)}</div>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <div style="font-family:'Playfair Display',serif;font-size:17px;margin-bottom:14px">Vos 5 décisions</div>
+    <div class="recap-decs">${decRows}</div>
+  </div>
+  <div class="oral-box" style="background:linear-gradient(135deg,${act.colorDark},${act.color}33)">
+    <div class="oral-title">🎙 Points pour votre oral</div>
+    <div class="oral-sub">Ces 3 questions structurent votre présentation. Appuyez-vous sur vos décisions de cet acte.</div>
+    ${oralPoints}
+  </div>
+  <div style="text-align:center">${nextBtn}</div>`);
+
+  // Prepare next act
+  if(GS.currentAct<3){
+    GS.currentDecIdx=0;
+    GS.selectedOpt=null;
+  }
+}
+
+function showFinal(){
+  GS.phase='final';
+  const total=GS.score;
+  let classification,classDesc,classColor;
+  if(total>=40){classification="Expert·e CGS";classDesc="COSMÉTICA™ peut compter sur vous pour traverser cette crise.";classColor="var(--gold)";}
+  else if(total>=30){classification="Bon·ne Gestionnaire";classDesc="Solide — quelques décisions à affiner pour atteindre l'excellence.";classColor="#6ecf94";}
+  else if(total>=18){classification="Apprenti·e CGS";classDesc="Des bases, mais des angles morts importants à retravailler.";classColor="var(--wb)";}
+  else{classification="COSMÉTICA™ en danger";classDesc="Des décisions critiques ont aggravé la crise. Analyse approfondie nécessaire.";classColor:"var(--eb)";}
+
+  // All decisions table
+  const allRows=DECISIONS.map((dec,i)=>{
+    const done=GS.decsDone.find(d=>d.id===dec.id);
+    if(!done) return '';
+    const act=ACTS[dec.act-1];
+    const tagColor=done.isOpt?'var(--ok)':done.pts>=2?'var(--wa)':done.pts>=0?'var(--slate)':'var(--er)';
+    const tagBg=done.isOpt?'var(--ol)':done.pts>=2?'var(--wl)':done.pts>=0?'rgba(61,74,92,.07)':'var(--el)';
+    return `<div class="dt-row">
+      <span class="dt-num">${i+1}</span>
+      <span class="dt-title">${dec.titre}</span>
+      <span class="dt-act">${act.emoji}</span>
+      <span class="dt-badge" style="background:${tagBg};color:${tagColor};border:1px solid ${tagColor}44">${done.tag}</span>
+      <span class="dt-pts" style="color:${tagColor}">${Math.max(0,done.pts)}</span>
+    </div>`;
+  }).join('');
+
+  // Strengths & weaknesses
+  const best=GS.decsDone.filter(d=>d.isOpt).map(d=>DECISIONS.find(dec=>dec.id===d.id)).filter(Boolean).slice(0,3);
+  const worst=GS.decsDone.filter(d=>d.pts<1).map(d=>DECISIONS.find(dec=>dec.id===d.id)).filter(Boolean).slice(0,3);
+  const bestHtml=best.length?best.map(d=>`<div class="og-item"><span class="og-ico">✅</span><span><strong>${d.titre}</strong> — ${d.expOk.substring(0,100)}…</span></div>`).join(''):`<div class="og-item"><span class="og-ico">—</span><span>Pas encore de décision optimale. Analysez les retours de chaque acte.</span></div>`;
+  const worstHtml=worst.length?worst.map(d=>`<div class="og-item"><span class="og-ico">⚠️</span><span><strong>${d.titre}</strong> — ${d.expOk.substring(0,90)}…</span></div>`).join(''):`<div class="og-item"><span class="og-ico">✦</span><span>Bravo — aucune décision vraiment problématique. Expliquez votre logique à l'oral.</span></div>`;
+
+  const concepts=[
+    {k:"Fidélisation",v:"La fidélisation coûte 15 à 20 fois moins cher que le recrutement. Chaque talent critique perdu coûte entre 50 000 et 150 000€."},
+    {k:"Faute inexcusable",v:"L'inaction après une préconisation médicale documentée peut engager la responsabilité pénale et financière (50-100k€)."},
+    {k:"PSE vs APLD",v:"Le PSE détruit la capacité opérationnelle. L'APLD préserve les compétences avec un soutien État. Comparer avant de décider."},
+    {k:"Conjoncturel vs Structurel",v:"Un écart MS conjoncturel ne se répète pas. Un écart structurel se reproduira chaque année sans action corrective."},
+    {k:"ROI de la prévention",v:"Investir 4 500€ dans un aménagement de poste évite 21 000€/an d'intérim. La prévention bat toujours la réparation."},
+    {k:"KPIs qualité",v:"Mesurer le volume (nb embauches) ne capte pas les crises. Mesurer la qualité (rétention 6 mois, turnover département) oui."}
+  ];
+
+  setMain(`
+  <div class="final-hero">
+    <div class="fh-score">${total}</div>
+    <div class="fh-max">/ 45 points · Équipe : ${esc(GS.teamName)}</div>
+    <div class="fh-class" style="color:${classColor}">${classification}</div>
+    <div class="fh-class-sub">${classDesc}</div>
+  </div>
+  <div class="metrics-grid">
+    <div class="mg-card"><div class="mg-val" style="color:var(--gold)">${total}/45</div><div class="mg-lbl">Score CGS</div></div>
+    <div class="mg-card"><div class="mg-val" style="color:${GS.social>=60?'var(--ok)':GS.social>=35?'var(--wa)':'var(--er)'}">${GS.social}</div><div class="mg-lbl">Indice Social</div></div>
+    <div class="mg-card"><div class="mg-val" style="color:${GS.legal<=1?'var(--ok)':GS.legal<=3?'var(--wa)':'var(--er)'}">${legalText(GS.legal)}</div><div class="mg-lbl">Risque Juridique</div></div>
+    <div class="mg-card"><div class="mg-val" style="font-size:22px">${fmtCost(GS.costTotal)}</div><div class="mg-lbl">Coûts Engagés</div></div>
+  </div>
+  <div class="decs-table">
+    <div class="decs-table-ttl">Historique des 15 décisions</div>
+    ${allRows}
+  </div>
+  <div class="oral-guide">
+    <div class="og-title">🎙 Guide pour la présentation orale</div>
+    <div class="og-sub">Ce guide est basé sur vos décisions réelles — exploitez-le pour structurer votre argumentaire.</div>
+    <div class="og-section">
+      <div class="og-sec-ttl">Vos meilleures décisions — à mettre en valeur</div>
+      ${bestHtml}
+    </div>
+    <div class="og-section">
+      <div class="og-sec-ttl">Décisions sous-optimales — à expliquer et analyser</div>
+      ${worstHtml}
+    </div>
+    <div class="og-section">
+      <div class="og-sec-ttl">Questions probables du jury</div>
+      <div class="og-item"><span class="og-ico">❓</span><span>Pourquoi la fidélisation est-elle toujours plus rentable que le recrutement ? Calculez avec les données COSMÉTICA™.</span></div>
+      <div class="og-item"><span class="og-ico">❓</span><span>Décomposez l'écart MS de +147 400€ : quelle part est conjoncturelle ? Quelle part est structurelle ?</span></div>
+      <div class="og-item"><span class="og-ico">❓</span><span>Quelle est la différence entre une faute inexcusable et un AT ordinaire ? Citez un cas COSMÉTICA™.</span></div>
+      <div class="og-item"><span class="og-ico">❓</span><span>Avec 15 000€ et 5 urgences simultanées, justifiez votre ordre de priorité par le ROI de chaque action.</span></div>
+      <div class="og-item"><span class="og-ico">❓</span><span>Votre recommandation finale est-elle cohérente avec vos décisions des actes précédents ? Expliquez.</span></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:22px">
+    <div style="font-family:'Playfair Display',serif;font-size:17px;margin-bottom:14px">Concepts CGS à maîtriser</div>
+    ${concepts.map(c=>`<div class="concept-row"><span class="concept-key">${c.k}</span><span>${c.v}</span></div>`).join('')}
+  </div>
+  <div style="text-align:center;padding:10px 0 30px">
+    <button class="btn bo" onclick="restartGame()" style="margin-right:10px">🔄 Rejouer</button>
+    <button class="btn bp" onclick="window.print()">🖨 Imprimer le rapport</button>
+  </div>`);
+}
+
+function restartGame(){
+  // Reset state
+  GS.score=0;GS.social=45;GS.legal=2;GS.costTotal=0;
+  GS.currentAct=1;GS.currentDecIdx=0;GS.selectedOpt=null;
+  GS.decsDone=[];GS.actsCompleted=[];GS.phase='splash';
+  document.getElementById('pg-game').classList.add('hidden');
+  document.getElementById('pg-splash').classList.remove('hidden');
+  const inp=document.getElementById('team-input');if(inp)inp.value='';
+}
+
+/* ═══ INIT ═══ */
+(function(){
+  const inp=document.getElementById('team-input');
+  if(inp){
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
+    // Focus on load
+    setTimeout(()=>inp.focus(),300);
+  }
+})();
+</script>
+</body>
+</html>
