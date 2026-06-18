@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e0c0a">
+<meta name="format-detection" content="telephone=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Jeu de Gestion Sociale — COSMÉTICA™ · Master RH</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e0c0a;--cream:#faf7f2;--warm:#fdf0e6;
+  --gold:#F27928;--gd:#cc5f15;--gl:#fdecdd;
+  --rose:#F27928;--rl:#fdecdd;
+  --teal:#2d6e6a;--tl:#e4f5f3;
+  --slate:#3d4a5c;--sll:#eef1f5;
+  --ok:#1a6e42;--ol:#e4f5ea;--ob:#9dd4b4;
+  --wa:#8a5208;--wl:#fdf4e0;--wb:#e8c870;
+  --er:#b03030;--el:#fce8e8;--eb:#e8a8a8;
+  --bdr:rgba(14,12,10,.1);--bdr2:rgba(14,12,10,.17);
+  --sh:0 2px 18px rgba(14,12,10,.07);--shl:0 8px 36px rgba(14,12,10,.12);
+  --r:12px;--rs:7px;
+  --app-height:100vh;
+}
+html{height:-webkit-fill-available}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;min-height:-webkit-fill-available;font-size:14px;line-height:1.65;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:'Playfair Display',serif}
+.hidden{display:none!important}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:var(--rs);border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.bp{background:var(--gold);color:#fff}.bp:hover{background:var(--gd);transform:translateY(-1px)}
+.bo{background:transparent;border:1.5px solid var(--bdr2);color:var(--ink)}.bo:hover{border-color:var(--gold);color:var(--gd)}
+.bt{background:var(--teal);color:#fff}.bt:hover{background:#1f4e4b;transform:translateY(-1px)}
+.bsm{padding:6px 13px;font-size:12px}.blg{padding:13px 28px;font-size:15px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+input,textarea{background:#fff;border:1.5px solid var(--bdr2);border-radius:var(--rs);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:9px 13px;width:100%;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,169,110,.15)}
+textarea{resize:vertical;min-height:130px;line-height:1.7}
+label{font-size:12px;font-weight:500;color:var(--slate);display:block;margin-bottom:5px}
+.fg{margin-bottom:14px}
+.card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+.cw{background:var(--warm);border-color:rgba(200,169,110,.2)}
+.bdg{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.bg{background:var(--gl);color:var(--gd);border:1px solid rgba(200,169,110,.3)}
+.bs{background:var(--sll);color:var(--slate);border:1px solid rgba(61,74,92,.2)}
+.bok{background:var(--ol);color:var(--ok);border:1px solid var(--ob)}
+.ber{background:var(--el);color:var(--er);border:1px solid var(--eb)}
+.bwa{background:var(--wl);color:var(--wa);border:1px solid var(--wb)}
+.bnr{border-radius:var(--rs);padding:11px 15px;font-size:13px;line-height:1.6}
+.bok2{background:var(--ol);border:1px solid var(--ob);color:var(--ok)}
+.bwa2{background:var(--wl);border:1px solid var(--wb);color:var(--wa)}
+.ber2{background:var(--el);border:1px solid var(--eb);color:var(--er)}
+.btl{background:var(--tl);border:1px solid rgba(45,110,106,.25);color:var(--teal)}
+.bnr-gold{background:var(--gl);border:1px solid rgba(200,169,110,.35);color:var(--gd)}
+#toasts{position:fixed;bottom:22px;right:22px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{background:var(--ink);color:#fff;border-radius:var(--rs);padding:11px 16px;font-size:13px;max-width:320px;box-shadow:var(--shl);animation:tin .25s ease}
+.tok{background:var(--ok)}.twa{background:var(--wa)}.ter{background:var(--er)}
+@keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* SPLASH */
+#pg-splash{min-height:100vh;display:flex;background:var(--ink);overflow:hidden;position:relative}
+.sd::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(200,169,110,.18) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.sd::after{content:'';position:absolute;bottom:-150px;left:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(196,113,90,.12) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.sl{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;z-index:1}
+.slogo{font-family:'Playfair Display',serif;font-size:13px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:60px;display:flex;align-items:center;gap:12px}
+.stit{font-family:'Playfair Display',serif;font-size:clamp(40px,5vw,64px);color:#fff;line-height:1.1;margin-bottom:20px}
+.stit em{color:var(--gold);font-style:italic}
+.ssub{font-size:16px;color:rgba(255,255,255,.5);max-width:450px;line-height:1.7;margin-bottom:50px}
+.sstats{display:flex;gap:36px;flex-wrap:wrap}
+.ssv{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold)}
+.ssl{font-size:11px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.sr{width:440px;flex-shrink:0;background:var(--cream);display:flex;flex-direction:column;justify-content:center;padding:50px 44px;position:relative;z-index:1}
+.lt{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:6px}
+.ls{font-size:13px;color:var(--slate);margin-bottom:28px}
+.ln{font-size:11px;color:var(--slate);text-align:center;margin-top:11px;line-height:1.5;opacity:.7}
+
+/* APP */
+#pg-app{min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--ink);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:-webkit-sticky;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.tb-brand{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);display:flex;align-items:center;gap:9px;letter-spacing:.04em}
+.tb-brand span{font-size:11px;color:rgba(255,255,255,.3);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:.05em;text-transform:uppercase}
+.tb-right{display:flex;align-items:center;gap:13px}
+.tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--rose));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.tb-name{font-size:13px;color:rgba(255,255,255,.75)}
+.progpill{background:rgba(200,169,110,.12);border:1px solid rgba(200,169,110,.25);border-radius:20px;padding:4px 13px;font-size:12px;color:var(--gold);font-weight:500}
+.app-body{display:flex;flex:1;height:calc(var(--app-height) - 56px);overflow:hidden}
+
+/* SIDEBAR */
+.sb{width:248px;background:#fff;border-right:1px solid var(--bdr);display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;flex-shrink:0}
+.sb-head{padding:18px 15px 12px;border-bottom:1px solid var(--bdr)}
+.sb-hl{font-size:10px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.sb-ht{font-family:'Playfair Display',serif;font-size:17px}
+.sb-sec{padding:12px;border-bottom:1px solid var(--bdr)}
+.sb-ttl{font-size:10px;letter-spacing:.08em;color:var(--slate);text-transform:uppercase;font-weight:600;margin-bottom:9px;opacity:.55}
+.ni{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:var(--rs);cursor:pointer;transition:all .13s;margin-bottom:2px;border:1.5px solid transparent}
+.ni:hover{background:var(--warm)}.ni.on{background:var(--gl);border-color:rgba(200,169,110,.35)}.ni.on .nl{color:var(--gd);font-weight:600}
+.ni.lk{opacity:.38;cursor:not-allowed}.ni.lk:hover{background:transparent}
+.nl{font-size:13px;color:var(--slate);display:flex;align-items:center;gap:8px}
+.nico{font-size:14px;width:18px;text-align:center}
+.mail-badge{background:var(--rose);color:#fff;border-radius:20px;font-size:10px;font-weight:700;padding:1px 6px;min-width:18px;text-align:center}
+.pbw{padding:14px 15px}
+.pbl{font-size:11px;color:var(--slate);margin-bottom:6px;display:flex;justify-content:space-between}
+.pb{height:4px;background:var(--warm);border-radius:2px;margin-bottom:7px}
+.pf{height:4px;background:var(--gold);border-radius:2px;transition:width .4s}
+.dm{padding:12px 15px}
+.dmt{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:9px}
+.dmr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bdr);font-size:11px}
+.dmk{color:var(--slate)}.dmv{font-weight:600}.dr{color:var(--er)}.dw{color:var(--wa)}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:26px 30px;background:var(--cream);scroll-behavior:smooth;overscroll-behavior-y:contain}
+.pt{font-family:'Playfair Display',serif;font-size:27px;margin-bottom:3px}
+.ps{font-size:13px;color:var(--slate);margin-bottom:22px;opacity:.8}
+.slbl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:11px;display:block}
+
+/* BOITE MAIL */
+.mail-layout{display:grid;grid-template-columns:38% 62%;height:calc(var(--app-height) - 160px);gap:0;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:var(--sh)}
+.mail-list-col{border-right:1px solid var(--bdr);overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+.ml-head{padding:12px 16px;border-bottom:1px solid var(--bdr);background:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.ml-head-ttl{font-family:'Playfair Display',serif;font-size:14px;color:#fff}
+.ml-head-badge{background:var(--rose);color:#fff;border-radius:20px;font-size:11px;font-weight:700;padding:2px 8px}
+.mail-row{padding:12px 14px;border-bottom:1px solid var(--bdr);cursor:pointer;transition:background .12s;display:flex;gap:10px;align-items:flex-start}
+.mail-row:hover{background:var(--warm)}
+.mail-row.active{background:var(--gl);border-left:3px solid var(--gold)}
+.mail-row.unread .mr-sender{font-weight:700}
+.mail-row.unread .mr-subj{color:var(--ink);font-weight:500}
+.mr-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:12px;font-weight:700;color:#fff}
+.mr-sender{font-size:13px;color:var(--ink)}
+.mr-subj{font-size:12px;color:var(--slate);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:italic}
+.mr-preview{font-size:11px;color:var(--slate);opacity:.65;margin-top:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.mr-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.mr-date{font-size:10px;color:var(--slate);opacity:.6}
+.unread-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px}
+.mail-body-col{overflow-y:auto;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
+.mb-empty{display:flex;align-items:center;justify-content:center;flex:1;color:var(--slate);font-style:italic;opacity:.5;font-size:14px}
+.mb-hd{background:var(--ink);padding:18px 22px;display:flex;align-items:flex-start;gap:13px}
+.mb-av{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#fff}
+.mb-from{font-size:14px;font-weight:600;color:#fff}
+.mb-role{font-size:11px;color:rgba(255,255,255,.45);margin-top:1px}
+.mb-subj{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);margin-top:4px}
+.mb-date{font-size:11px;color:rgba(255,255,255,.3);white-space:nowrap}
+.mb-body{padding:20px 22px;font-size:14px;line-height:1.85;flex:1}
+.mb-body p{margin-bottom:11px}
+.mb-body strong{color:var(--rose)}
+.mb-body em{color:var(--teal);font-style:normal;font-weight:500}
+.mb-foot{padding:12px 22px;border-top:1px solid var(--bdr);display:flex;gap:9px}
+.btn-noreply{background:var(--warm);border:1px solid var(--bdr2);border-radius:var(--rs);padding:8px 14px;font-size:12px;color:var(--slate);cursor:default;opacity:.6;display:inline-flex;align-items:center;gap:5px}
+.btn-back-mail{display:none;background:var(--warm);border:1px solid var(--bdr2);border-radius:8px;padding:7px 13px;font-size:12px;cursor:pointer;align-items:center;gap:6px;margin-bottom:10px}
+
+/* QCM MULTI */
+.qcm-block{background:var(--warm);border:1.5px solid rgba(200,169,110,.3);border-radius:var(--r);padding:22px;margin-bottom:18px}
+.qcm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.qcm-title{font-family:'Playfair Display',serif;font-size:18px}
+.qcm-score{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold)}
+.qcm-progress{display:flex;gap:5px;margin-bottom:16px}
+.qp-dot{height:4px;flex:1;border-radius:2px;background:rgba(14,12,10,.12);transition:background .3s}
+.qp-dot.done-ok{background:var(--ok)}.qp-dot.done-ko{background:var(--er)}.qp-dot.cur{background:var(--gold)}
+.q-num{font-size:11px;color:var(--slate);margin-bottom:6px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.q-txt{font-size:15px;font-weight:500;margin-bottom:14px;line-height:1.6;color:var(--ink)}
+.qos{display:flex;flex-direction:column;gap:8px}
+.qo{background:#fff;border:1.5px solid var(--bdr2);border-radius:var(--rs);padding:11px 14px;cursor:pointer;transition:all .13s;font-size:13.5px;color:var(--ink);display:flex;align-items:flex-start;gap:9px;text-align:left;width:100%}
+.qo:hover:not(:disabled){border-color:var(--gold);background:var(--gl)}
+.ql{font-weight:700;flex-shrink:0;width:18px;color:var(--gd);font-size:12px;margin-top:1px}
+.qo.cor{background:var(--ol);border-color:var(--ob);color:var(--ok)}.qo.cor .ql{color:var(--ok)}
+.qo.wro{background:var(--el);border-color:var(--eb);color:var(--er)}.qo.wro .ql{color:var(--er)}
+.qo:disabled{cursor:default;position:relative}
+@keyframes pop{0%{transform:scale(.92);opacity:.6}60%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}}
+.qo.cor{animation:pop .35s ease}
+@keyframes confettiFall{0%{transform:translateY(-12px) rotate(0deg);opacity:1}100%{transform:translateY(60px) rotate(220deg);opacity:0}}
+.confetti{position:absolute;width:8px;height:8px;border-radius:2px;animation:confettiFall .9s ease-out forwards;pointer-events:none}
+
+.qfb{border-radius:var(--rs);padding:11px 13px;margin-top:10px;font-size:13px;line-height:1.6}
+.qfb-ok{background:var(--ol);border:1px solid var(--ob);color:var(--ok)}
+.qfb-ko{background:var(--el);border:1px solid var(--eb);color:var(--er)}
+.qcm-result{background:var(--ink);border-radius:var(--rs);padding:16px;margin-top:16px;text-align:center}
+.qcm-result-score{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold)}
+.qcm-result-lbl{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px}
+
+/* EMAIL - séance */
+.ec{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:22px}
+.ehd{background:var(--ink);padding:17px 22px;display:flex;align-items:flex-start;gap:13px}
+.eav{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#fff}
+.efr{font-size:14px;font-weight:600;color:#fff}.ero{font-size:11px;color:rgba(255,255,255,.4);margin-top:1px}
+.esj{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);margin-top:3px}
+.edt{font-size:11px;color:rgba(255,255,255,.3);white-space:nowrap}
+.ebody{padding:20px 22px;font-size:14px;line-height:1.85}
+.ebody p{margin-bottom:11px}
+.ebody strong{color:var(--rose)}.ebody em{color:var(--teal);font-style:normal;font-weight:500}
+
+/* MISSION */
+.mb2{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:20px}
+.mhd{background:var(--teal);padding:15px 22px;display:flex;align-items:center;justify-content:space-between}
+.mt{font-family:'Playfair Display',serif;font-size:17px;color:#fff}
+.mm{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+.mbdy{padding:22px}
+.mint{font-size:14px;color:var(--ink);line-height:1.75;margin-bottom:16px}
+.ml2{list-style:none;margin-bottom:18px}
+.ml2 li{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:13px;color:var(--slate);line-height:1.5}
+.ml2 li::before{content:'◇';color:var(--gold);flex-shrink:0;margin-top:1px}
+.mc{background:linear-gradient(135deg,rgba(200,169,110,.08),rgba(200,169,110,.03));border:1.5px solid rgba(200,169,110,.22);border-radius:var(--rs);padding:15px;font-size:13px;color:var(--slate);line-height:1.7;margin-bottom:16px}
+.mc strong{color:var(--gd)}
+.ded{background:var(--warm);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.dbar{background:var(--ink);padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
+.dbl{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.04em}
+.dta{width:100%;min-height:260px;background:#fff;border:none;padding:17px;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);line-height:1.9;resize:vertical;outline:none}
+.dta::placeholder{color:rgba(61,74,92,.3);font-style:italic}
+.dfot{background:var(--warm);border-top:1px solid var(--bdr);padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
+.cc{font-size:11px;color:var(--slate);opacity:.6}
+.sv{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:15px;font-size:13px;color:var(--ink);line-height:1.9;white-space:pre-wrap;word-break:break-word}
+
+/* RÉFLEXION */
+.rcard{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.rhd{background:linear-gradient(135deg,var(--ink),#2a2520);padding:20px 24px}
+.rht{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:4px}
+.rhs{font-size:12px;color:rgba(255,255,255,.4)}
+.rdots{display:flex;gap:6px;margin-top:13px}
+.rd{width:26px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);transition:background .3s}
+.rd.done{background:var(--ok)}.rd.cur{background:var(--gold)}
+.rq{padding:22px}
+.rnum{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:7px}
+.rtxt{font-family:'Playfair Display',serif;font-size:17px;line-height:1.55;margin-bottom:10px}
+.rctx{background:var(--warm);border-left:3px solid var(--gold);padding:11px 15px;margin-bottom:14px;font-size:12px;color:var(--slate);line-height:1.65;border-radius:0 var(--rs) var(--rs) 0}
+.rhint{font-size:12px;color:var(--slate);font-style:italic;opacity:.7;margin-bottom:13px}
+.rnav{display:flex;justify-content:space-between;padding:0 22px 20px}
+
+/* SÉANCE DONE */
+.ref-block{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.ref-q{font-family:'Playfair Display',serif;font-size:14px;color:var(--ink);margin-bottom:8px}
+.ref-a{font-size:13px;color:var(--slate);line-height:1.75;background:var(--warm);padding:12px;border-radius:var(--rs);white-space:pre-wrap}
+
+/* DOSSIERS */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:13px}
+.dc{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);cursor:pointer;transition:all .17s}
+.dc:hover{transform:translateY(-3px);box-shadow:var(--shl);border-color:var(--gold)}
+.dtop{padding:15px;display:flex;align-items:flex-start;gap:11px}
+.dav2{width:43px;height:43px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#fff}
+.dn{font-weight:600;font-size:14px;margin-bottom:1px}.dp{font-size:11px;color:var(--slate)}.dsal{font-size:12px;color:var(--gd);font-weight:500}
+.dbdy{padding:0 15px 15px}
+.dtags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:9px}
+.dnote{font-size:12px;color:var(--slate);line-height:1.55}
+.drisk{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;margin-top:9px;padding-top:9px;border-top:1px solid var(--bdr)}
+
+/* DATA */
+.dtw{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:18px}
+.dth{padding:12px 17px;border-bottom:1px solid var(--bdr);background:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.dthttl{font-size:13px;color:#fff;font-weight:500}
+.dtbl{width:100%;border-collapse:collapse}
+.dtbl th{padding:9px 15px;text-align:left;font-size:11px;color:var(--slate);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--bdr);font-weight:600;background:var(--warm)}
+.dtbl td{padding:9px 15px;font-size:13px;border-bottom:1px solid var(--bdr)}
+.dtbl tr:last-child td{border-bottom:none}
+.dtbl tr:hover td{background:var(--warm)}
+.vr{color:var(--er);font-weight:600}.vg{color:var(--ok);font-weight:500}.vw{color:var(--wa);font-weight:500}
+
+/* MODAL */
+.overlay{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(14,12,10,.6);display:flex;align-items:center;justify-content:center;z-index:2000;padding:22px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.modal{background:#fff;border-radius:var(--r);padding:28px;width:100%;max-width:680px;max-height:88vh;max-height:88dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;box-shadow:0 20px 60px rgba(14,12,10,.25);position:relative}
+.mc2{position:absolute;top:13px;right:15px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--slate);opacity:.45;line-height:1}
+.mc2:hover{opacity:1}
+.mttl{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px}
+
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fi{animation:fi .2s ease}
+@media(max-width:700px){.sl{display:none}.sr{width:100%}.mail-layout{grid-template-columns:1fr;height:auto!important;min-height:500px}.mail-list-col{max-height:240px}.dtbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.mail-layout.show-detail .mail-list-col{display:none}.mail-layout.show-detail .btn-back-mail{display:flex}}
+
+/* TOUCH DEVICE FIXES */
+button,.btn,.ni,.dc,.qo,.mail-row,.hamburger{touch-action:manipulation}
+@media(hover:none) and (pointer:coarse){
+  input,textarea,select{font-size:16px!important}
+  .bp:hover,.bt:hover,.bo:hover{transform:none!important}
+  .dc:hover{transform:none!important;box-shadow:var(--sh)!important;border-color:var(--bdr)!important}
+  .bp:active{background:var(--gd)!important}
+  .bt:active{background:#1f4e4b!important}
+  .bo:active{border-color:var(--gold)!important;color:var(--gd)!important}
+  .qo:active:not(:disabled){border-color:var(--gold)!important;background:var(--gl)!important}
+  .mail-row:active{background:var(--warm)!important}
+  .dc:active{border-color:var(--gold)!important}
+  .ni:active:not(.lk){background:var(--warm)!important}
+  .btn{min-height:44px}
+  .ni{min-height:44px}
+  .sb,.main,.mail-list-col,.mail-body-col,.modal{-webkit-overflow-scrolling:touch}
+  textarea{resize:none}
+}
+/* HAMBURGER & SIDEBAR MOBILE */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px 10px;flex-direction:column;gap:5px;line-height:0;flex-shrink:0}
+.hamburger span{display:block;width:20px;height:2px;background:rgba(255,255,255,.75);border-radius:1px;transition:all .2s}
+.sb-overlay{display:none;position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(14,12,10,.5);z-index:98;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.sb-overlay.open{display:block}
+/* DTBL WRAP */
+.dtbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* NOSCRIPT */
+.noscript-warn{position:fixed;top:0;left:0;right:0;z-index:99999;background:var(--er);color:#fff;text-align:center;padding:14px 20px;font-family:sans-serif;font-size:15px;line-height:1.5}
+@media(max-width:1023px){
+  .hamburger{display:flex}
+  .sb{position:fixed;top:56px;left:-270px;height:calc(var(--app-height) - 56px);z-index:99;transition:left .25s ease;width:248px;display:flex!important}
+  .sb.open{left:0;box-shadow:var(--shl)}
+  .app-body{overflow:visible}
+}
+
+/* ═══ COMPATIBILITÉ UNIVERSELLE — AJOUTS ═══════════════════════════════════ */
+
+/* Safe area insets — iPad Pro avec encoche / barre home */
+@supports(padding-bottom:env(safe-area-inset-bottom)){
+  .topbar{
+    padding-left:max(22px,env(safe-area-inset-left));
+    padding-right:max(22px,env(safe-area-inset-right));
+  }
+  .main{padding-bottom:calc(26px + env(safe-area-inset-bottom))}
+  .sb{padding-bottom:env(safe-area-inset-bottom)}
+  #pg-splash .sr{padding-bottom:max(50px,env(safe-area-inset-bottom))}
+  #toasts{bottom:max(22px,env(safe-area-inset-bottom));right:max(22px,env(safe-area-inset-right))}
+}
+
+/* Tablette portrait (ex : iPad mini/Air en portrait 768-900px) */
+@media(min-width:701px) and (max-width:900px){
+  .sl{padding:30px 24px}
+  .sr{width:340px;padding:36px 28px}
+  .stit{font-size:clamp(26px,4vw,40px)}
+  .ssub{font-size:13px}
+  .sstats{gap:20px}
+  .ssv{font-size:24px}
+}
+
+/* Tablette paysage mid-range (901-1023px) */
+@media(min-width:901px) and (max-width:1023px){
+  .sl{padding:40px}
+  .sr{width:380px;padding:44px 36px}
+}
+
+/* Amélioration boutons sur grand écran tactile */
+@media(hover:none) and (pointer:coarse){
+  .qo{padding:13px 14px}
+  .mail-row{padding:14px}
+  .ni{padding:10px}
+  .topbar{height:60px}
+  .app-body{height:calc(var(--app-height) - 60px)}
+}
+
+/* Hauteur dynamique (dvh) — fallback gracieux si non supporté */
+@supports(height:100dvh){
+  #pg-splash{min-height:100dvh}
+  .app-body{height:calc(100dvh - 60px)}
+}
+
+/* Firefox : scrollbar personnalisée */
+@supports(scrollbar-width:thin){
+  .sb,.main,.mail-list-col,.mail-body-col,.modal{
+    scrollbar-width:thin;
+    scrollbar-color:var(--gold) var(--warm);
+  }
+}
+
+/* Impression */
+@media print{
+  .topbar,.sb,.sb-overlay,#toasts,.hamburger{display:none!important}
+  .main{overflow:visible!important;height:auto!important;padding:0}
+  .app-body{height:auto!important;overflow:visible!important}
+  .card,.qcm-block,.mb2,.rcard,.ec,.dtw{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div id="toasts"></div>
+<noscript><div class="noscript-warn">⚠ JavaScript est désactivé. Ouvrez ce fichier directement dans votre navigateur (Safari, Chrome, Firefox, Edge…) — pas depuis Mail ou un gestionnaire de fichiers.</div></noscript>
+
+<!-- SPLASH -->
+<div id="pg-splash">
+  <div class="sd"></div>
+  <div class="sl">
+    <img src="data:image/png;base64,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" alt="Espresso RH" style="height:72px;margin-bottom:24px;filter:brightness(0) invert(1)">
+    <div class="slogo"><span style="width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block"></span>COSMÉTICA™ · Atelier CGS</div>
+    <h1 class="stit">Atelier<br><em>Contrôle de<br>Gestion Sociale</em></h1>
+    <p class="ssub">Plongez au cœur d'une PME cosmétique en crise. Analysez, débattez, construisez vos recommandations chiffrées.</p>
+    <div class="sstats">
+      <div><div class="ssv">65</div><div class="ssl">Salariés</div></div>
+      <div><div class="ssv">3</div><div class="ssl">Séances</div></div>
+      <div><div class="ssv">4,05M€</div><div class="ssl">CA 2023</div></div>
+      <div><div class="ssv">12</div><div class="ssl">Dossiers</div></div>
+    </div>
+  </div>
+  <div class="sr">
+    <h2 class="lt">Bienvenue</h2>
+    <p class="ls">Master RH 1ère année · Contrôle de gestion sociale</p>
+    <div class="fg"><label>Votre prénom et nom</label><input id="inp" type="text" placeholder="Ex : Marie Dupont" autocomplete="name" enterkeyhint="go" onkeydown="if(event.key==='Enter'||event.keyCode===13)login()" onkeyup="if(event.key==='Enter'||event.keyCode===13)login()"></div>
+    <button type="button" id="login-btn" class="btn bp" style="width:100%;justify-content:center" onclick="login()">Entrer dans COSMÉTICA™ →</button>
+    <p class="ln">Votre progression est sauvegardée automatiquement dans votre navigateur.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="pg-app" class="hidden">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="hamburger" id="hamburger" onclick="toggleSb()" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="tb-brand">✦ COSMÉTICA™ <span>Atelier CGS</span></div>
+    </div>
+    <div class="tb-right">
+      <div class="progpill" id="prog-pill">0 / 3 séances</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="tb-av" id="av-t">--</div>
+        <span class="tb-name" id="nm-t">--</span>
+      </div>
+      <button class="btn bo bsm" style="color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.18)" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+  <div class="sb-overlay" id="sb-overlay" onclick="closeSb()"></div>
+  <div class="app-body">
+    <div class="sb" id="sidebar">
+      <div class="sb-head"><img src="data:image/png;base64,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" alt="Espresso RH" style="height:34px;margin-bottom:8px;display:block"><div class="sb-hl">Atelier pédagogique</div><div class="sb-ht">COSMÉTICA™</div></div>
+      <div class="sb-sec">
+        <div class="sb-ttl">Navigation</div>
+        <div class="ni on" id="ni-home" onclick="go('home')"><span class="nico">🏠</span><span class="nl">Accueil</span></div>
+        <div class="ni" id="ni-mail" onclick="go('mail')"><span class="nico">✉️</span><span class="nl">Boîte mail</span><span id="mail-cnt" class="mail-badge hidden">0</span></div>
+        <div class="ni" id="ni-doss" onclick="go('doss')"><span class="nico">👥</span><span class="nl">Dossiers salariés</span></div>
+        <div class="ni" id="ni-data" onclick="go('data')"><span class="nico">📊</span><span class="nl">Données RH & Finances</span></div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-ttl">Séances</div>
+        <div class="ni" id="ni-s1" onclick="goS(1)"><span class="nico">1</span><span class="nl">Audit Recrutement</span><span id="nis1"></span></div>
+        <div class="ni lk" id="ni-s2" onclick="goS(2)"><span class="nico">2</span><span class="nl">Budget & MS</span><span id="nis2">🔒</span></div>
+        <div class="ni lk" id="ni-s3" onclick="goS(3)"><span class="nico">3</span><span class="nl">Performance & RPS</span><span id="nis3">🔒</span></div>
+      </div>
+      <div class="pbw">
+        <div class="pbl"><span>Progression</span><span id="pb-pct">0%</span></div>
+        <div class="pb"><div class="pf" id="pf" style="width:0%"></div></div>
+        <div style="font-size:11px;color:var(--slate);opacity:.6"><span id="ms-d">0</span> / 3 séances complétées</div>
+      </div>
+      <div class="dm">
+        <div class="dmt">Alertes RH</div>
+        <div class="dmr"><span class="dmk">Turnover commercial</span><span class="dmv dr">40%</span></div>
+        <div class="dmr"><span class="dmk">Dépassement MS</span><span class="dmv dr">+147k€</span></div>
+        <div class="dmr"><span class="dmk">3 situations TMS</span><span class="dmv dw">Actives</span></div>
+        <div class="dmr"><span class="dmk">Burn-out RH latent</span><span class="dmv dw">S. Martin</span></div>
+      </div>
+    </div>
+    <div class="main fi" id="main"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="overlay hidden" onclick="if(event.target===this)closeModal()">
+  <div class="modal"><button class="mc2" onclick="closeModal()">✕</button><div id="modal-body"></div></div>
+</div>
+
+<script>
+const SK="cosmetica_v7";
+let S={user:null,students:{}};
+function ls(){try{const d=localStorage.getItem(SK);if(d)S=JSON.parse(d);}catch(e){}}
+function ss(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
+function gu(){return S.students[S.user];}
+
+// ══ MAILS ══
+const MAILS=[
+  {id:"m1",from:"Isabelle BERNARD",email:"ibernard@cosmetica.fr",role:"Directrice Générale · COSMÉTICA™",init:"IB",color:"#2d6e6a",date:"15 jan. 2024",subject:"Urgence CODIR — Diagnostic turnover commercial à produire avant vendredi",
+   preview:"Je viens de recevoir le rapport de Sophie Martin. Le turnover de notre département commercial est alarmant...",
+   body:`<p>Bonjour,</p><p>Je viens de recevoir le rapport de Sophie Martin. Le turnover de notre département commercial est alarmant. <strong>Marc Durand</strong> invoque <em>"la faute du marché"</em>. Sophie dit que c'est le management. J'ai besoin d'un diagnostic RH objectif et entièrement chiffré avant le CODIR de vendredi 19 janvier.</p><p><strong>Alice Benoît</strong> vient de confirmer sa rupture conventionnelle — 4ème départ commercial en 18 mois. Elle gérait les comptes Sephora et Marionnaud. Ces comptes ne sont pas transférés à ce jour.</p><p>Je vous attends avec des chiffres précis, pas des estimations.</p><p>— Isabelle Bernard, DG</p>`},
+  {id:"m2",from:"Nathalie LEBLANC",email:"nleblanc@cosmetica.fr",role:"Contrôleure de Gestion · COSMÉTICA™",init:"NL",color:"#4a6e5a",date:"5 fév. 2024",subject:"URGENT — Dépassement MS 2023 : +147 400€ — Analyse requise avant CODIR",
+   preview:"Je viens de boucler les comptes 2023. La masse salariale chargée a dépassé le budget de 147 400€...",
+   body:`<p>Bonjour,</p><p>Je viens de boucler les comptes 2023. <strong>La masse salariale chargée a dépassé le budget de 147 400€</strong>. J'ai identifié certaines causes mais un solde important reste non ventilé.</p><p><strong>Marc Durand</strong> propose un PSE sur 8 postes dont 5 commerciaux. <em>Sophie Martin s'y oppose</em> et propose des alternatives. Isabelle Bernard attend une analyse comparative des deux options avant vendredi.</p><p>J'ai besoin que vous me fournissiez la décomposition complète de cet écart, cause par cause, avec la qualification conjoncturel/structurel. Chaque euro doit être justifié.</p><p>— Nathalie Leblanc, CG</p>`},
+  {id:"m3",from:"Sophie MARTIN",email:"smartin@cosmetica.fr",role:"Responsable RH · COSMÉTICA™",init:"SM",color:"#c4715a",date:"12 mars 2024",subject:"SOS — 4 urgences RH simultanées — J'ai besoin de vous maintenant",
+   preview:"Ce matin c'est la tempête. Patrick Chevalier : nouvel arrêt de 3 mois. Corinne Vidal : médecin du travail...",
+   body:`<p>Bonjour,</p><p>Ce matin c'est la tempête.</p><p>→ <strong>Patrick Chevalier</strong> : nouvel arrêt de 3 mois. Le remplaçant intérimaire coûte <em>500€/jour</em>.<br>→ <strong>Corinne Vidal</strong> : le médecin du travail exige un aménagement de poste sous 30 jours. Risque de faute inexcusable si on ne bouge pas.<br>→ <strong>Amandine Moreau</strong> : son avocat nous a envoyé un recommandé AR hier.<br>→ <strong>Julie Petit</strong> : entretien dans une autre entreprise demain matin.</p><p>Il me faut un baromètre social complet et un plan d'action priorisé avec les coûts. Aujourd'hui.</p><p>— Sophie Martin, RRH</p>`},
+  {id:"m4",from:"Dr. Françoise DUPUIS",email:"fdupuis@sst-cosmetica.fr",role:"Médecin du travail · COSMÉTICA™",init:"FD",color:"#5d7fa8",date:"10 mars 2024",subject:"Mise en demeure formelle — Aménagements de postes Vidal & Chevalier",
+   preview:"Mes préconisations d'aménagement de poste concernant Mme Vidal et M. Chevalier n'ont pas été mises en œuvre...",
+   body:`<p>Madame Martin,</p><p>Je me permets de vous relancer formellement. Mes préconisations d'aménagement de poste concernant <strong>Mme Vidal</strong> (maladie professionnelle tendinite reconnue — rotation de poste max 2h sur gestes répétitifs) et <strong>M. Chevalier</strong> (hernies discales L4-L5 — suppression charges >5kg, poste assis/debout) n'ont pas été mises en œuvre.</p><p>Je vous rappelle que l'inaction de l'employeur après préconisation médicale documentée peut constituer une <strong>faute inexcusable</strong> engageant la responsabilité pénale et financière de l'entreprise.</p><p>Je vous accorde <strong>30 jours</strong> pour me transmettre un plan d'action formalisé.</p><p>— Dr. Françoise Dupuis, Médecin du travail COSMÉTICA™</p>`},
+  {id:"m5",from:"Robert TESSIER",email:"rtessier-cse@cosmetica.fr",role:"Délégué CSE · COSMÉTICA™",init:"RT",color:"#7a5c8a",date:"8 mars 2024",subject:"Saisine CSE — Refus temps partiel Amandine Moreau — Demande réunion extraordinaire",
+   preview:"Le CSE est saisi du cas de Mme Amandine Moreau. Sa demande de passage à 80% a été refusée verbalement sans écrit motivé...",
+   body:`<p>Madame Martin,</p><p>Le CSE est saisi du cas de <strong>Mme Amandine Moreau</strong>. Sa demande de passage à 80% pour contrainte familiale (enfant en situation de handicap) a été refusée verbalement sans aucun écrit motivé en octobre 2023.</p><p>Nous rappelons que le refus d'une demande de temps partiel sans motif légitime documenté est susceptible de constituer une <strong>discrimination indirecte</strong>. Le Conseil a mandaté un avocat qui a adressé un recommandé à la direction le 15 janvier 2024.</p><p>Nous demandons la tenue d'une réunion extraordinaire dans les 8 jours.</p><p>— Robert Tessier, Délégué CSE</p>`},
+  {id:"m6",from:"Marc DURAND",email:"mdurand@cosmetica.fr",role:"Directeur Commercial · COSMÉTICA™",init:"MD",color:"#3d4a5c",date:"20 fév. 2024",subject:"Ma proposition pour redresser la situation — Restructuration équipe commerciale",
+   preview:"Face au dépassement MS, je propose une restructuration de l'équipe commerciale. Le marché est difficile et nous devons nous adapter...",
+   body:`<p>Bonjour,</p><p>Face au dépassement de la masse salariale, je propose une restructuration de l'équipe commerciale : <strong>PSE sur 8 postes dont 5 commerciaux</strong>. Le marché est difficile et nous devons nous adapter.</p><p>Je rappelle que ma direction commerciale a généré <em>+35% de CA en 3 ans</em>. Les départs sont liés au marché, pas au management. Nous avons besoin d'une équipe plus restreinte et mieux rémunérée.</p><p>Je reste à disposition pour en discuter.</p><p>— Marc Durand, Directeur Commercial</p>`}
+];
+
+// ══ EMPLOYEES ══
+const EMP=[
+  {id:"e1",nom:"Isabelle BERNARD",poste:"Directrice Générale",fonction:"Direction générale",csp:"Cadre dirigeant",statut:"Cadre",dept:"Direction",sal:"7 200€/mois",anc:"13 ans",init:"IB",color:"#2d6e6a",
+   tags:["Cadre dirigeant","Co-fondatrice"],note:"Co-fondatrice. Exige des plans d'action chiffrés avant chaque Comité de Direction.",
+   detail:"Co-fondatrice de COSMÉTICA™ en 2011. Très attachée à la culture éco-responsable. Objectif 2024 : ramener le ratio masse salariale / chiffre d'affaires sous 60%."},
+  {id:"e2",nom:"Sophie MARTIN",poste:"Responsable des Ressources Humaines",fonction:"Gestion RH et recrutement",csp:"Cadre",statut:"Cadre",dept:"RH",sal:"4 200€/mois",anc:"10 ans",init:"SM",color:"#c4715a",
+   tags:["Responsable RH","Surcharge documentée"],note:"Gère 65 salariés à 2 personnes. 8 jours d'absence maladie en 2023.",
+   detail:"Gère les ressources humaines avec une alternante disponible 3 jours/semaine. A alerté la direction générale sur sa surcharge de travail en janvier 2024. Temps consacré à chaque recrutement en 2023 : environ 3 jours. 8 recrutements réalisés dans l'année."},
+  {id:"e3",nom:"Marc DURAND",poste:"Directeur Commercial",fonction:"Pilotage de la stratégie commerciale",csp:"Cadre",statut:"Cadre",dept:"Commercial",sal:"5 500€/mois",anc:"8 ans",init:"MD",color:"#3d4a5c",
+   tags:["Cadre","Chiffre d'affaires +35%"],note:"Chiffre d'affaires commercial 2023 : 2 050 000€. 4 démissions dans son équipe depuis son arrivée.",
+   detail:"Chiffre d'affaires commercial en hausse de 35% en 3 ans. 4 démissions dans son équipe depuis 2016, dont 2 en 2023. Entretiens de sortie : 'pression constante', 'objectifs irréalistes'. Formation management juin 2023 : 1 800€ — aucun impact constaté. Temps passé aux entretiens de recrutement : 4 jours par recrutement."},
+  {id:"e4",nom:"Julie PETIT",poste:"Commerciale Senior",fonction:"Gestion d'un portefeuille grands comptes",csp:"Agent de maîtrise",statut:"Agent de maîtrise",dept:"Commercial",sal:"3 100€/mois",anc:"5 ans",init:"JP",color:"#c8a96e",
+   tags:["Talent stratégique","28% du chiffre d'affaires"],note:"Réalise 28% du chiffre d'affaires (1 134 000€). Demande d'augmentation de 400€ refusée. Entretien dans une autre entreprise demain.",
+   detail:"Spécialiste cosmétique bio, profil rare sur le marché. Gère les comptes Galeries Lafayette (380 000€/an) et Printemps (210 000€/an) en totale autonomie. Salaire : 3 100€ brut mensuel + variable 4 800€/an. Offre externe reçue : 3 800€ fixe. Absences maladie : 4 jours en 2021, 7 jours en 2022, 18 jours en 2023."},
+  {id:"e5",nom:"Patrick CHEVALIER",poste:"Responsable Logistique",fonction:"Organisation et supervision des flux logistiques",csp:"Agent de maîtrise",statut:"Agent de maîtrise",dept:"Logistique",sal:"3 200€/mois",anc:"11 ans",init:"PC",color:"#5d7fa8",
+   tags:["Troubles musculo-squelettiques chroniques","42 jours d'absence en 2023"],note:"42 jours d'absence en 2023. Remplacement en intérim : 500€/jour.",
+   detail:"Troubles musculo-squelettiques chroniques (hernies discales reconnues en 2022). Absences 2023 : 14 jours + 18 jours + 10 jours. Remplaçant intérimaire : 500€/jour. Préconisation du médecin du travail (juillet 2023) : suppression des charges supérieures à 5 kg, aménagement poste assis/debout. Devis aménagement de poste : 4 500€. Indemnité légale de licenciement pour inaptitude : 1/4 de mois de salaire par année d'ancienneté."},
+  {id:"e6",nom:"Corinne VIDAL",poste:"Opératrice de Production",fonction:"Conditionnement sur ligne de production",csp:"Ouvrier",statut:"Employée",dept:"Production",sal:"1 920€/mois",anc:"8 ans",init:"CV",color:"#8a6d5a",
+   tags:["Maladie professionnelle reconnue","Troubles musculo-squelettiques tendinite"],note:"Maladie professionnelle tendinite reconnue. Arrêts : 35 jours (2023) + 14 jours (jan. 2024). Mise en demeure sous 30 jours.",
+   detail:"Opératrice sur ligne de conditionnement (gestes répétitifs, 6 heures/jour). Maladie professionnelle tendinite épaule droite reconnue mai 2023. Maintien de salaire conventionnel pendant les arrêts. Remplacement en intérim : 420€/jour. Aménagement préconisé : rotation de poste, maximum 2 heures sur gestes répétitifs. Indemnité légale licenciement pour inaptitude : 1/4 de mois par année d'ancienneté."},
+  {id:"e7",nom:"Karim FONTAINE",poste:"Chef de Projet Recherche & Développement",fonction:"Développement et formulation de produits cosmétiques",csp:"Cadre",statut:"Cadre",dept:"R&D",sal:"4 800€/mois",anc:"7 ans",init:"KF",color:"#2d7a45",
+   tags:["Talent clé","Gamme EcoPure","Contre-proposition acceptée"],note:"Créateur de la gamme EcoPure (2 310 000€ de chiffre d'affaires). Contre-proposition acceptée. A déclaré rester 18 mois maximum.",
+   detail:"Docteur en chimie cosmétique. A créé la gamme EcoPure : 14 formules brevetées, représentant 57% du chiffre d'affaires total. Offre concurrente reçue : 5 800€/mois. Contre-proposition acceptée : 4 800€ + prime 3 000€/an. Déclaration : 'pour 18 mois maximum'. 3 nouvelles formules en cours de développement — investissement engagé : 32 000€. Aucun plan de succession prévu."},
+  {id:"e8",nom:"Amandine MOREAU",poste:"Opératrice de Production",fonction:"Conditionnement sur ligne de production",csp:"Ouvrier",statut:"Employée",dept:"Production",sal:"1 820€/mois",anc:"6 ans",init:"AM",color:"#7a5c8a",
+   tags:["Demande temps partiel refusée","Troubles musculo-squelettiques naissants"],note:"Demande de passage à 80% refusée sans motif écrit. Troubles musculo-squelettiques naissants. Avocat impliqué.",
+   detail:"Demande de temps partiel à 80% déposée en octobre 2023 (motif : enfant en situation de handicap). Refus verbal, sans écrit, sans motif documenté. Troubles musculo-squelettiques naissants (tendinite poignet gauche, arrêt 3 jours en décembre 2023). Recommandé avec avocat reçu en janvier 2024 : discrimination indirecte invoquée. En cas de condamnation : dommages-intérêts entre 6 mois et 2 ans de salaire brut."},
+  {id:"e9",nom:"Nathalie LEBLANC",poste:"Contrôleure de Gestion",fonction:"Contrôle budgétaire et reporting financier",csp:"Cadre",statut:"Cadre",dept:"Finance",sal:"4 100€/mois",anc:"9 ans",init:"NL",color:"#4a6e5a",
+   tags:["Contrôle de gestion sociale","Tableau d'écarts masse salariale"],note:"A produit le tableau d'écarts de masse salariale. Solde de 80 700€ non encore ventilé.",
+   detail:"A produit le rapport révélant le dépassement de masse salariale de +147 400€. Causes partiellement identifiées : contre-proposition Karim Fontaine, intérim Patrick Chevalier, indemnités Alice Benoît, recrutements en urgence, redressement URSSAF. Solde non ventilé : 80 700€. Demande mensuelle à la RH : absentéisme, coût intérim, délai et coût de recrutement, taux de rétention à 6 mois."},
+  {id:"e11",nom:"Alice BENOÎT",poste:"Chargée de Grands Comptes",fonction:"Gestion et développement de comptes stratégiques",csp:"Agent de maîtrise",statut:"Agent de maîtrise",dept:"Commercial",sal:"3 800€/mois",anc:"4 ans",init:"AB",color:"#c4715a",
+   tags:["Départ confirmé","Rupture conventionnelle","Comptes Sephora / Marionnaud"],note:"Rupture conventionnelle confirmée — 4ème départ commercial en 18 mois.",
+   detail:"Chargée de grands comptes, spécialiste cosmétique conventionnelle. Gérait les comptes Sephora (chiffre d'affaires estimé 32 000€/an) et Marionnaud (chiffre d'affaires estimé 21 500€/an), soit 53 500€ de chiffre d'affaires annuel total. Salaire brut : 3 800€/mois. Ancienneté : 4 ans. Rupture conventionnelle confirmée en janvier 2024. Ses comptes ne sont pas encore transférés à ce jour. Motif déclaré lors de l'entretien de sortie : 'pression managériale constante, objectifs irréalistes, aucune reconnaissance malgré les résultats'."},
+  {id:"e12",nom:"David PERRIN",poste:"Commercial Junior",fonction:"Développement d'un portefeuille clients en construction",csp:"Employé",statut:"Employé",dept:"Commercial",sal:"2 800€/mois",anc:"6 mois",init:"DP",color:"#e8a35c",
+   tags:["Recrutement 2023","En phase de formation"],note:"Recruté en urgence en 2023 pour combler un départ. Encore en phase de formation.",
+   detail:"Recruté en septembre 2023 dans le cadre d'un des 8 recrutements de l'année (remplacement d'un départ commercial). Encore en formation sur le portefeuille clients — autonomie partielle attendue après 6 mois, pleine productivité après 12 mois. Salaire : 2 800€ brut/mois. Suivi rapproché par le directeur commercial. Premier bilan d'intégration prévu à 6 mois."},
+  {id:"e10",nom:"Henri DUPONT",poste:"Responsable Paie",fonction:"Gestion de la paie et des déclarations sociales",csp:"Agent de maîtrise",statut:"Agent de maîtrise",dept:"Finance",sal:"3 600€/mois",anc:"10 ans",init:"HD",color:"#5a6e7a",
+   tags:["Erreur de Déclaration Sociale Nominative","Redressement URSSAF"],note:"Erreur de Déclaration Sociale Nominative novembre 2023 → redressement URSSAF 3 400€.",
+   detail:"Gère la paie de 65 salariés seul. Migration du Système d'Information RH en septembre 2023 avec seulement 1/2 journée de formation (recommandé : 2 jours). Erreur de Déclaration Sociale Nominative novembre 2023 → redressement URSSAF 3 400€. Coût d'une formation complète : 1 200€."}
+];
+
+// ══ QCM SÉANCES (multi-questions) ══
+const QCM_S=[
+  // Séance 1
+  [
+    {q:"Parmi ces affirmations sur le recrutement, laquelle est exacte ?",
+     opts:["Le recrutement est un investissement stratégique dont le retour peut être mesuré à travers des indicateurs spécifiques","Le recrutement représente un coût inévitable dont il est impossible de mesurer le retour sur investissement","Le seul indicateur pertinent pour évaluer le recrutement est le nombre d'embauches réalisées dans l'année"],
+     correct:0,ok:"Exact. Le recrutement est bien un investissement mesurable. Plusieurs indicateurs permettent d'en évaluer le retour : le coût moyen par embauche, le délai moyen de recrutement, le taux de rétention à 6 mois ou encore la montée en productivité des recrues.",ko:"Le recrutement est un investissement mesurable. Plusieurs indicateurs permettent d'en évaluer le retour : le coût moyen par embauche, le délai moyen de recrutement, le taux de rétention à 6 mois ou encore la montée en productivité des recrues."},
+    {q:"Parmi ces indicateurs, lequel renseigne sur la qualité du recrutement plutôt que sur son volume ?",
+     opts:["Le nombre total de recrutements réalisés au cours de l'année","Le taux de rétention à 6 mois des nouvelles recrues","Le montant du budget recrutement consommé par rapport au budget prévu"],
+     correct:1,ok:"Exact. Le taux de rétention à 6 mois révèle si les profils recrutés correspondent réellement aux besoins et si l'intégration a bien fonctionné. C'est un indicateur de qualité, contrairement au nombre de recrutements qui mesure uniquement le volume.",ko:"Le taux de rétention à 6 mois est un indicateur de qualité : il révèle si le bon profil a été recruté et si l'intégration a bien fonctionné. Les autres indicateurs mesurent le volume ou le respect budgétaire."},
+    {q:"Pour obtenir un taux de turnover représentatif de la situation commerciale de COSMÉTICA™, sur quel périmètre faut-il calculer cet indicateur en priorité ?",
+     opts:["Sur l'effectif total de l'entreprise (65 salariés)","Sur l'effectif du seul département commercial","Sur les seuls salariés en contrat à durée indéterminée de l'entreprise"],
+     correct:1,ok:"Exact. Un taux calculé sur l'ensemble de l'effectif dilue les situations localisées. Pour identifier une problématique dans un service ou sous un manager, il est indispensable de calculer le turnover par département.",ko:"Un taux global masque les situations critiques. Pour identifier une problématique dans un service ou sous un manager, il faut calculer le turnover par département."}
+  ],
+  // Séance 2
+  [
+    {q:"Adapter la masse salariale à une situation économique difficile implique nécessairement de réduire les salaires individuels des salariés.",
+     opts:["Non, il existe de nombreux leviers d'ajustement qui ne touchent pas aux rémunérations individuelles","Oui, la réduction des salaires est le seul levier efficace pour agir rapidement sur la masse salariale","Oui, mais uniquement à condition qu'un plan de sauvegarde de l'emploi soit formellement déclenché"],
+     correct:0,ok:"Exact. Plusieurs leviers permettent d'agir sur la masse salariale sans toucher aux salaires : gel des augmentations et des primes, non-renouvellement des contrats à durée déterminée et des missions d'intérim, mise en place de l'activité partielle longue durée, ou encore mobilité interne. Le licenciement économique est le dernier recours.",ko:"Plusieurs leviers permettent d'agir sur la masse salariale sans toucher aux salaires : gel des augmentations et des primes, non-renouvellement des contrats à durée déterminée et des missions d'intérim, mise en place de l'activité partielle longue durée, ou encore mobilité interne. Le licenciement économique est le dernier recours."},
+    {q:"Quelles conditions doivent être réunies simultanément pour qu'un plan de sauvegarde de l'emploi soit obligatoire ?",
+     opts:["L'entreprise doit compter au moins 50 salariés ET envisager au moins 10 licenciements économiques sur 30 jours consécutifs","L'entreprise doit avoir enregistré une perte nette ET envisager de licencier plus de 5 salariés","L'entreprise doit compter au moins 100 salariés ET licencier plus de 10% de son effectif"],
+     correct:0,ok:"Exact. Les deux seuils sont cumulatifs : effectif d'au moins 50 salariés ET au moins 10 licenciements économiques envisagés sur une période de 30 jours consécutifs. Ces deux conditions doivent être réunies simultanément.",ko:"Les deux seuils sont cumulatifs : effectif d'au moins 50 salariés ET au moins 10 licenciements économiques envisagés sur une période de 30 jours consécutifs. Ces deux conditions doivent être réunies simultanément."},
+    {q:"Quel document est obligatoire pour mettre en place l'Activité Partielle de Longue Durée dans une entreprise ?",
+     opts:["L'accord écrit individuel de chaque salarié concerné par la mesure","L'autorisation préalable de l'Inspection du Travail avant toute réduction d'horaires","Un accord collectif ou un document unilatéral homologué par la direction régionale de l'économie, de l'emploi, du travail et des solidarités"],
+     correct:2,ok:"Exact. L'Activité Partielle de Longue Durée repose obligatoirement sur un accord collectif signé par des organisations syndicales représentatives, ou sur un document unilatéral soumis à consultation du Comité Social et Économique puis homologué par la direction régionale compétente.",ko:"L'Activité Partielle de Longue Durée repose obligatoirement sur un accord collectif signé par des organisations syndicales représentatives, ou sur un document unilatéral soumis à consultation du Comité Social et Économique puis homologué par la direction régionale compétente."}
+  ],
+  // Séance 3
+  [
+    {q:"Un taux d'absentéisme global de 5% calculé sur l'ensemble de l'entreprise permet-il de rendre compte fidèlement de la situation de chaque département ?",
+     opts:["Non, un indicateur global masque des disparités importantes entre services et entre individus","Oui, il reflète la situation réelle de chaque département puisqu'il est calculé sur l'ensemble de l'effectif","Oui, à condition qu'il soit comparé au benchmark national pour valider sa pertinence"],
+     correct:0,ok:"Exact. Un taux global est un indicateur de tendance générale. Il peut masquer des situations très différentes d'un service à l'autre. Pour piloter efficacement l'absentéisme, il est indispensable de le décomposer par département, par service, voire par individu.",ko:"Un taux global est un indicateur de tendance générale. Il peut masquer des situations très différentes d'un service à l'autre. Pour piloter efficacement l'absentéisme, il est indispensable de le décomposer par département, par service, voire par individu."},
+    {q:"Quelles sont les principales conséquences juridiques et financières d'une faute inexcusable de l'employeur en matière d'accident du travail ou de maladie professionnelle ?",
+     opts:["Le versement d'une amende forfaitaire fixée par l'Inspection du Travail et la mise en demeure de régulariser la situation","La majoration de la rente versée au salarié et le remboursement à la Caisse Primaire d'Assurance Maladie de l'ensemble des dépenses engagées","Le remboursement des seules indemnités journalières déjà versées par la Caisse Primaire d'Assurance Maladie"],
+     correct:1,ok:"Exact. La faute inexcusable entraîne deux conséquences principales : la majoration automatique de la rente accident du travail ou maladie professionnelle versée au salarié, et l'obligation pour l'employeur de rembourser à la Caisse Primaire d'Assurance Maladie l'intégralité des dépenses engagées.",ko:"La faute inexcusable entraîne deux conséquences principales : la majoration automatique de la rente versée au salarié, et l'obligation pour l'employeur de rembourser à la Caisse Primaire d'Assurance Maladie l'intégralité des dépenses engagées."},
+    {q:"Dans le cadre d'une analyse des risques psychosociaux, lequel de ces éléments constitue le signal le plus préoccupant sur le plan collectif ?",
+     opts:["Un taux d'absentéisme global légèrement supérieur au benchmark national","L'accumulation de signaux individuels (absences répétées, demandes non traitées, alertes non documentées) sur une même période","Un taux de turnover inférieur à celui du secteur d'activité sur les trois dernières années"],
+     correct:1,ok:"Exact. Les risques psychosociaux se manifestent rarement sous forme d'un indicateur unique et évident. C'est la convergence de plusieurs signaux individuels, même d'intensité modérée, qui révèle une tension sociale sous-jacente et appelle une réponse organisationnelle.",ko:"Les risques psychosociaux se manifestent rarement sous forme d'un indicateur unique et évident. C'est la convergence de plusieurs signaux individuels qui révèle une tension sociale sous-jacente et appelle une réponse organisationnelle."}
+  ]
+];
+
+// ══ SÉANCES ══
+const SEANCES=[
+  {id:1,titre:"Audit Recrutement & Indicateurs RH",duree:"3h30",color:"#c4715a",
+   email:{from:"Isabelle BERNARD",role:"Directrice Générale · COSMÉTICA™",init:"IB",avc:"#2d6e6a",date:"15 janvier 2024",subject:"Diagnostic turnover commercial — urgence CODIR",
+    body:`<p>Bonjour,</p><p>Je viens de recevoir le rapport de Sophie Martin. Le turnover de notre département commercial atteint <strong>40% en 2023</strong> — soit 4 fois plus que l'an dernier et 3 fois le benchmark sectoriel.</p><p>Marc Durand dit que c'est <em>"la faute du marché"</em>. Sophie dit que c'est le management. J'ai besoin d'un diagnostic objectif et chiffré avant le CODIR de vendredi.</p><p>Alice Benoît vient de confirmer sa rupture conventionnelle. 4ème départ commercial en 18 mois. Elle gérait les comptes Sephora et Marionnaud.</p><p>Isabelle Bernard — DG</p>`},
+   mission:{id:"m1",titre:"Audit Recrutement COSMÉTICA™",type:"Travail collectif · Restitution orale",
+    intro:"Votre équipe RH doit produire un audit complet du recrutement pour le CODIR de vendredi. Isabelle Bernard attend des chiffres précis, pas des estimations vagues.",
+    checklist:["Calcul du taux de turnover global ET du taux de turnover commercial avec les formules exactes","Décomposition du coût de remplacement d'Alice Benoît : départ + recrutement + vacance poste + transition 12 mois","Estimation du coût total des 4 départs commerciaux avec hypothèses documentées","Analyse des causes du turnover : croisement données quantitatives + signaux dans les dossiers","3 KPIs recrutement avec formule, valeur COSMÉTICA™, benchmark et seuil d'alerte","3 actions correctives : coût de mise en œuvre + coût évité + délai + responsable"],
+    consigne:"<strong>Données à utiliser :</strong> délai moyen de recrutement 68 jours · temps Responsable RH par recrutement 3 jours · temps manager par recrutement 4 jours · durée de formation d'un commercial junior 6 à 12 mois · perte de chiffre d'affaires pendant la transition 30 à 40% · chiffre d'affaires Julie Petit 1 134 000€ · données complémentaires disponibles dans les dossiers salariés et la section Données Financières.<br><br><strong>Restitution orale :</strong> 10 minutes de présentation. La direction générale posera des questions sur vos hypothèses. Vous devez être en mesure de défendre chaque chiffre et chaque hypothèse formulée.",
+    doctype:"Audit Recrutement COSMÉTICA™ — Note pour le CODIR"},
+   reflexion:[
+    {id:"r1_1",q:"Calculez le coût du remplacement d'Alice Benoît et comparez-le au coût d'une augmentation préventive de 300€ par mois.",
+     ctx:"Alice Benoît : salaire brut 3 800€/mois, ancienneté 4 ans. Indemnité de rupture conventionnelle : 1/4 de mois de salaire brut par année d'ancienneté. Coût de recrutement d'un profil grand compte : entre 12 000€ et 18 000€. Chiffre d'affaires des comptes gérés : Sephora 32 000€/an, Marionnaud 21 500€/an, soit 53 500€/an au total. Délai avant autonomie d'un nouveau commercial grand compte : 6 mois. Perte estimée de chiffre d'affaires pendant la période de transition : entre 30 et 40%.<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"},
+    {id:"r1_4",q:"Identifiez les différents signaux faibles présents dans les dossiers salariés. Selon vous, lesquels auraient dû déclencher une alerte des ressources humaines ? Expliquez votre raisonnement et proposez les actions préventives qui auraient pu être envisagées.",
+     ctx:"Les dossiers salariés et les données disponibles contiennent l'ensemble des informations nécessaires à votre analyse.<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"}
+   ]},
+  {id:2,titre:"Crise Budgétaire & Masse Salariale",duree:"3h30",color:"#3d4a5c",
+   email:{from:"Nathalie LEBLANC",role:"Contrôleure de Gestion · COSMÉTICA™",init:"NL",avc:"#4a6e5a",date:"5 février 2024",subject:"URGENT — Analyse budgétaire MS 2023 avant CODIR vendredi",
+    body:`<p>Bonjour,</p><p>Je viens de finaliser les chiffres 2023. <strong>La masse salariale a dépassé le budget de 147 400€ (+6,1%)</strong>. Sans action, le dépassement 2024 sera encore plus important.</p><p>Marc Durand propose un <em>PSE sur 8 postes dont 5 commerciaux</em>. Sophie Martin s'y oppose. Isabelle Bernard attend votre analyse avant le CODIR.</p><p>Nathalie Leblanc — CG</p>`},
+   mission:{id:"m2",titre:"Analyse de la Crise Budgétaire COSMÉTICA™",type:"Travail collectif · Présentation CODIR simulée",
+    intro:"Produisez l'analyse complète que la direction générale attend. Une partie de l'écart reste non ventilée à ce stade — les données disponibles vous permettent d'avancer des hypothèses documentées.",
+    checklist:["Calcul du ratio MS/CA et réduction nécessaire pour atteindre l'objectif 60%","Décomposition complète de l'écart +147 400€ — votre total doit atteindre 147 400€","Classification de chaque cause : conjoncturelle ou structurelle","Analyse PSE vs APLD : coût de chaque option ET économie MS générée","Plan d'actions 2024 pour revenir sous 60% de ratio MS/CA","Note de risque sur chaque option (juridique, social, économique)"],
+    consigne:"<strong>Le solde non ventilé de 80 700€</strong> doit être reconstitué par hypothèses : divers intérims, heures supplémentaires, primes. Documentez vos hypothèses.<br><br><strong>Simulation CODIR :</strong> Un groupe présente, les autres jouent DG, CSE et Directeur Financier. Défendez chaque euro.",
+    doctype:"Analyse Crise Budgétaire — Note CODIR COSMÉTICA™"},
+   reflexion:[
+    {id:"r2_1",q:"Analysez l'évolution de la masse salariale à partir des données disponibles. Identifiez les principales causes de variation observées et distinguez celles qui relèvent de facteurs conjoncturels ou structurels. Proposez ensuite les actions qui pourraient être envisagées pour l'exercice suivant.",
+     ctx:"Données disponibles dans la section Données Financières : masse salariale chargée 2023 (2 582 400€), budget prévu (2 435 000€), écart total (+147 400€). Éléments identifiés partiellement : contre-proposition Karim Fontaine (+400€/mois × 12 mois + prime de 3 000€), missions d'intérim Patrick Chevalier (42 jours à 500€/jour), missions d'intérim Corinne Vidal (35 jours à 420€/jour), indemnités de rupture conventionnelle Alice Benoît (1/4 de mois par année d'ancienneté × 4 ans × 3 800€), dépassement recrutement (budget 42 000€ — réalisé 68 000€), redressement URSSAF Henri Dupont (3 400€). Solde restant non ventilé : 80 700€, à estimer par hypothèses documentées.<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"},
+    {id:"r2_3",q:"À partir des données disponibles, estimez le coût des différentes options envisageables pour faire face à la situation de l'entreprise. Analysez notamment l'intérêt d'un plan de sauvegarde de l'emploi et d'une activité partielle de longue durée. Existe-t-il d'autres solutions que vous jugeriez pertinentes ? Justifiez vos choix.",
+     ctx:"Plan de sauvegarde de l'emploi (8 postes dont 5 commerciaux) : indemnités légales 1/4 de mois par année d'ancienneté + outplacement estimé entre 3 000€ et 5 000€ par personne + cellule de reclassement entre 15 000€ et 30 000€. Données salariés concernés disponibles dans les dossiers. Chiffre d'affaires commercial 2023 : 2 050 000€. Activité Partielle de Longue Durée : réduction possible jusqu'à 40% du temps de travail, prise en charge de l'État à hauteur de 60% des heures non travaillées, calculée sur la masse salariale brute de 1 820 000€.<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"},
+    {id:"r2_4",q:"Parmi l'ensemble des actions envisageables, laquelle vous semble avoir l'impact le plus important pour améliorer durablement la situation de l'entreprise ? Justifiez votre choix.",
+     ctx:"Les données nécessaires à votre argumentation sont disponibles dans les sections Données Financières et Dossiers Salariés.<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"}
+   ]},
+  {id:3,titre:"Performance, RPS & Baromètre Social",duree:"3h30",color:"#2d6e6a",
+   email:{from:"Sophie MARTIN",role:"Responsable RH · COSMÉTICA™",init:"SM",avc:"#c4715a",date:"12 mars 2024",subject:"SOS — Besoin de votre aide aujourd'hui",
+    body:`<p>Bonjour,</p><p>Ce matin :</p><p>→ <strong>Patrick Chevalier</strong> : arrêt 3 mois supplémentaires. Remplaçant intérim <em>500€/jour</em>.<br>→ <strong>Corinne Vidal</strong> : médecin du travail — mise en demeure sous 30 jours.<br>→ <strong>Amandine Moreau</strong> : recommandé avec avocat.<br>→ <strong>Julie Petit</strong> : entretien dans une autre boîte demain matin.</p><p>Il me faut un baromètre social complet et un plan d'action. Aujourd'hui.</p><p>Sophie Martin — RRH</p>`},
+   mission:{id:"m3",titre:"Baromètre Social COSMÉTICA™",type:"Travail collectif · Présentation médecin du travail",
+    intro:"Construisez le premier baromètre social de COSMÉTICA™. Chaque indicateur doit être calculé avec les données disponibles.",
+    checklist:["Baromètre : 5 indicateurs avec formule + valeur calculée + benchmark + code RAG + action corrective chiffrée","Analyse coût-bénéfice Patrick Chevalier : scénario inaction vs aménagement vs inaptitude","Analyse juridique et financière Amandine Moreau : risque chiffré + coût solution amiable","Plan de fidélisation Julie Petit : ROI de l'augmentation vs coût remplacement 18 mois","Matrice de priorisation des 5 urgences avec budget 15 000€","Plan d'action 30/60/90 jours avec responsable, coût et indicateur de suivi"],
+    consigne:"<strong>Obligation de calcul :</strong> chaque recommandation doit être chiffrée. 'Il faut aménager le poste de Patrick' ne suffit pas — montrez le ROI.<br><br><strong>Jeu de rôle :</strong> DG, médecin du travail, délégué CSE. Chaque décision sera challengée.",
+    doctype:"Baromètre Social + Plan d'Action — COSMÉTICA™ Mars 2024"},
+   reflexion:[
+    {id:"r3_1",q:"À partir des données disponibles, calculez les indicateurs sociaux de COSMÉTICA™ et analysez-les. Comparez-les aux benchmarks sectoriels disponibles dans la section Données Financières.",
+     ctx:"Données disponibles dans la section Données Financières : effectif moyen 2023 (63 salariés), entrées 2023 (8), sorties 2023 (8), jours d'absence totaux (178 jours), jours ouvrés théoriques (228 jours), équivalents temps plein (65 ETP réels : 58,5), chiffre d'affaires 2023 (4 050 000€), accidents du travail (7 dont 2 liés aux troubles musculo-squelettiques), budget formation prévu (85 000€), réalisé (62 000€), 2 départs sur 8 recrutements avant 6 mois.<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"},
+    {id:"r3_3",q:"Construisez un baromètre social simplifié comportant 5 indicateurs que vous jugez pertinents. Quels éléments surveilleriez-vous en priorité ? Quelles questions poseriez-vous aux salariés pour évaluer le climat social ? Expliquez pourquoi ces indicateurs et ces questions vous semblent pertinents.",
+     ctx:"Les données nécessaires à vos calculs sont disponibles dans la section Données Financières. Les dossiers salariés fournissent des éléments qualitatifs complémentaires.<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"},
+    {id:"r3_4",q:"Selon vous, quelles sont les 5 urgences prioritaires auxquelles l'entreprise doit faire face ? Classez-les par ordre de priorité et proposez, lorsque cela est possible, une estimation des moyens ou coûts nécessaires à leur traitement. Vous disposez d'un budget global de 15 000 euros.",
+     ctx:"Données disponibles pour vos estimations : aménagement de poste Patrick Chevalier (devis : 4 500€, intérim en cours : 500€/jour), aménagement de poste Corinne Vidal (intérim en cours : 420€/jour, risque faute inexcusable de l'employeur), situation Amandine Moreau (salaire brut 1 820€/mois, contentieux potentiel entre 6 mois et 2 ans de salaire brut), entretien de fidélisation Julie Petit (chiffre d'affaires géré : 1 134 000€, offre externe reçue : 3 800€ fixe, augmentation refusée : 400€/mois), construction d'un baromètre social (coût estimé entre 500€ et 1 500€).<br><br><strong>Consigne :</strong> cette réflexion doit être réalisée sur un document séparé (Word, PDF ou équivalent) puis transmise au formateur à l'adresse suivante : <a href='mailto:jimmy.kah@esa-metz.fr'>jimmy.kah@esa-metz.fr</a>"}
+   ]}
+];
+
+
+// ══ HELPERS VISUELS ══
+const DEPT_ICON={Direction:'👩‍💼',RH:'👩‍💻',Commercial:'🧑‍💼',Logistique:'👨‍🔧',Production:'👷',Finance:'🧑‍💻','R&D':'🧑‍🔬'};
+const EMP_AVATAR={e1:'👩‍💼',e2:'👩‍💻',e3:'👨‍💼',e4:'👩‍💼',e5:'👨‍🔧',e6:'👩‍🏭',e7:'👨‍🔬',e8:'👩‍🏭',e9:'👩‍💻',e10:'👨‍💻',e11:'👩‍💼',e12:'👨‍💼'};
+
+// ══ STATE ══
+let ph={},rst={};
+let curMail=null,mailMobile=false;
+function isDone(n){const u=gu();return u&&u.done&&u.done[n];}
+function unreadCount(){if(!gu())return 0;const r=gu().readMails||{};return MAILS.filter(m=>!r[m.id]).length;}
+
+// ══ SIDEBAR MOBILE ══
+function toggleSb(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sb-overlay').classList.toggle('open');
+}
+function closeSb(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').classList.remove('open');
+}
+
+// ══ AUTH ══
+let _ll=false;
+function login(){
+  if(_ll)return;
+  try{
+    const n=document.getElementById('inp').value.trim();
+    if(n.length<2){toast('Saisissez votre prénom et nom (ex : Marie Dupont).','wa');return;}
+    _ll=true;
+    const init=n.split(' ').filter(Boolean).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'??';
+    if(!S.students[n])S.students[n]={name:n,initials:init,ms:{},lv:{},refl:{},done:{},readMails:{}};
+    S.user=n;ss();
+    document.getElementById('pg-splash').classList.add('hidden');
+    document.getElementById('pg-app').classList.remove('hidden');
+    document.getElementById('av-t').textContent=gu().initials;
+    document.getElementById('nm-t').textContent=gu().name;
+    updProg();updNav();updMailBadge();
+    go('home');
+  }catch(e){_ll=false;toast('Erreur : '+e.message,'er');}
+}
+function logout(){
+  S.user=null;ss();
+  document.getElementById('pg-splash').classList.remove('hidden');
+  document.getElementById('pg-app').classList.add('hidden');
+  document.getElementById('inp').value='';
+}
+
+// ══ NAV ══
+function go(p){
+  closeSb();
+  ['home','mail','doss','data'].forEach(x=>{const e=document.getElementById('ni-'+x);if(e)e.classList.toggle('on',x===p);});
+  [1,2,3].forEach(i=>{const e=document.getElementById('ni-s'+i);if(e)e.classList.remove('on');});
+  setMain(()=>{
+    if(p==='home')renderHome();
+    else if(p==='mail')renderMail();
+    else if(p==='doss')renderDossiers();
+    else if(p==='data')renderData();
+  });
+}
+function goS(n){
+  closeSb();
+  ['home','mail','doss','data'].forEach(x=>{const e=document.getElementById('ni-'+x);if(e)e.classList.remove('on');});
+  [1,2,3].forEach(i=>{const e=document.getElementById('ni-s'+i);if(e)e.classList.remove('on');});
+  const e=document.getElementById('ni-s'+n);if(e)e.classList.add('on');
+  setMain(()=>renderSeance(n));
+}
+function setMain(fn){
+  const m=document.getElementById('main');
+  m.classList.remove('fi');void m.offsetWidth;m.classList.add('fi');fn();
+}
+
+// ══ HOME ══
+function renderHome(){
+  document.getElementById('main').innerHTML=`
+  <div class="pt">Bienvenue dans l'atelier</div>
+  <div class="ps">COSMÉTICA™ · Simulation Contrôle de Gestion Sociale · Master RH 1ère année</div>
+  <div class="card cw" style="margin-bottom:22px;border-left:4px solid var(--gold)">
+    <div style="font-family:'Playfair Display',serif;font-size:17px;margin-bottom:8px">Comment fonctionne cet atelier</div>
+    <div style="font-size:13px;color:var(--slate);line-height:1.8">Chaque séance suit la même structure : <strong>1. Email fictif</strong> pour vous mettre en situation · <strong>2. QCM de déverrouillage</strong> (3 questions, score affiché) · <strong>3. Mission collective</strong> à rédiger et présenter oralement · <strong>4. Questions de réflexion individuelle</strong>.<br><br>L'objectif n'est pas d'être noté ici — mais de vraiment comprendre et débattre. <strong>L'évaluation se fera en fin de module.</strong></div>
+  </div>
+  <span class="slbl">Les 3 séances</span>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px;margin-bottom:26px">
+  ${SEANCES.map((s,i)=>{
+    const d=isDone(i+1),lk=i>0&&!isDone(i);
+    return `<div class="card" style="cursor:pointer;border-top:3px solid ${s.color};transition:all .17s" onclick="goS(${i+1})" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(0,0,0,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+        <span style="font-family:'Playfair Display',serif;font-size:13px;color:${s.color}">Séance ${i+1}</span>
+        ${d?`<span class="bdg bok">✓ Complétée</span>`:false?'':`<span class="bdg bg">À réaliser</span>`}
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-size:17px;margin-bottom:5px">${s.titre}</div>
+      <div style="font-size:12px;color:var(--slate)">${s.duree} · 3 QCM + Mission collective + Réflexion individuelle</div>
+    </div>`;
+  }).join('')}
+  </div>
+  <span class="slbl">Ressources</span>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:24px">
+    <div class="card" style="cursor:pointer" onclick="go('mail')" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''"><div style="font-size:22px;margin-bottom:8px">✉️</div><div style="font-weight:600;margin-bottom:4px">Boîte mail</div><div style="font-size:12px;color:var(--slate)">6 messages des parties prenantes COSMÉTICA™</div></div>
+    <div class="card" style="cursor:pointer" onclick="go('doss')" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''"><div style="font-size:22px;margin-bottom:8px">👥</div><div style="font-weight:600;margin-bottom:4px">Dossiers salariés</div><div style="font-size:12px;color:var(--slate)">12 profils RH confidentiels</div></div>
+    <div class="card" style="cursor:pointer" onclick="go('data')" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor=''"><div style="font-size:22px;margin-bottom:8px">📊</div><div style="font-weight:600;margin-bottom:4px">Données financières</div><div style="font-size:12px;color:var(--slate)">MS 2023, écarts budgétaires, indicateurs</div></div>
+  </div>
+  <span class="slbl">Alertes actives COSMÉTICA™</span>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:9px">
+    <div class="card cw" style="border-left:3px solid var(--er)"><div style="font-size:13px;font-weight:600;color:var(--er);margin-bottom:3px">🔴 Turnover commercial</div><div style="font-size:12px;color:var(--slate)">4 départs en 18 mois. Benchmark : 15%. Julie Petit : entretien demain.</div></div>
+    <div class="card cw" style="border-left:3px solid var(--er)"><div style="font-size:13px;font-weight:600;color:var(--er);margin-bottom:3px">🔴 Dépassement MS : +147 400€</div><div style="font-size:12px;color:var(--slate)">+6,1% vs budget. PSE proposé par Durand. Sophie Martin s'y oppose.</div></div>
+    <div class="card cw" style="border-left:3px solid var(--wa)"><div style="font-size:13px;font-weight:600;color:var(--wa);margin-bottom:3px">⚠ 3 situations TMS actives</div><div style="font-size:12px;color:var(--slate)">Chevalier (42j absence), Vidal (MP reconnue), Moreau (TMS naissants).</div></div>
+    <div class="card cw" style="border-left:3px solid var(--wa)"><div style="font-size:13px;font-weight:600;color:var(--wa);margin-bottom:3px">⚠ Burn-out RH latent</div><div style="font-size:12px;color:var(--slate)">Sophie Martin : 65 salariés à 2 personnes. 8 jours maladie. Alerte jan. 2024.</div></div>
+  </div>`;
+}
+
+// ══ BOITE MAIL ══
+function updMailBadge(){
+  const cnt=unreadCount();
+  const badge=document.getElementById('mail-cnt');
+  if(!badge)return;
+  if(cnt>0){badge.textContent=cnt;badge.classList.remove('hidden');}
+  else badge.classList.add('hidden');
+}
+function showMailList(){
+  mailMobile=false;curMail=null;renderMail();
+}
+function renderMail(){
+  const u=gu();const reads=u.readMails||{};
+  const listHtml=MAILS.map(m=>{
+    const unread=!reads[m.id];
+    const isActive=curMail===m.id;
+    return `<div class="mail-row ${unread?'unread':''} ${isActive?'active':''}" onclick="openMail('${m.id}')">
+      <div class="mr-av" style="background:${m.color}">${m.init}</div>
+      <div style="flex:1;min-width:0">
+        <div class="mr-meta">
+          <span class="mr-sender">${m.from}</span>
+          <span class="mr-date">${m.date}</span>
+        </div>
+        <div class="mr-subj">${m.subject}</div>
+        <div class="mr-preview">${m.preview}</div>
+      </div>
+      ${unread?`<div class="unread-dot"></div>`:''}
+    </div>`;
+  }).join('');
+
+  let bodyHtml=`<div class="mb-empty">Sélectionnez un message</div>`;
+  if(curMail){
+    const m=MAILS.find(x=>x.id===curMail);
+    if(m)bodyHtml=`
+      <div class="mb-hd">
+        <div class="mb-av" style="background:${m.color}">${m.init}</div>
+        <div style="flex:1">
+          <div class="mb-from">${m.from}</div>
+          <div class="mb-role">${m.role}</div>
+          <div class="mb-subj">${m.subject}</div>
+        </div>
+        <div class="mb-date">📅 ${m.date}</div>
+      </div>
+      <div class="mb-body">${m.body}</div>
+      <div class="mb-foot">
+        <span class="btn-noreply">↩ Répondre — à l'oral en séance</span>
+      </div>`;
+  }
+
+  document.getElementById('main').innerHTML=`
+  <div class="pt" style="margin-bottom:6px">Boîte mail</div>
+  <div class="ps">COSMÉTICA™ · Messages des parties prenantes · ${unreadCount()} non lu(s)</div>
+  <div class="mail-layout ${mailMobile?'show-detail':''}" id="mail-layout">
+    <div class="mail-list-col" id="mail-list-col">
+      <div class="ml-head">
+        <span class="ml-head-ttl">Réception</span>
+        ${unreadCount()>0?`<span class="ml-head-badge">${unreadCount()} non lu(s)</span>`:''}
+      </div>
+      ${listHtml}
+    </div>
+    <div class="mail-body-col" id="ml-body"><button class="btn-back-mail" id="back-mail-btn" onclick="showMailList()">← Tous les mails</button>${bodyHtml}</div>
+  </div>`;
+}
+function openMail(id){
+  const u=gu();
+  if(!u.readMails)u.readMails={};
+  u.readMails[id]=true;ss();
+  curMail=id;mailMobile=true;
+  updMailBadge();
+  renderMail();
+}
+
+// ══ DOSSIERS ══
+function renderDossiers(){
+  document.getElementById('main').innerHTML=`
+  <div class="pt">Dossiers Salariés</div>
+  <div class="ps">COSMÉTICA™ · 12 profils clés · Touchez pour ouvrir le dossier complet</div>
+  <div class="bnr btl" style="margin-bottom:20px">💡 Consultez ces dossiers avant chaque mission. Ils contiennent les données nécessaires à vos calculs.</div>
+  <div class="dgrid">${EMP.map(e=>{
+    return `<div class="dc" onclick="openDossier('${e.id}')">
+      <div class="dtop"><div class="dav2" style="background:${e.color};font-size:20px">${EMP_AVATAR[e.id]||DEPT_ICON[e.dept]||e.init}</div>
+        <div style="flex:1"><div class="dn">${e.nom}</div><div class="dp">${e.poste} · ${e.dept}</div><div class="dsal">${e.sal} · ${e.anc}</div></div>
+      </div>
+      <div class="dbdy">
+        <div class="dtags">${e.tags.map(t=>`<span class="bdg bs" style="font-size:10px">${t}</span>`).join('')}</div>
+        <div class="dnote">${e.note}</div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+function openDossier(id){
+  const e=EMP.find(x=>x.id===id);if(!e)return;
+  document.getElementById('modal-body').innerHTML=`
+  <div style="display:flex;align-items:center;gap:13px;margin-bottom:16px">
+    <div style="width:54px;height:54px;border-radius:50%;background:${e.color};display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">${EMP_AVATAR[e.id]||DEPT_ICON[e.dept]||e.init}</div>
+    <div><div class="mttl">${e.nom}</div><div style="font-size:13px;color:var(--slate)">${e.poste} · ${e.dept}</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px">
+    <div class="card cw" style="padding:11px"><div style="font-size:11px;color:var(--slate);margin-bottom:2px">Rémunération</div><div style="font-weight:600;color:var(--gd)">${e.sal}</div></div>
+    <div class="card cw" style="padding:11px"><div style="font-size:11px;color:var(--slate);margin-bottom:2px">Ancienneté</div><div style="font-weight:600">${e.anc}</div></div>
+    <div class="card cw" style="padding:11px"><div style="font-size:11px;color:var(--slate);margin-bottom:2px">Catégorie socioprofessionnelle</div><div style="font-weight:600">${e.csp}</div></div>
+    <div class="card cw" style="padding:11px"><div style="font-size:11px;color:var(--slate);margin-bottom:2px">Statut</div><div style="font-weight:600">${e.statut}</div></div>
+  </div>
+  <div style="margin-bottom:12px;background:var(--warm);padding:10px 13px;border-radius:var(--rs)"><span style="font-size:11px;color:var(--slate);font-weight:600">Fonction : </span><span style="font-size:12px;color:var(--ink)">${e.fonction}</span></div>
+  <div style="margin-bottom:12px"><div style="font-size:10px;font-weight:600;color:var(--slate);letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px">Tags</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px">${e.tags.map(t=>`<span class="bdg bs">${t}</span>`).join('')}</div></div>
+  <div style="margin-bottom:12px"><div style="font-size:10px;font-weight:600;color:var(--slate);letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px">Analyse RH</div>
+    <div style="font-size:13px;line-height:1.75;background:var(--warm);padding:13px;border-radius:var(--rs)">${e.detail}</div></div>
+`;
+  document.getElementById('modal').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+
+// ══ DATA ══
+function renderData(){
+  document.getElementById('main').innerHTML=`
+  <div class="pt">Données Financières & RH</div>
+  <div class="ps">COSMÉTICA™ · Exercice 2023 · Source : Contrôle de Gestion + RRH</div>
+  <div class="bnr btl" style="margin-bottom:20px">📌 Ces données sont vos matières premières. Croisez-les avec les dossiers salariés pour construire vos analyses. Les calculs sont à réaliser par vos soins.</div>
+
+  <div class="dtw"><div class="dth"><span class="dthttl">Masse Salariale 2023</span><span class="bdg ber">Dépassement budget</span></div>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Composante</th><th>Montant</th></tr></thead><tbody>
+  <tr><td>MS brute (salaires bruts totaux — 65 salariés)</td><td>1 820 000€</td></tr>
+  <tr><td>Charges patronales</td><td>762 400€</td></tr>
+  <tr><td><strong>MS chargée totale</strong></td><td><strong>2 582 400€</strong></td></tr>
+  <tr><td>Budget MS prévu 2023</td><td>2 435 000€</td></tr>
+  <tr><td>CA 2023</td><td>4 050 000€</td></tr>
+  <tr><td>Benchmark sectoriel ratio MS/CA</td><td class="vw">55 à 60%</td></tr>
+  </tbody></table></div></div>
+
+  <div class="dtw"><div class="dth"><span class="dthttl">Écarts Budgétaires RH 2023</span></div>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Poste</th><th>Budget prévu</th><th>Réalisé</th></tr></thead><tbody>
+  <tr><td>Masse salariale chargée</td><td>2 435 000€</td><td class="vr">2 582 400€</td></tr>
+  <tr><td>Formation</td><td>85 000€</td><td class="vw">62 000€</td></tr>
+  <tr><td>Recrutement</td><td>42 000€</td><td class="vr">68 000€</td></tr>
+  <tr><td>Intérim</td><td>30 000€</td><td class="vr">78 000€</td></tr>
+  </tbody></table></div></div>
+
+  <div class="dtw"><div class="dth"><span class="dthttl">Données RH de référence 2023</span></div>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Donnée</th><th>Valeur</th></tr></thead><tbody>
+  <tr><td>Effectif (ETP)</td><td>58,5</td></tr>
+  <tr><td>Effectif commercial début 2023</td><td>5 commerciaux</td></tr>
+  <tr><td>Entrées 2023</td><td>8 recrutements</td></tr>
+  <tr><td>Sorties 2023</td><td>8 départs (dont 4 commerciaux)</td></tr>
+  <tr><td>Effectif moyen 2023</td><td>63 salariés</td></tr>
+  <tr><td>Jours d'absence totaux 2023</td><td class="vw">178 jours</td></tr>
+  <tr><td>Jours ouvrés théoriques 2023</td><td>228 jours</td></tr>
+  <tr><td>AT déclarés 2023</td><td class="vw">7 (dont 2 liés aux TMS production)</td></tr>
+  <tr><td>Délai moyen de recrutement 2023</td><td class="vr">68 jours</td></tr>
+  <tr><td>Taux de rétention à 6 mois (2023)</td><td class="vw">75% — 2 départs sur 8 recrutements avant 6 mois</td></tr>
+  <tr><td>Benchmark turnover PME</td><td class="vg">~10%</td></tr>
+  <tr><td>Benchmark turnover sectoriel commercial</td><td class="vg">~15%</td></tr>
+  <tr><td>Benchmark absentéisme France</td><td class="vg">5,04%</td></tr>
+  <tr><td>Benchmark délai recrutement sectoriel</td><td class="vg">45 à 55 jours</td></tr>
+  <tr><td>Benchmark taux rétention 6 mois</td><td class="vg">&gt; 80%</td></tr>
+  </tbody></table></div></div>
+
+  <div class="dtw"><div class="dth"><span class="dthttl">Délais de recrutement par profil (marché 2023)</span></div>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Profil</th><th>Délai estimé</th></tr></thead><tbody>
+  <tr><td>Commercial senior cosmétique bio</td><td class="vr">90 à 120 jours</td></tr>
+  <tr><td>Responsable logistique (expérimenté)</td><td class="vw">45 à 60 jours</td></tr>
+  <tr><td>Opérateur de production</td><td class="vg">30 à 45 jours</td></tr>
+  <tr><td>Chef de projet R&D (docteur en chimie)</td><td class="vr">4 à 6 mois</td></tr>
+  </tbody></table></div></div>
+
+  <div class="dtw"><div class="dth"><span class="dthttl">Durée de formation d'un nouvel entrant</span></div>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Profil</th><th>Autonomie partielle</th><th>Pleine productivité</th></tr></thead><tbody>
+  <tr><td>Opérateur de production (tutorat interne)</td><td class="vg">6 semaines</td><td class="vg">6 semaines</td></tr>
+  <tr><td>Commercial junior (secteur cosméto bio)</td><td class="vw">6 mois</td><td class="vr">12 mois</td></tr>
+  <tr><td>Responsable logistique (expérimenté)</td><td class="vw">3 mois</td><td class="vw">3 mois</td></tr>
+  <tr><td>Chef de projet R&D (reprise projets en cours)</td><td class="vr">6 mois</td><td class="vr">12 mois minimum</td></tr>
+  </tbody></table></div></div>
+
+  <div class="dtw"><div class="dth"><span class="dthttl">MS par catégorie socioprofessionnelle 2023</span></div>
+  <div class="dtbl-wrap"><table class="dtbl"><thead><tr><th>Catégorie</th><th>Effectif</th><th>MS brute</th></tr></thead><tbody>
+  <tr><td>Cadres</td><td>12</td><td>620 000€</td></tr>
+  <tr><td>ETAM</td><td>28</td><td>780 000€</td></tr>
+  <tr><td>Ouvriers / Opérateurs</td><td>25</td><td>420 000€</td></tr>
+  <tr><td><strong>Total</strong></td><td><strong>65</strong></td><td><strong>1 820 000€</strong></td></tr>
+  </tbody></table></div></div>`;
+}
+
+// ══ SÉANCE ══
+function renderSeance(n){
+  const s=SEANCES[n-1];
+  const p=isDone(n)?'done':(ph[n]||'email');
+  if(p==='done'){renderDone(n);return;}
+  if(p==='email')renderEmail(n,s);
+  else if(p==='qcm')renderQCMMulti(n,s);
+  else if(p==='mission')renderMission(n,s);
+  else if(p==='refl')renderRefl(n,s);
+}
+
+function renderEmail(n,s){
+  const e=s.email;
+  document.getElementById('main').innerHTML=`
+  <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
+    <div style="width:10px;height:10px;border-radius:50%;background:${s.color};flex-shrink:0"></div>
+    <div><div class="pt">Séance ${n} — ${s.titre}</div><div class="ps">${s.duree} · Email · 3 QCM · Mission collective · Réflexion individuelle</div></div>
+  </div>
+  <div style="display:flex;gap:7px;align-items:center;margin-bottom:20px;flex-wrap:wrap">
+    <span class="bdg bg">📧 1. Email</span><span style="color:var(--slate);font-size:13px">→</span>
+    <span class="bdg bs">🔑 2. QCM ×3</span><span style="color:var(--slate);font-size:13px">→</span>
+    <span class="bdg bs">📋 3. Mission</span><span style="color:var(--slate);font-size:13px">→</span>
+    <span class="bdg bs">💭 4. Réflexion</span>
+  </div>
+  <div class="ec">
+    <div class="ehd">
+      <div class="eav" style="background:${e.avc}">${e.init}</div>
+      <div style="flex:1"><div class="efr">${e.from}</div><div class="ero">${e.role}</div><div class="esj">${e.subject}</div></div>
+      <div class="edt">📅 ${e.date}</div>
+    </div>
+    <div class="ebody">${e.body}</div>
+  </div>
+  <div class="card cw" style="margin-bottom:18px">
+    <div style="font-size:13px;color:var(--teal);font-weight:500;margin-bottom:5px">📌 Avant de continuer</div>
+    <div style="font-size:13px;color:var(--slate)">Lisez l'email. Consultez les <strong>dossiers salariés</strong> et les <strong>données financières</strong>. Répondez ensuite aux 3 questions de déverrouillage.</div>
+  </div>
+  <div style="display:flex;gap:9px;flex-wrap:wrap">
+    <button class="btn bo bsm" onclick="go('mail')">✉️ Boîte mail</button>
+    <button class="btn bo bsm" onclick="go('doss')">👥 Dossiers</button>
+    <button class="btn bo bsm" onclick="go('data')">📊 Données</button>
+    <button class="btn bp" onclick="ph[${n}]='qcm';renderSeance(${n})">Continuer →</button>
+  </div>`;
+}
+
+// ══ QCM MULTI ══
+function renderQCMMulti(n,s){
+  const u=gu();
+  const qst=u.ms['qs'+n]||{answers:{},qi:0,done:false};
+  const qs=QCM_S[n-1];
+  const qi=qst.done?null:qst.qi;
+
+  // Progress dots
+  const dots=qs.map((_,i)=>{
+    let cls='';
+    if(qst.answers[i]!==undefined){cls=qst.answers[i].ok?'done-ok':'done-ko';}
+    else if(!qst.done&&i===qi)cls='cur';
+    return `<div class="qp-dot ${cls}"></div>`;
+  }).join('');
+
+  // Score
+  const nOk=Object.values(qst.answers).filter(a=>a.ok).length;
+  const nAnswered=Object.keys(qst.answers).length;
+
+  let qHtml='';
+  if(!qst.done&&qi!==null){
+    const q=qs[qi];
+    const st=qst.answers[qi];
+    let optsHtml=q.opts.map((o,i)=>{
+      let cls='';
+      if(st){if(i===q.correct)cls='cor';else if(i===st.chosen)cls='wro';}
+      return `<button class="qo ${cls}" ${st?'disabled':''} onclick="ansQMulti(${n},${qi},${i})">
+        <span class="ql">${String.fromCharCode(65+i)}.</span><span>${o}</span></button>`;
+    }).join('');
+    let fb='';
+    if(st){
+      const ok=st.chosen===q.correct;
+      fb=`<div class="qfb ${ok?'qfb-ok':'qfb-ko'}">${ok?'✓':'✗'} ${ok?q.ok:q.ko}</div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end">
+        ${qi<qs.length-1
+          ?`<button class="btn bp" onclick="nextQMulti(${n})">Question suivante →</button>`
+          :`<button class="btn bt" onclick="finishQMulti(${n})">Voir mon score →</button>`}
+      </div>`;
+    }
+    qHtml=`<div class="q-num">Question ${qi+1} / ${qs.length}</div>
+    <div class="q-txt">${q.q}</div>
+    <div class="qos">${optsHtml}</div>
+    ${fb}`;
+  } else if(qst.done){
+    const lbl=nOk===3?'Excellent ! Mission déverrouillée.':nOk===2?'Bien ! 2/3 — Mission déverrouillée.':'1/3 — Mission déverrouillée. Relisez les feedbacks.';
+    qHtml=`<div class="qcm-result">
+      <div class="qcm-result-score">${nOk} / ${qs.length}</div>
+      <div class="qcm-result-lbl">${lbl}</div>
+    </div>
+    <div style="margin-top:16px;display:flex;justify-content:center">
+      <button class="btn bt blg" onclick="ph[${n}]='mission';renderSeance(${n})">Accéder à la mission →</button>
+    </div>`;
+  }
+
+  document.getElementById('main').innerHTML=`
+  <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
+    <button class="btn bo bsm" onclick="ph[${n}]='email';renderSeance(${n})">← Email</button>
+    <div><div class="pt">QCM de déverrouillage</div><div class="ps">Séance ${n} — 3 questions · Score affiché · Réponses définitives</div></div>
+  </div>
+  <div class="qcm-block">
+    <div class="qcm-header">
+      <div class="qcm-title">Questions clés — Séance ${n}</div>
+      ${nAnswered>0?`<div class="qcm-score">${nOk}/${nAnswered} ✓</div>`:''}
+    </div>
+    <div class="qcm-progress">${dots}</div>
+    <div style="font-size:12px;color:var(--slate);margin-bottom:14px;font-style:italic">Réfléchissez bien — chaque réponse est définitivement enregistrée.</div>
+    ${qHtml}
+  </div>`;
+}
+
+
+function fireConfetti(qi){
+  const opts=document.querySelectorAll('.qo.cor');
+  const btn=opts[opts.length-1];
+  if(!btn)return;
+  const colors=['#F27928','#cc5f15','#fdecdd','#1a6e42','#c8a96e'];
+  for(let i=0;i<14;i++){
+    const c=document.createElement('span');
+    c.className='confetti';
+    c.style.background=colors[i%colors.length];
+    c.style.left=(10+Math.random()*80)+'%';
+    c.style.top='8px';
+    c.style.animationDelay=(Math.random()*0.15)+'s';
+    btn.appendChild(c);
+    setTimeout(()=>c.remove(),1000);
+  }
+}
+function ansQMulti(n,qi,chosen){
+  const u=gu();
+  if(!u.ms['qs'+n])u.ms['qs'+n]={answers:{},qi:0,done:false};
+  const qst=u.ms['qs'+n];
+  if(qst.answers[qi]!==undefined)return;
+  const q=QCM_S[n-1][qi];
+  qst.answers[qi]={chosen,ok:chosen===q.correct};
+  ss();
+  if(chosen===q.correct){toast('Bonne réponse !','ok');setTimeout(()=>fireConfetti(qi),50);}
+  else toast('Réponse incorrecte — lisez le feedback','er');
+  renderQCMMulti(n,SEANCES[n-1]);
+}
+function nextQMulti(n){
+  const u=gu();
+  if(!u.ms['qs'+n])return;
+  u.ms['qs'+n].qi++;ss();
+  renderQCMMulti(n,SEANCES[n-1]);
+}
+function finishQMulti(n){
+  const u=gu();
+  if(!u.ms['qs'+n])return;
+  u.ms['qs'+n].done=true;ss();
+  renderQCMMulti(n,SEANCES[n-1]);
+}
+
+// ══ MISSION ══
+function renderMission(n,s){
+  const m=s.mission;const u=gu();const lv=u.lv[m.id]||{};
+  let edHtml='';
+  if(!lv.ack){
+    edHtml=`<div class="bnr bnr-gold" style="line-height:1.7">
+      📄 <strong>Livrable attendu :</strong> rédigez un <strong>document Word</strong> structuré (${m.doctype}) reprenant chacun des points ci-dessus : définitions, calculs chiffrés à partir des données COSMÉTICA™, analyse argumentée et recommandations.<br><br>
+      Ce document servira de support à votre <strong>restitution orale</strong> et devra être transmis au formateur à l'adresse <strong>jimmy.kah@esa-metz.fr</strong> à l'issue du projet.
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn bo bsm" onclick="go('doss')">👥 Dossiers</button>
+      <button class="btn bo bsm" onclick="go('data')">📊 Données</button>
+      <button class="btn bt" onclick="ackM(${n})">✓ Mission comprise — continuer</button>
+    </div>`;
+  } else {
+    edHtml=`<div class="bnr bok2">✓ Mission validée. Préparez votre document Word et votre restitution orale — à transmettre à <strong>jimmy.kah@esa-metz.fr</strong>.</div>
+    <div style="margin-top:12px"><button class="btn bt" onclick="ph[${n}]='refl';renderSeance(${n})">Continuer → Questions de réflexion</button></div>`;
+  }
+  document.getElementById('main').innerHTML=`
+  <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
+    <button class="btn bo bsm" onclick="ph[${n}]='qcm';renderSeance(${n})">← QCM</button>
+    <div><div class="pt">${m.titre}</div><div class="ps">${m.type}</div></div>
+  </div>
+  <div class="mb2">
+    <div class="mhd"><div><div class="mt">${m.titre}</div><div class="mm">${m.type}</div></div>
+      <span class="bdg" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)">Travail collectif</span></div>
+    <div class="mbdy">
+      <p class="mint">${m.intro}</p>
+      <span class="slbl">Votre livrable doit contenir</span>
+      <ul class="ml2">${m.checklist.map(c=>`<li>${c}</li>`).join('')}</ul>
+      <div class="mc">${m.consigne}</div>
+      ${edHtml}
+    </div>
+  </div>`;
+}
+function ackM(n){
+  const s=SEANCES[n-1];const u=gu();
+  u.lv[s.mission.id]={ack:true};
+  ss();updProg();
+  renderMission(n,s);
+}
+
+// ══ RÉFLEXION ══
+function renderRefl(n,s){
+  const u=gu();
+  if(!rst[n])rst[n]={qi:0,answers:{}};
+  if(u.refl[n])rst[n].answers={...u.refl[n].answers,...rst[n].answers};
+  const est=rst[n];const qi=est.qi;const q=s.reflexion[qi];
+  const dots=s.reflexion.map((_,i)=>`<div class="rd ${i<qi?'done':i===qi?'cur':''}"></div>`).join('');
+  document.getElementById('main').innerHTML=`
+  <div style="display:flex;align-items:center;gap:11px;margin-bottom:20px">
+    <button class="btn bo bsm" onclick="ph[${n}]='mission';renderSeance(${n})">← Mission</button>
+    <div><div class="pt">Questions de réflexion</div><div class="ps">Séance ${n} · ${s.reflexion.length} questions individuelles</div></div>
+  </div>
+  <div class="card cw" style="margin-bottom:16px;padding:13px 16px">
+    <div style="font-size:13px;color:var(--teal);font-weight:500">💭 Approfondissement individuel</div>
+    <div style="font-size:12px;color:var(--slate);margin-top:3px">Répondez individuellement. Vos réponses serviront de base au débat collectif en classe et vous prépareront à l'évaluation finale.</div>
+  </div>
+  <div class="rcard">
+    <div class="rhd">
+      <div class="rht">Réflexion individuelle — Séance ${n}</div>
+      <div class="rhs">Question ${qi+1} sur ${s.reflexion.length}</div>
+      <div class="rdots">${dots}</div>
+    </div>
+    <div class="rq">
+      <div class="rnum">Question ${qi+1} / ${s.reflexion.length}</div>
+      <div class="rtxt">${q.q}</div>
+      ${q.ctx?`<div class="rctx">${q.ctx}</div>`:''}
+      <div class="bnr bwa2" style="margin-top:14px;font-size:13px;line-height:1.7">📄 Rédigez votre réponse sur un document séparé (Word, PDF ou équivalent) et transmettez-le à <strong>jimmy.kah@esa-metz.fr</strong></div>
+    </div>
+    <div class="rnav">
+      ${qi>0?`<button class="btn bo" onclick="navR(${n},-1)">← Précédente</button>`:`<span></span>`}
+      ${qi<s.reflexion.length-1?`<button class="btn bp" onclick="navR(${n},1)">Suivante →</button>`:`<button class="btn bok" onclick="finR(${n})">✓ Terminer la séance</button>`}
+    </div>
+  </div>`;
+}
+function navR(n,d){
+  const s=SEANCES[n-1];const est=rst[n];
+  est.qi=Math.max(0,Math.min(s.reflexion.length-1,est.qi+d));
+  renderRefl(n,s);
+}
+function saveRefl(n,est){
+  const u=gu();if(!u.refl)u.refl={};
+  u.refl[n]={answers:{...est.answers}};ss();
+}
+function finR(n){
+  const u=gu();if(!u.refl)u.refl={};
+  u.refl[n]={done:true};
+  if(!u.done)u.done={};u.done[n]=true;
+  ss();updProg();updNav();
+  toast('Séance '+n+' complétée !','ok');
+  renderDone(n);
+}
+
+// ══ SÉANCE DONE ══
+function renderDone(n){
+  const u=gu();const s=SEANCES[n-1];
+  const refl=(u.refl&&u.refl[n]&&u.refl[n].answers)||{};
+  const qst=u.ms['qs'+n]||{answers:{}};
+  const nOk=Object.values(qst.answers).filter(a=>a.ok).length;
+  const mOk=u.lv&&u.lv[s.mission.id]&&u.lv[s.mission.id].ack;
+  document.getElementById('main').innerHTML=`
+  <div style="text-align:center;padding:40px 20px;max-width:640px;margin:0 auto">
+    <div style="font-size:52px;margin-bottom:14px">✦</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:28px;margin-bottom:12px">Séance ${n} complétée</h2>
+    <div style="font-size:16px;color:var(--slate);margin-bottom:28px;line-height:1.7">Séance terminée. Transmettez vos analyses à <strong>jimmy.kah@esa-metz.fr</strong> et préparez votre restitution orale.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:26px">
+      <div class="card" style="text-align:center;padding:15px">
+        <div style="font-size:20px;margin-bottom:5px">${nOk===3?'✅':nOk===2?'🟡':'🔴'}</div>
+        <div style="font-size:11px;color:var(--slate)">QCM</div>
+        <div style="font-size:13px;font-weight:600;margin-top:2px;color:${nOk===3?'var(--ok)':nOk===2?'var(--wa)':'var(--er)'}">${nOk}/3</div>
+      </div>
+      <div class="card" style="text-align:center;padding:15px">
+        <div style="font-size:20px;margin-bottom:5px">${mOk?'✅':'⏳'}</div>
+        <div style="font-size:11px;color:var(--slate)">Mission</div>
+        <div style="font-size:12px;font-weight:500;margin-top:2px;color:${mOk?'var(--ok)':'var(--wa)'}">${mOk?'Comprise':'À consulter'}</div>
+      </div>
+      <div class="card" style="text-align:center;padding:15px">
+        <div style="font-size:20px;margin-bottom:5px">✅</div>
+        <div style="font-size:11px;color:var(--slate)">Réflexion</div>
+        <div style="font-size:12px;font-weight:500;margin-top:2px;color:var(--ok)">Consultées ✓</div>
+      </div>
+    </div>
+    <span class="slbl" style="text-align:left;display:block;margin-bottom:12px">Vos réponses de réflexion</span>
+    ${s.reflexion.map((q,i)=>refl[q.id]?`
+    <div class="ref-block">
+      <div class="ref-q">Q${i+1} — ${q.q.substring(0,90)}…</div>
+      <div class="ref-a">${esc(refl[q.id].substring(0,400))}${refl[q.id].length>400?'\n[…]':''}</div>
+    </div>`:``).join('')}
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      ${n<3?`<button class="btn bp blg" onclick="goS(${n+1})">Séance ${n+1} →</button>`:`<button class="btn bp blg" onclick="go('home')">Retour à l'accueil →</button>`}
+      <button class="btn bo" onclick="go('home')">Accueil</button>
+    </div>
+  </div>`;
+}
+
+// ══ UTILS ══
+function updProg(){
+  const done=[1,2,3].filter(n=>isDone(n)).length;
+  const pct=Math.round(done/3*100);
+  document.getElementById('ms-d').textContent=done;
+  const pf=document.getElementById('pf');if(pf)pf.style.width=pct+'%';
+  const pp=document.getElementById('pb-pct');if(pp)pp.textContent=pct+'%';
+  const pill=document.getElementById('prog-pill');if(pill)pill.textContent=done+' / 3 séances';
+}
+function updNav(){
+  [1,2,3].forEach(n=>{
+    const el=document.getElementById('ni-s'+n);
+    const ico=document.getElementById('nis'+n);
+    if(!el)return;
+    const done=isDone(n);
+    el.classList.remove('lk');
+    if(ico)ico.textContent=done?'✓':'';
+  });
+}
+function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+function toast(msg,type){
+  const tc=document.getElementById('toasts');
+  const t=document.createElement('div');
+  t.className='toast t'+(type||'');t.textContent=msg;tc.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(4px)';t.style.transition='all .22s';setTimeout(()=>t.remove(),230);},3200);
+}
+function tabTA(e){
+  if(e.key==='Tab'){e.preventDefault();const t=e.target,s=t.selectionStart;t.value=t.value.substring(0,s)+'    '+t.value.substring(t.selectionEnd);t.selectionStart=t.selectionEnd=s+4;}
+}
+
+// ══ VIEWPORT HEIGHT (iOS Safari) ══
+function setVH(){
+  var h=window.visualViewport?window.visualViewport.height:window.innerHeight;
+  document.documentElement.style.setProperty('--app-height',h+'px');
+}
+setVH();
+if(window.visualViewport){window.visualViewport.addEventListener('resize',setVH);}
+else{window.addEventListener('resize',setVH);}
+window.addEventListener('orientationchange',function(){setTimeout(setVH,350);});
+
+// ══ BOOT ══
+(function(){
+  var btn=document.getElementById('login-btn');
+  var inp=document.getElementById('inp');
+  if(btn){
+    btn.addEventListener('touchend',function(e){e.preventDefault();login();},{passive:false});
+    btn.addEventListener('click',function(){login();});
+  }
+  if(inp){
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter'||e.keyCode===13)login();});
+    inp.addEventListener('keyup',function(e){if(e.key==='Enter'||e.keyCode===13)login();});
+  }
+})();
+ls();
+if(S.user&&S.students[S.user]){
+  document.getElementById('pg-splash').classList.add('hidden');
+  document.getElementById('pg-app').classList.remove('hidden');
+  document.getElementById('av-t').textContent=S.students[S.user].initials;
+  document.getElementById('nm-t').textContent=S.students[S.user].name;
+  updProg();updNav();updMailBadge();
+  go('home');
+}
+// Escape key closes modal
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSb();}});
+</script>
+</body>
+</html>
