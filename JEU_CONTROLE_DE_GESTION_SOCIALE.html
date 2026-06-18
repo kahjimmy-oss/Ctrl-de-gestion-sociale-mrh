@@ -386,8 +386,8 @@ button,.btn,.ni,.dc,.qo,.mail-row,.hamburger{touch-action:manipulation}
   <div class="sr">
     <h2 class="lt">Bienvenue</h2>
     <p class="ls">Master RH 1ère année · Contrôle de gestion sociale</p>
-    <div class="fg"><label>Votre prénom et nom</label><input id="inp" type="text" placeholder="Ex : Marie Dupont" autocomplete="name" enterkeyhint="go" onkeydown="if(event.key==='Enter'||event.keyCode===13)login()" onkeyup="if(event.key==='Enter'||event.keyCode===13)login()"></div>
-    <button type="button" id="login-btn" class="btn bp" style="width:100%;justify-content:center" onclick="login()">Entrer dans COSMÉTICA™ →</button>
+    <div class="fg"><label>Votre prénom et nom</label><input id="inp" type="text" placeholder="Ex : Marie Dupont" autocomplete="name" enterkeyhint="go"></div>
+    <button type="button" id="login-btn" class="btn bp" style="width:100%;justify-content:center">Entrer dans COSMÉTICA™ →</button>
     <p class="ln">Votre progression est sauvegardée automatiquement dans votre navigateur.</p>
   </div>
 </div>
@@ -631,10 +631,10 @@ function closeSb(){
 let _ll=false;
 function login(){
   if(_ll)return;
+  _ll=true;
   try{
     const n=document.getElementById('inp').value.trim();
-    if(n.length<2){toast('Saisissez votre prénom et nom (ex : Marie Dupont).','wa');return;}
-    _ll=true;
+    if(n.length<2){toast('Saisissez votre prénom et nom (ex : Marie Dupont).','wa');_ll=false;return;}
     const init=n.split(' ').filter(Boolean).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'??';
     if(!S.students[n])S.students[n]={name:n,initials:init,ms:{},lv:{},refl:{},done:{},readMails:{}};
     S.user=n;ss();
@@ -644,9 +644,11 @@ function login(){
     document.getElementById('nm-t').textContent=gu().name;
     updProg();updNav();updMailBadge();
     go('home');
-  }catch(e){_ll=false;toast('Erreur : '+e.message,'er');}
+  }catch(e){toast('Erreur : '+e.message,'er');}
+  finally{_ll=false;}
 }
 function logout(){
+  _ll=false;
   S.user=null;ss();
   document.getElementById('pg-splash').classList.remove('hidden');
   document.getElementById('pg-app').classList.add('hidden');
@@ -1234,12 +1236,20 @@ window.addEventListener('orientationchange',function(){setTimeout(setVH,350);});
   var btn=document.getElementById('login-btn');
   var inp=document.getElementById('inp');
   if(btn){
-    btn.addEventListener('touchend',function(e){e.preventDefault();login();},{passive:false});
-    btn.addEventListener('click',function(){login();});
+    // Un seul point d'entrée : touchend sur mobile, click sur desktop
+    // preventDefault() sur touchend empêche le click fantôme iOS
+    var tapped=false;
+    btn.addEventListener('touchend',function(e){
+      e.preventDefault();tapped=true;login();
+      setTimeout(function(){tapped=false;},600);
+    },{passive:false});
+    btn.addEventListener('click',function(){if(!tapped)login();});
   }
   if(inp){
-    inp.addEventListener('keydown',function(e){if(e.key==='Enter'||e.keyCode===13)login();});
-    inp.addEventListener('keyup',function(e){if(e.key==='Enter'||e.keyCode===13)login();});
+    // Seulement keydown — évite le double déclenchement keydown+keyup
+    inp.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.keyCode===13){e.preventDefault();login();}
+    });
   }
 })();
 ls();
