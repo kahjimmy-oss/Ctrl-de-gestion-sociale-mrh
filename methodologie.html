@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Méthodologie de calcul — Espresso RH</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo" aria-label="Espresso RH — Accueil">
+      <span class="logo-text">ESPRESSO</span>
+      <span class="logo-badge">RH</span>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html">Calculateur</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+    </nav>
+  </div>
+</header>
+
+<main style="padding: 2.5rem 0 3rem;">
+  <div class="container">
+    <div class="card method-content">
+      <h1 style="font-size:1.75rem;font-weight:900;margin-bottom:.5rem;">Méthodologie de calcul</h1>
+      <p style="color:var(--gris-3);margin-bottom:1.5rem;">
+        Sources, formules et règles appliquées par le Vérificateur de rémunération apprenti Espresso RH.
+      </p>
+
+      <h2>1. Grille légale de rémunération</h2>
+      <p>
+        La rémunération minimale de l'apprenti est calculée en pourcentage du SMIC mensuel brut,
+        selon la tranche d'âge et l'année d'exécution du contrat.
+        (<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044583716" target="_blank" rel="noopener">Art. D6222-26 du Code du travail</a>)
+      </p>
+
+      <table class="grid-table">
+        <thead>
+          <tr>
+            <th>Tranche d'âge</th>
+            <th>1re année</th>
+            <th>2e année</th>
+            <th>3e année</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Moins de 18 ans</td><td>27 %</td><td>39 %</td><td>55 %</td></tr>
+          <tr><td>18 à 20 ans</td><td>43 %</td><td>51 %</td><td>67 %</td></tr>
+          <tr><td>21 à 25 ans</td><td>53 %</td><td>61 %</td><td>78 %</td></tr>
+          <tr><td>26 ans et plus</td><td>100 %</td><td>100 %</td><td>100 %</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        <strong>SMIC de référence :</strong> 1 867,02 € brut/mois depuis le 01/06/2026
+        (Arrêté du 22 mai 2026). Le tableau de progression utilise le SMIC historique
+        mois par mois pour les contrats couvrant plusieurs revalorisa tions.
+      </p>
+
+      <h2>2. Tranche d'âge et changement de taux</h2>
+      <p>
+        Le changement de tranche d'âge (18 ans, 21 ans, 26 ans) s'applique le
+        <strong>1er jour du mois civil suivant</strong> la date d'anniversaire.
+        (<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033013074" target="_blank" rel="noopener">Art. D6222-31</a>)
+      </p>
+      <p>
+        Exemple : un apprenti né le 13 avril change de tranche le 1er mai (et non le 13 avril).
+      </p>
+
+      <h2>3. Année d'exécution</h2>
+      <p>
+        L'année d'exécution progresse à la <strong>date anniversaire du début d'exécution</strong>
+        du contrat (et non au 1er janvier). Les transitions :
+      </p>
+      <ul>
+        <li><strong>1re année :</strong> du jour J au jour J + 12 mois − 1 jour</li>
+        <li><strong>2e année :</strong> du jour J + 12 mois au jour J + 24 mois − 1 jour</li>
+        <li><strong>3e année :</strong> du jour J + 24 mois à la fin du contrat</li>
+      </ul>
+
+      <h3>Cas particuliers de diplômes</h3>
+      <ul>
+        <li><strong>Licence Pro (1 an) :</strong> taux de la 2e année dès le démarrage
+          (<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033013076" target="_blank" rel="noopener">Art. D6222-32</a>)</li>
+        <li><strong>L3 seule (1 an) :</strong> taux de la 3e année
+          (<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033013068" target="_blank" rel="noopener">Art. D6222-28-1</a>)</li>
+        <li><strong>M2 seul (1 an) :</strong> taux de la 2e année
+          (<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033013068" target="_blank" rel="noopener">Art. D6222-28-1</a>)</li>
+        <li><strong>Mastère / MBA (1 an) :</strong> taux de la 2e année par assimilation</li>
+      </ul>
+
+      <h2>4. Base de calcul : SMIC ou SMC</h2>
+      <p>
+        À partir de <strong>21 ans</strong>, si l'entreprise relève d'une convention collective prévoyant
+        un Salaire Minimum Conventionnel (SMC) supérieur au SMIC, c'est le SMC qui sert de base :
+        <code>Brut = MAX(SMIC, SMC) × taux</code>.
+      </p>
+      <p>
+        En dessous de 21 ans, seul le SMIC sert de référence, même si un SMC conventionnel existe.
+      </p>
+
+      <h2>5. Estimation du salaire net</h2>
+
+      <h3>Contrats signés avant le 01/03/2025 (ancien régime)</h3>
+      <p>
+        L'exonération de cotisations salariales (y compris CSG et CRDS) s'applique jusqu'à 79 % du SMIC.
+      </p>
+      <ul>
+        <li>Si brut ≤ 79 % du SMIC → Net = Brut (exonération totale)</li>
+        <li>Si brut &gt; 79 % du SMIC → cotisations estimées à 22 % sur la part excédentaire</li>
+      </ul>
+
+      <h3>Contrats signés à partir du 01/03/2025 (nouveau régime)</h3>
+      <p>
+        La LFSS 2025 (Décret n°2025-290 du 28/03/2025) a abaissé le seuil d'exonération à 50 % du SMIC.
+      </p>
+      <ul>
+        <li>Si brut ≤ 50 % du SMIC → Net = Brut (exonération totale)</li>
+        <li>Si brut &gt; 50 % du SMIC → cotisations estimées à 22 % sur la part excédentaire</li>
+      </ul>
+
+      <p>
+        Le taux de 22 % est une estimation globale des cotisations salariales moyennes :
+        maladie (~0,4 %), vieillesse (~6,9 %), chômage (~2,4 %), retraite complémentaire (~3,15 %),
+        CSG déductible (~6,8 %), CRDS (~0,5 %) = ~20,15 % à ~22 % selon la situation.
+      </p>
+
+      <h2>6. Situations particulières</h2>
+
+      <h3>Succession de contrats après obtention d'un diplôme (Art. D6222-29)</h3>
+      <p>
+        La rémunération ne peut être inférieure à celle perçue lors de la dernière année du contrat précédent,
+        sauf si le barème légal est plus favorable. L'outil compare les deux montants et retient le plus élevé.
+      </p>
+
+      <h3>Spécialisation même niveau +15 points (Art. D6222-30)</h3>
+      <p>
+        Trois conditions cumulatives : durée ≤ 1 an, diplôme de même niveau, qualification en rapport direct.
+        Si réunies : majoration de +15 points sur le taux légal (plafond à 100 %).
+      </p>
+
+      <h3>Prolongation / redoublement (Art. D6222-27)</h3>
+      <p>
+        En cas de prolongation ou de redoublement, le taux de la dernière année exécutée est maintenu.
+        Il n'y a pas de progression vers l'année suivante.
+      </p>
+
+      <h3>3e contrat de même niveau (Art. L6222-15)</h3>
+      <p>
+        Un 3e contrat de même niveau requiert l'accord écrit du directeur du dernier CFA.
+        L'outil affiche une alerte spécifique.
+      </p>
+
+      <h2>7. Sources</h2>
+      <ul>
+        <li><a href="https://www.legifrance.gouv.fr" target="_blank" rel="noopener">Légifrance</a> — Code du travail, Art. D6222-26 à D6222-33 et Art. L6222-15</li>
+        <li><a href="https://www.service-public.fr/professionnels-entreprises/vosdroits/F23556" target="_blank" rel="noopener">Service-Public.fr</a> — Rémunération de l'apprenti</li>
+        <li><a href="https://www.urssaf.fr" target="_blank" rel="noopener">URSSAF</a> — Cotisations et exonérations apprentissage</li>
+        <li>LFSS 2025 — Loi n°2024-1247 du 28/12/2024 de financement de la sécurité sociale</li>
+        <li>Décret n°2025-290 du 28/03/2025 — Cotisations sociales apprentissage</li>
+        <li>Arrêté du 22 mai 2026 — Revalorisation du SMIC au 01/06/2026</li>
+      </ul>
+
+      <p style="margin-top:2rem;font-size:.8rem;color:var(--gris-3);">
+        Dernière mise à jour : juin 2026 — SMIC de référence : 1 867,02 € brut/mois (01/06/2026)
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Espresso RH — Jimmy, ton RH de la machine à café ☕</span>
+      <a href="index.html" style="color:rgba(255,255,255,.6);">← Retour au calculateur</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
