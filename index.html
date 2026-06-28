@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculateur de rémunération minimum légale pour les apprentis. Brut, net estimé, tableau de progression mois par mois. 100 % RGPD, aucune donnée collectée. — Espresso RH" />
+  <meta name="robots" content="index, follow" />
+  <title>Vérificateur de rémunération apprenti — Espresso RH</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- Préconnexion police Google Fonts (optionnel, sans tracking) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" role="banner">
+  <div class="container">
+    <a href="index.html" class="logo" aria-label="Espresso RH — Accueil">
+      <span class="logo-text">ESPRESSO</span>
+      <span class="logo-badge">RH</span>
+    </a>
+    <nav class="header-nav" aria-label="Navigation principale">
+      <a href="methodologie.html">Méthodologie</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <h1 id="hero-title">Vérificateur de rémunération <span>apprenti</span></h1>
+    <p class="hero-sub">
+      Calculez instantanément le salaire minimum légal, brut et net estimé,
+      et la progression complète du contrat — mois par mois.
+    </p>
+    <span class="rgpd-badge" aria-label="Aucune donnée collectée">
+      🔒 Aucune donnée saisie n'est collectée ni stockée — calcul 100 % dans votre navigateur
+    </span>
+  </div>
+</section>
+
+<!-- ===== MAIN ===== -->
+<main id="main-content" role="main">
+  <div class="container">
+
+    <!-- Erreurs de formulaire -->
+    <div id="form-errors" class="form-errors hidden" role="alert" aria-live="assertive"></div>
+
+    <form id="calculateur-form" novalidate aria-label="Calculateur de rémunération apprenti">
+
+      <!-- ──────────────────────────────────────────────────
+           BLOC 1 — LE CONTRAT
+           ────────────────────────────────────────────────── -->
+      <div class="card form-section" id="bloc-contrat">
+        <h2 class="card-title">
+          <span class="step-num" aria-hidden="true">1</span>
+          Le contrat
+        </h2>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="signature-date">
+              Date de signature du contrat
+              <span class="optional">(CERFA)</span>
+            </label>
+            <input type="date" id="signature-date" name="signature-date" required
+              aria-describedby="signature-help" />
+            <span id="signature-help" class="form-note">
+              Détermine le régime de cotisations salariales (avant/après 01/03/2025).
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="execution-start">Début d'exécution du contrat</label>
+            <input type="date" id="execution-start" name="execution-start" required
+              aria-describedby="execstart-help" />
+            <div class="checkbox-row">
+              <input type="checkbox" id="same-date" />
+              <label for="same-date" style="font-weight:400;font-size:.825rem;">
+                Même date que la signature
+              </label>
+            </div>
+            <span id="execstart-help" class="form-note">
+              Point de départ du calcul des années d'exécution et des anniversaires.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="execution-end">Fin prévisionnelle du contrat</label>
+            <input type="date" id="execution-end" name="execution-end" required
+              aria-describedby="execend-help" />
+            <span id="execend-help" class="form-note">
+              Permet de calculer la durée totale et le tableau de progression complet.
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ──────────────────────────────────────────────────
+           BLOC 2 — L'APPRENTI
+           ────────────────────────────────────────────────── -->
+      <div class="card form-section" id="bloc-apprenti">
+        <h2 class="card-title">
+          <span class="step-num" aria-hidden="true">2</span>
+          L'apprenti
+        </h2>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="birth-date">Date de naissance</label>
+            <input type="date" id="birth-date" name="birth-date" required
+              aria-describedby="birthdate-help" />
+            <span id="birthdate-help" class="form-note">
+              Calcul automatique de l'âge, de la tranche et des changements de taux.
+              Non stockée, non transmise.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="situation">Situation du contrat</label>
+            <select id="situation" name="situation" required>
+              <option value="premier">Premier contrat d'apprentissage</option>
+              <option value="succession-diplome">Nouveau contrat après obtention d'un diplôme</option>
+              <option value="specialisation-meme-niveau">Spécialisation même niveau (+15 pts — Art. D6222-30)</option>
+              <option value="prolongation">Prolongation / redoublement (Art. D6222-27)</option>
+              <option value="integration-cycle">Intégration en cours de cycle (Art. D6222-28-1)</option>
+              <option value="succession-diplome-3e">3e contrat de même niveau (Art. L6222-15)</option>
+            </select>
+          </div>
+
+          <!-- Champ conditionnel : brut contrat précédent -->
+          <div class="form-group hidden" id="group-previous-brut">
+            <label for="previous-brut">
+              Brut dernier mois du contrat précédent
+              <span class="optional">(€)</span>
+            </label>
+            <input type="number" id="previous-brut" name="previous-brut"
+              min="0" step="0.01" placeholder="ex : 1 140,00"
+              aria-describedby="prev-brut-help" />
+            <span id="prev-brut-help" class="form-note">
+              Garantie : le nouveau brut ne peut être inférieur à ce montant
+              (sauf si le barème légal est plus favorable — Art. D6222-29).
+            </span>
+          </div>
+
+          <!-- Champ conditionnel : confirmation +15 pts -->
+          <div class="form-group full hidden" id="group-specialisation">
+            <div class="field-note">
+              <strong>Conditions cumulatives requises pour la majoration +15 pts (Art. D6222-30) :</strong><br />
+              a) Durée du nouveau contrat ≤ 1 an &nbsp;·&nbsp;
+              b) Diplôme de même niveau que le précédent &nbsp;·&nbsp;
+              c) Qualification en rapport direct avec la précédente.<br />
+              En cochant, vous confirmez que ces trois conditions sont réunies.
+              <div class="checkbox-row" style="margin-top:.5rem;">
+                <input type="checkbox" id="specialisation-ok" />
+                <label for="specialisation-ok" style="font-weight:600;">
+                  Je confirme que les 3 conditions sont remplies
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="diplome">Diplôme / titre préparé</label>
+            <select id="diplome" name="diplome" required>
+              <option value="">— Sélectionner —</option>
+              <!-- Options injectées par app.js -->
+            </select>
+          </div>
+
+          <!-- Champ conditionnel : durée personnalisée -->
+          <div class="form-group hidden" id="group-custom-duration">
+            <label for="custom-duration">Durée du contrat <span class="optional">(années)</span></label>
+            <input type="number" id="custom-duration" name="custom-duration"
+              min="1" max="3" step="1" placeholder="1, 2 ou 3" />
+          </div>
+
+          <!-- Note diplôme -->
+          <div class="form-group full hidden" id="diplome-note-wrap">
+            <div class="field-note" id="diplome-note"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ──────────────────────────────────────────────────
+           BLOC 3 — CONVENTION COLLECTIVE (optionnel)
+           ────────────────────────────────────────────────── -->
+      <div class="card form-section" id="bloc-convention">
+        <h2 class="card-title">
+          <span class="step-num" aria-hidden="true">3</span>
+          Convention collective
+          <span style="font-weight:400;font-size:.8rem;text-transform:none;letter-spacing:0;color:var(--gris-2);">
+            — optionnel mais recommandé
+          </span>
+        </h2>
+
+        <div class="form-grid">
+
+          <div class="form-group full">
+            <label for="convention-search">Rechercher votre convention collective</label>
+            <div class="cc-search-wrap">
+              <input type="text" id="convention-search" name="convention-search"
+                placeholder="Tapez votre secteur, métier ou code IDCC…"
+                autocomplete="off"
+                aria-describedby="cc-help"
+                aria-autocomplete="list"
+                aria-controls="convention-dropdown" />
+              <ul id="convention-dropdown" class="cc-dropdown hidden" role="listbox" aria-label="Conventions collectives"></ul>
+            </div>
+            <span id="cc-help" class="form-note">
+              Recherche multi-critères : intitulé, mots-clés métier, code IDCC ou code NAF.
+              Si aucune convention n'est sélectionnée, le calcul se fait sur la base du SMIC uniquement.
+            </span>
+          </div>
+
+          <!-- Badge convention sélectionnée -->
+          <div class="form-group full">
+            <div id="convention-selected" class="cc-selected hidden" role="status">
+              <div class="cc-selected-info">
+                <div class="cc-selected-name"></div>
+                <div>
+                  <span class="cc-selected-idcc"></span>
+                  &nbsp;·&nbsp;
+                  <a class="cc-legilink" href="#" target="_blank" rel="noopener noreferrer">
+                    Voir sur Légifrance ↗
+                  </a>
+                </div>
+              </div>
+              <button type="button" id="btn-clear-convention" class="btn-clear-cc" aria-label="Retirer la convention">✕</button>
+            </div>
+          </div>
+
+          <!-- SMC (conditionnel) -->
+          <div class="form-group hidden" id="group-smc">
+            <label for="smc">
+              SMC mensuel brut applicable
+              <span class="optional">(€)</span>
+            </label>
+            <input type="number" id="smc" name="smc"
+              min="0" step="0.01" placeholder="ex : 2 100,00"
+              aria-describedby="smc-help" />
+            <span id="smc-help" class="form-note">
+              Salaire Minimum Conventionnel prévu par votre accord de branche.
+              N'est utilisé comme base de calcul qu'à partir de 21 ans
+              (en dessous, seul le SMIC sert de référence légale).
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ──────────────────────────────────────────────────
+           ACTIONS
+           ────────────────────────────────────────────────── -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          ☕ Calculer la rémunération
+        </button>
+        <button type="button" id="btn-reset" class="btn btn-ghost">
+          Nouveau calcul
+        </button>
+      </div>
+
+    </form>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION RÉSULTATS (masquée jusqu'au calcul)
+         ══════════════════════════════════════════════════════ -->
+    <section id="results" class="hidden" aria-labelledby="results-title" aria-live="polite">
+
+      <div class="results-header">
+        <h2 id="results-title" class="results-title">Résultats de la simulation</h2>
+      </div>
+
+      <!-- 1. Fiche de synthèse -->
+      <div class="card" id="summary-card">
+        <h3 class="card-title">Profil de la simulation</h3>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="summary-label">Âge au démarrage</div>
+            <div class="summary-value" id="summary-age">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Tranche d'âge</div>
+            <div class="summary-value" id="summary-bracket">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Année d'exécution initiale</div>
+            <div class="summary-value" id="summary-exec-year">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Diplôme préparé</div>
+            <div class="summary-value" id="summary-diplome">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Durée du contrat</div>
+            <div class="summary-value" id="summary-duration">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Situation contractuelle</div>
+            <div class="summary-value" id="summary-situation">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Régime de cotisations</div>
+            <div class="summary-value" id="summary-regime">—</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Convention collective</div>
+            <div class="summary-value" id="summary-convention">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Résultat principal -->
+      <div class="result-main-card" aria-labelledby="result-gross-heading">
+        <div class="result-primary">
+          <div class="result-rate-label">Taux légal applicable</div>
+          <div class="result-rate-value" id="result-rate" aria-label="Taux légal">—</div>
+          <div class="result-rate-sub">
+            <span id="result-base-label">du SMIC</span> mensuel brut
+            <span id="result-smic-ref"></span>
+          </div>
+        </div>
+        <div class="result-amounts">
+          <div class="result-gross-label" id="result-gross-heading">Salaire brut minimum légal</div>
+          <div class="result-gross-amount" id="result-gross">—</div>
+          <div class="result-gross-sub">brut / mois — référence contractuelle</div>
+          <div class="result-net-label">Estimation nette</div>
+          <div class="result-net-amount" id="result-net">—</div>
+          <div class="result-net-note" id="result-net-note"></div>
+        </div>
+      </div>
+
+      <!-- Disclaimer net -->
+      <p class="result-disclaimer">
+        ⚠️ <strong>Estimation indicative.</strong> Le salaire net réel dépend des cotisations propres à votre situation,
+        de la convention collective et du logiciel de paie. Pour un calcul exact, utilisez le simulateur officiel
+        <a href="https://www.urssaf.fr/portail/home/utilitaires/simulateurs.html" target="_blank" rel="noopener noreferrer">URSSAF</a>
+        ou consultez votre gestionnaire de paie.
+        Les montants affichés sont les <strong>minimums légaux</strong> — votre employeur peut prévoir une rémunération supérieure.
+      </p>
+
+      <!-- 3. Alertes -->
+      <div id="alerts-container" class="alerts-container hidden" aria-live="polite" aria-label="Alertes importantes">
+      </div>
+
+      <!-- 4. Tableau de progression -->
+      <div class="card">
+        <h3 class="card-title">Tableau de progression mois par mois</h3>
+        <div class="table-wrap">
+          <table class="progression-table" aria-label="Progression mensuelle de la rémunération">
+            <thead>
+              <tr>
+                <th scope="col">Mois</th>
+                <th scope="col">Âge</th>
+                <th scope="col">Année exec.</th>
+                <th scope="col">Taux</th>
+                <th scope="col">SMIC base</th>
+                <th scope="col">Brut min.</th>
+                <th scope="col">Net estimé</th>
+                <th scope="col">Événements</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="btn-group">
+          <button type="button" id="btn-csv" class="btn btn-secondary">
+            ↓ Télécharger en CSV
+          </button>
+          <button type="button" id="btn-copy" class="btn btn-ghost">
+            📋 Copier le résumé
+          </button>
+          <button type="button" id="btn-share" class="btn btn-ghost">
+            🔗 Partager l'URL
+          </button>
+        </div>
+        <p class="form-note" style="margin-top:.75rem;">
+          🔗 L'URL partagée ne contient aucune donnée personnelle (ni date de naissance, ni dates de contrat).
+        </p>
+      </div>
+
+      <!-- 5. Références juridiques -->
+      <div class="card">
+        <h3 class="card-title">Références juridiques utilisées</h3>
+        <ul class="legal-refs-list" id="legal-refs" aria-label="Références légales Légifrance">
+        </ul>
+      </div>
+
+    </section>
+
+  </div><!-- /.container -->
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-content">
+
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-text">ESPRESSO</span>
+          <span class="logo-badge">RH</span>
+        </div>
+        <div class="tagline">ton RH de la machine à café ☕</div>
+        <div class="footer-links">
+          <a href="methodologie.html">Méthodologie</a>
+          <a href="mentions-legales.html">Mentions légales</a>
+        </div>
+      </div>
+
+      <div class="footer-rgpd">
+        <p>
+          🔒 <strong>Aucune donnée personnelle n'est collectée par cet outil.</strong>
+          Les informations saisies (dates, âge) sont traitées uniquement dans votre navigateur
+          et ne sont ni transmises, ni stockées sur aucun serveur.
+        </p>
+        <p>
+          Données à jour au <strong>01/06/2026</strong> — SMIC : <strong>1 867,02 €</strong> brut/mois.<br />
+          Sources : Légifrance, Service-Public.fr, URSSAF, Arrêté du 22 mai 2026, LFSS 2025.<br />
+          Ce calculateur est fourni à titre informatif. Espresso RH décline toute responsabilité
+          en cas d'erreur d'application.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Espresso RH — Jimmy, ton RH de la machine à café ☕</span>
+      <span>Aucun cookie de tracking — Aucune donnée collectée</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/calculator.js"></script>
+<script src="assets/js/app.js"></script>
+
+</body>
+</html>
